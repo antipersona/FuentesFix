@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<title> Reportar Fuente</title>
+<head>
+    <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+</head>
+<body>
+    <h1> Reportar problema con una fuente </h1>
+    
+    <h3><a href="https://maps.app.goo.gl/nG3TpWnSfNCoKdM46"> C/Prof. José García Santesmanses 9</a></h3>
+    
+    <form action="/report" method="post">
+       </form>     <label for="problem">*Indique el problema que se ha encontrado:</label>
+            <select id="problem" name="problem" required>
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="Problema 1">Fuente no funciona</option>
+                <option value="Problema 2">Fuente defectuosa</option>
+                <option value="Problema 3">Mala calidad de agua</option>
+                <option value="Otro">Otro</option>
+        </select>
+    </form>
+    <br>
+    <input type="text" id="textbox" name="textbox" placeholder="Explique aquí el problema">
+    <br>
+    <br>
+    <button onclick="location.href='/report'">Enviar</button>
+    <br>
+    <br>
+    <label> *Campos obligatorios </label>
+</body>
+</html>

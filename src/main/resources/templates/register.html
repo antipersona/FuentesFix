@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<title> Registarse </title>
+<head>
+        <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+</head>
+<body>
+    <h1> Regístrate! </h1>
+    <form action="/register" method="post">
+        <label for="mail">*¿Cual es tu correo?</label>    <br>
+        <input type="text" id="mail" name="mail" class="form-control" placeholder="ejemplo@mail.com" required> <br>
+
+        <label for="name">¿Cómo te llamas?</label>    <br>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Nombre"> <br>
+
+        <label for="surname">¿Y tu apellido?</label>    <br>
+        <input type="text" id="surname" name="surname" class="form-control" placeholder="Apellido"> <br>
+
+        <label for="username">*¿Cómo quieres que te conozca el resto de usuarios?</label>    <br>
+        <input type="text" id="username" name="username" class="form-control" placeholder="nombre_de_usuario" required> <br>
+
+        <label for="password">*¡Elige una contrseña segura!</label> <br>
+        <input type="password" id="password" name="password" class="form-control" placeholder="··········" required>   <br>
+
+        <label for="password2">*Repite la contraseña...</label> <br>
+        <input type="password2" id="password2" name="password2" class="form-control" placeholder="··········" required>   <br>
+
+        <button type="submit">Regístrarme</button> <br>
+        <label> *Campos obligatorios </label>
+    </form>
+    <br>
+    <br>
+    <label> ¿Ya tienes cuenta? <button onclick="location.href='/login'">¡Inicia sesión!</button> </label>
+</body>
+</html>

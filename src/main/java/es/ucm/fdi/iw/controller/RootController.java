@@ -12,15 +12,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RootController {
 
-	private static final Logger log = LogManager.getLogger(RootController.class);
+    private static final Logger log = LogManager.getLogger(RootController.class);
 
-	@GetMapping("/login")
+    @GetMapping("/login")
     public String login(Model model) {
+        System.out.println("login");
         return "login";
     }
 
-	@GetMapping("/")
+    @GetMapping("/register")
+    public String register(Model model) {
+        System.out.println("register");
+        return "register";
+    }
+
+    @GetMapping("/")
     public String index(Model model) {
+        System.out.println("index");
         return "index";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model) {
+        System.out.println("report");
+        return "report";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        System.out.println("profile");
+        return "profile";
+    }
+
+    @GetMapping("/fuente")
+    public String fuente(Model model) {
+        System.out.println("fuente");
+        return "fuente";
     }
 }

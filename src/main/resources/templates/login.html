@@ -1,35 +1,21 @@
 <!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://thymeleaf.org">
+<title> Iniciar sesión </title>
 <head>
-    <th:block th:replace="fragments/head :: header" />
-    <title>IW: Login</title>
+        <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
 </head>
-
-<body class="d-flex flex-column h-100">
-    <header th:replace="fragments/nav.html :: nav"></header>
-
-    <main class="flex-shrink-0">
-        <div class="container">
-            <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <p th:if="${#request.getQueryString() == 'error'}" class="error">
-                    Error en nombre de usuario o contraseña
-                </p>
-                <p>
-                    <label for="username" class="visually-hidden">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="required">
-                </p>
-                <p>
-                    <label for="password" class="visually-hidden">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
-                </p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            </form>
-        </div>
-    </main>
-
-    <th:block th:replace="fragments/footer.html :: footer" />
+<body>
+    
+    <h1> <img src="logo.png" alt="logo" width="90" height="90"> <br> Iniciar sesión </h1>
+    <form action="/login" method="post">
+        <label for="mail" class="visually-hidden">Correo:</label>    <br>
+        <input type="text" id="mail" name="mail" class="form-control" placeholder="ejemplo@mail.com" required="required"> <br>
+        <label for="password" class="visually-hidden">Contraseña:</label> <br>
+        <input type="password" id="password" name="password" class="form-control" placeholder="··········" required>   <br>
+        <button type="submit">Inicia sesión</button>
+    </form>
+    <br>
+    <br>
+    <label> ¿No tienes cuenta? <button onclick="location.href='/register'">¡Regístrate!</button> </label>
 </body>
-
 </html>
