@@ -1,21 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
-<title> Iniciar sesión </title>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-        <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+    <th:block th:replace="fragments/head :: header" />
+    <title> Iniciar sesión </title>
 </head>
-<body>
-    
-    <h1> <img src="logo.png" alt="logo" width="90" height="90"> <br> Iniciar sesión </h1>
-    <form action="/login" method="post">
-        <label for="mail" class="visually-hidden">Correo:</label>    <br>
-        <input type="text" id="mail" name="mail" class="form-control" placeholder="ejemplo@mail.com" required="required"> <br>
-        <label for="password" class="visually-hidden">Contraseña:</label> <br>
-        <input type="password" id="password" name="password" class="form-control" placeholder="··········" required>   <br>
-        <button type="submit">Inicia sesión</button>
-    </form>
-    <br>
-    <br>
-    <label> ¿No tienes cuenta? <button onclick="location.href='/register'">¡Regístrate!</button> </label>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <h1> Iniciar sesión </h1>
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form method="post" th:action="@{/login}">
+                <p th:if="${#request.getQueryString() == 'error'}" class="error">
+                    Nombre de usuario o contraseña incorrectos.
+                </p>
+                <p>
+                    <label for="username">Correo:</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="ejemplo@mail.com"
+                        required="required">
+                </p>
+                <p>
+                    <label for="password">Contraseña:</label> <br>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="··········"
+                        required="required">
+                </p>
+                <button type="submit">Inicia sesión</button>
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
 </body>
+
 </html>

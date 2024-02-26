@@ -2,6 +2,7 @@
 <html xmlns:th="http://thymeleaf.org">
 <title> Reportar Fuente</title>
 <head>
+    <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
 </head>
 <body>
@@ -27,5 +28,6 @@
     <br>
     <br>
     <label> *Campos obligatorios </label>
+    <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 </html>

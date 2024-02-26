@@ -2,11 +2,12 @@
 <html xmlns:th="http://thymeleaf.org">
 <title> Perfil </title>
 <head>
+  <th:block th:replace="fragments/head :: header" />
   <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
 </head>
 <body>
     <h1>elFuentes38</h1>
-    <img height="200px" width="200px" src="img/profile.jpg" alt="Foto de Perfil">
+    <img height="200px" width="200px" src="img/logo.png" alt="Foto de Perfil">
       <p>Soy un aficionado a las fuentes públicas de Madrid
         <br>Me encanta descubrir nuevas fuentes y reportar problemas
         <br>¡Ayúdame a mejorar la calidad de las fuentes de Madrid!
@@ -18,4 +19,5 @@
     <br>
     <img height="166px" width="87px" src="img/silverMedal.png" alt="Foto Medalla">
     <p>Fuente de Lavapiés</p>
+    <th:block th:replace="fragments/footer.html :: footer" />
 </body>

@@ -1,11 +1,11 @@
 
 :root {
     /* acento */
-    --ff-blue: #5e8ac6;
+    --ff-blue: #31517e;
     /* texto */
     --ff-dark: #071e22;
     /* fondo */
-    --ff-light: #d3d0cb;
+    --ff-light: #d0e0f7;
 }
 
 * {
@@ -40,34 +40,35 @@ img.preview {
 }
 
 body {
-    background-color: #bbd4ec;
+    background-color: var(--ff-light);
 }
 
 h1 {
-    color: #0011aa;
+    color: var(--ff-blue);
     font-weight: bold;
     text-align: center;
 }
 
 h5 {
-    color: #0011aa;
+    color: var(--ff-blue);
     text-align: right;
 }
 
 table {
+    width: 800px;
     background-color: rgb(207, 223, 247);
     margin: 0 auto;
-    border: #0011aa 3px solid;
+    border: var(--ff-blue) 3px solid;
 }
 
 table td,
 table th {
-    border: 1px solid #0011aa;
+    border: 1px solid var(--ff-blue);
 }
 
 button {
-    background-color: #0011aa;
-    color: white;
+    background-color: var(--ff-blue);
+    color: var(--ff-light);
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
@@ -82,8 +83,16 @@ input {
 }
 
 .table-button {
-    background-color: #0011aa;
-    color: white;
+    background-color: var(--ff-blue);
+    color: var(--ff-light);
     border-radius: 15px;
     min-width: 1px;
+}
+
+#map {
+    margin: auto;
+    height: 400px;
+    width: 800px;
+    border: 3px solid var(--ff-blue);
+    border-radius: 10px;
 }
