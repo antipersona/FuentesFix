@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
 <title> Fuentes.Valorar </title>
 <head>
         <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
 </head>
 <body>
     <h5> <button onclick="location.href='/login'"> ¡Inicia Sesion!</button> <button onclick="location.href='/register'">¡Regístrate!</button> </h5>
-    <h1> <img src="logo.png" alt="logo" width="90" height="90"> Bienvenido a Fuentes.Valorar </h1>
+    <h1> <img src="img/logo.png" alt="logo" width="90" height="90"> Bienvenido a Fuentes.Valorar </h1>
+    <br>
+    <br>
+    <link rel="stylesheet" th:href="@{/css/map.css}" href="css/map.css" type="text/css" />
+    
+    <div id="map"></div>
+    <script src="js/mapa-fuentes.js"></script>
     <br>
     <br>
     <table>
