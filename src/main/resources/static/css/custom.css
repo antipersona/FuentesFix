@@ -1,3 +1,13 @@
+
+:root {
+    /* acento */
+    --ff-blue: #5e8ac6;
+    /* texto */
+    --ff-dark: #071e22;
+    /* fondo */
+    --ff-light: #d3d0cb;
+}
+
 * {
     margin-top: 1%;
     text-align: center;
