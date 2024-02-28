@@ -1,98 +1,181 @@
-
 :root {
-    /* acento */
-    --ff-blue: #31517e;
-    /* texto */
-    --ff-dark: #071e22;
-    /* fondo */
-    --ff-light: #d0e0f7;
+    --color-primary: rgb(170 199 255);
+    --color-surface-tint: rgb(170 199 255);
+    --color-on-primary: rgb(11 48 95);
+    --color-primary-container: rgb(40 71 119);
+    --color-on-primary-container: rgb(215 227 255);
+    --color-secondary: rgb(197 192 255);
+    --color-on-secondary: rgb(46 41 96);
+    --color-secondary-container: rgb(68 64 120);
+    --color-on-secondary-container: rgb(228 223 255);
+    --color-tertiary: rgb(177 197 255);
+    --color-on-tertiary: rgb(22 46 96);
+    --color-tertiary-container: rgb(47 69 120);
+    --color-on-tertiary-container: rgb(218 226 255);
+    --color-error: rgb(255 180 171);
+    --color-on-error: rgb(105 0 5);
+    --color-error-container: rgb(147 0 10);
+    --color-on-error-container: rgb(255 218 214);
+    --color-background: rgb(17 19 24);
+    --color-on-background: rgb(226 226 233);
+    --color-surface: rgb(17 19 24);
+    --color-on-surface: rgb(226 226 233);
+    --color-surface-variant: rgb(68 71 78);
+    --color-on-surface-variant: rgb(196 198 208);
+    --color-outline: rgb(142 144 153);
+    --color-outline-variant: rgb(68 71 78);
+    --color-shadow: rgb(0 0 0);
+    --color-scrim: rgb(0 0 0);
+    --color-inverse-surface: rgb(226 226 233);
+    --color-inverse-on-surface: rgb(46 48 54);
+    --color-inverse-primary: rgb(65 94 145);
+    --color-primary-fixed: rgb(215 227 255);
+    --color-on-primary-fixed: rgb(0 27 62);
+    --color-primary-fixed-dim: rgb(170 199 255);
+    --color-on-primary-fixed-variant: rgb(40 71 119);
+    --color-secondary-fixed: rgb(228 223 255);
+    --color-on-secondary-fixed: rgb(24 18 74);
+    --color-secondary-fixed-dim: rgb(197 192 255);
+    --color-on-secondary-fixed-variant: rgb(68 64 120);
+    --color-tertiary-fixed: rgb(218 226 255);
+    --color-on-tertiary-fixed: rgb(0 25 70);
+    --color-tertiary-fixed-dim: rgb(177 197 255);
+    --color-on-tertiary-fixed-variant: rgb(47 69 120);
+    --color-surface-dim: rgb(17 19 24);
+    --color-surface-bright: rgb(55 57 62);
+    --color-surface-container-lowest: rgb(12 14 19);
+    --color-surface-container-low: rgb(25 28 32);
+    --color-surface-container: rgb(30 32 37);
+    --color-surface-container-high: rgb(40 42 47);
+    --color-surface-container-highest: rgb(51 53 58);
 }
 
 * {
-    margin-top: 1%;
-    text-align: center;
-}
-
-.iwthumb {
-    height: 32px;
-    width: 32px;
-}
-
-.errTable tr>td:first-child {
-    min-width: 500px;
-    max-width: 500px;
-    word-break: break-all;
-    font-weight: bold;
-    color: gray;
-}
-
-.errTable td {
-    vertical-align: top;
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
-}
-
-img.preview {
-    object-fit: cover;
-    width: 10%;
-    height: 100px;
-    border-radius: 10px;
+    font-family: var(--ff-font-family);
+    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--ff-light);
-}
-
-h1 {
-    color: var(--ff-blue);
-    font-weight: bold;
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
     text-align: center;
 }
 
-h5 {
-    color: var(--ff-blue);
-    text-align: right;
+header {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+footer {
+    background-color: var(--color-surface-container-lowest);
+    color: var(--color-on-surface-variant);
+    text-align: left;
 }
 
 table {
-    width: 800px;
-    background-color: rgb(207, 223, 247);
     margin: 0 auto;
-    border: var(--ff-blue) 3px solid;
+    /* tabla en el centro */
+    align-items: center;
+    text-align: center;
+    width: 70%;
+    border-color: var(--color-on-primary-container);
 }
 
-table td,
-table th {
-    border: 1px solid var(--ff-blue);
+/* Estilos de parrafo */
+p {
+    font-size: var(--ff-font-size);
+    line-height: var(--ff-line-height);
+    font-weight: bold;
+    /* Added font-weight property */
 }
+
+/* Estilos de hx */
+h1 {
+    font-size: 2.5em;
+    line-height: 1em;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 2.5em;
+    line-height: 1em;
+    color: var(--color-on-surface);
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 2em;
+    line-height: 1em;
+    color: var(--color-secondary);
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 1.5em;
+    line-height: 1em;
+    color: var(--color-primary);
+}
+
+/* Estilos de botones */
 
 button {
-    background-color: var(--ff-blue);
-    color: var(--ff-light);
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: .7em;
+    padding: 15px;
     margin: 10px;
-    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-input {
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-    min-width: 300px;
+.btn-def {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    border: 2px solid var(--color-on-primary);
 }
 
-.table-button {
-    background-color: var(--ff-blue);
-    color: var(--ff-light);
-    border-radius: 15px;
-    min-width: 1px;
+.btn-def:hover {
+    background-color: var(--color-on-primary-container);
+    color: var(--color-primary-container);
+    border: 2px solid var(--color-primary-container);
 }
 
-#map {
-    margin: auto;
-    height: 400px;
-    width: 800px;
-    border: 3px solid var(--ff-blue);
-    border-radius: 10px;
+.btn-success {
+    background-color: var(--color-secondary);
+    color: var(--color-on-secondary);
+    border: 2px solid var(--color-on-secondary);
+}
+
+.btn-success:hover {
+    background-color: var(--color-on-secondary-container);
+    color: var(--color-secondary-container);
+    border: 2px solid var(--color-secondary-container);
+}
+
+.btn-cancel {
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+    border: 2px solid var(--color-on-error);
+}
+
+.btn-cancel:hover {
+    background-color: var(--color-error-container);
+    color: var(--color-on-error-container);
+    border: 2px solid var(--color-on-error);
+}
+
+.btn-log {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    border: 2px solid var(--color-on-primary);
+    border-radius: 2em;
+}
+
+.btn-log:hover {
+    background-color: var(--color-on-primary);
+    color: var(--color-secondary);
+    border: 2px solid var(--color-on-tertiary);
+    border-radius: 2em;
 }

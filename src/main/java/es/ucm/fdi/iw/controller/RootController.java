@@ -49,4 +49,10 @@ public class RootController {
         System.out.println("fuente");
         return "fuente";
     }
+
+    @GetMapping("/prueba_css")
+    public String prueba_css(Model model) {
+        System.out.println("prueba_css");
+        return "prueba_css";
+    }
 }
