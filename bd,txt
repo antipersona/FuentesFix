@@ -1,0 +1,65 @@
+Table usuarios {
+  id long [primary key]
+  rol string
+  atributos otro
+}
+
+Table rel_amigos {
+  id1 long
+  id2 long
+}
+
+Ref: usuarios.id < rel_amigos.id1
+Ref: usuarios.id < rel_amigos.id2
+
+Table fuentes {
+  id long [primary key]
+  atributos otro
+}
+
+Table valoraciones {
+  id long [primary key]
+  u_id long 
+  f_id long 
+  atributos otro
+}
+
+Ref: usuarios.id < valoraciones.u_id
+Ref: fuentes.id < valoraciones.f_id
+
+Table reportes {
+  id long [primary key]
+  u_id long 
+  f_id long 
+  estado string
+  atributos otro
+}
+
+Ref: usuarios.id < reportes.u_id
+Ref: fuentes.id < reportes.f_id
+
+
+Table rel_siguiendo {
+  u_id long
+  f_id long
+}
+
+Ref: usuarios.id < rel_siguiendo.u_id
+Ref: fuentes.id < rel_siguiendo.f_id
+
+Table rel_actualiza {
+  u_id long 
+  r_id long
+}
+
+Ref: usuarios.id < rel_actualiza.u_id
+Ref: reportes.id < rel_actualiza.r_id
+
+Table respuestas {
+  id long [primary key]
+  v_id long 
+  u_id long
+}
+
+Ref: respuestas.v_id > valoraciones.id
+Ref: respuestas.u_id > usuarios.id
