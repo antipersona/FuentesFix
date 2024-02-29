@@ -1,3 +1,5 @@
+@import url('colores.css');
+
 :root {
     --color-primary: rgb(170 199 255);
     --color-surface-tint: rgb(170 199 255);
@@ -61,8 +63,19 @@ body {
     text-align: center;
 }
 
+.main-container {
+    background-color: var(--color-surface-container);
+    color: var(--color-on-primary-container);
+    padding: 1.5em;
+    margin: 1em auto;
+    width: 80%;
+    border-radius: 1em;
+
+}
+
 header {
-    background-color: var(--color-primary-container);
+    border-radius: 1em;
+    background-color: var(--color-surface-container);
     color: var(--color-on-primary-container);
     padding: 1em;
     margin-bottom: 1em;
@@ -167,15 +180,23 @@ button {
 }
 
 .btn-log {
-    background-color: var(--color-primary-container);
-    color: var(--color-on-primary-container);
-    border: 2px solid var(--color-on-primary);
+    margin: .3em;
+    background-color: var(--color-primary);
+    color: var(--color-primary-container);
+    border: 2px solid var(--color-primary-container);
     border-radius: 2em;
 }
 
 .btn-log:hover {
-    background-color: var(--color-on-primary);
-    color: var(--color-secondary);
-    border: 2px solid var(--color-on-tertiary);
+    background-color: var(--color-secondary);
+    color: var(--color-primary-container);
+    border: 2px solid var(--color-primary-container);
     border-radius: 2em;
+}
+
+#map {
+    margin: auto;
+    height: 600px;
+    width:  auto;
+    border-radius: 1em;
 }
