@@ -30,8 +30,9 @@ import java.util.List;
 public class User implements Transferable<User.Transfer> {
 
     public enum Role {
-        USER,			// normal users 
-        ADMIN,          // admin users
+        USER,			// ciudadano, valora fuentes y reporta errores
+        ADMIN,          // puede modificar las fuentes y moderar comentarios
+        FUNCIONARIO,    // Recibe reportes de errores y puede marcarlos como solucionados, ademas les puede poner una prioridad y un tiempo estimado
     }
 
     @Id

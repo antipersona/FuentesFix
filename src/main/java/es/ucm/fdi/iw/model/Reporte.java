@@ -33,13 +33,4 @@ public class Reporte {
         this.uId = uId;
     }
 
-    public String toJson() {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (Exception e) {
-            return "{}";
-        }
-    }
-
 }
