@@ -1,8 +1,14 @@
 package es.ucm.fdi.iw.model.bd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
 public class Usuario {
@@ -25,12 +31,20 @@ public class Usuario {
 
     @Column(nullable = false)
     private String password;
-
     
     private String firstName;
     private String lastName;
 
     private int cod_postal;
+
+
+    // rel_amigos
+    @ManyToMany
+    private List<Usuario> friends = new ArrayList<>();
+
+    // rel_siguiendo
+    @ManyToMany
+    private List<Fuente> fuentes = new ArrayList<>();
 
     // constructor con lo eseencial
     public Usuario(long id, String username, String mail, String password) {
