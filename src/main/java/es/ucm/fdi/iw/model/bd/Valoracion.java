@@ -8,7 +8,10 @@ public class Valoracion {
     @Id
     private long id;
     
+    // TODO hacer el join con la tabla de usuarios
     private long f_id;
+
+    // TODO hacer el join con la tabla de fuentes
     private long u_id;
 
     private int puntuacion;

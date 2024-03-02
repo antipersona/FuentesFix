@@ -32,6 +32,8 @@ public class Fuente {
     private String modelo;
     private String codigo_interno;
 
+    // podria faltar una imagen de la fuente?
+
 
     public Fuente(long id, int cod_barrio, String barrio, String distrito, Estado estado, long gis_x, long gis_y,
             long latitud, long longitud, String direccion, String direccion_aux, String modelo, String codigo_interno) {
