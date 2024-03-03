@@ -46,49 +46,56 @@
             </div>
             <div class="vertical" style="width: 70%">
 
-                <h2> Direccion aux de la fuente </h2>
-                <h5> Direccion de la fuente </h5>
+                
+
+                <h2> <td th:text="${fuente.getDireccion_aux()}"> Dirección Auxiliar </td> </h2>
+                <h5> <td th:text="${fuente.getDireccion()}"> Dirección Auxiliar </td> </h5>
                 <br>
                 <table class="table-data">
                     <tr>
-                        <td> <b> Nombre: </b> </td>
-                        <td> Fuente#id </td>
+                        <td> <b> ID: </b> </td>
+                        <td th:text="${fuente.getId()}"> Id </td>
                     </tr>
                     <tr>
-                        <td> <b> Tipo: </b> </td>
-                        <td> Tipo de fuente </td>
+                        <td> <b> Código de Barrio: </b> </td>
+                        <td th:text="${fuente.getCod_barrio()}"> Código de Barrio </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Barrio: </b> </td>
+                        <td th:text="${fuente.getBarrio()}"> Barrio </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Distrito: </b> </td>
+                        <td th:text="${fuente.getDistrito()}"> Distrito </td>
                     </tr>
                     <tr>
                         <td> <b> Estado: </b> </td>
-                        <td> Estado de la fuente </td>
+                        <td th:text="${fuente.getEstado()}"> Estado </td>
                     </tr>
                     <tr>
-                        <td> <b> Capacidad: </b> </td>
-                        <td> Capacidad de la fuente </td>
+                        <td> <b> GIS X: </b> </td>
+                        <td th:text="${fuente.getGis_x()}"> GIS X </td>
                     </tr>
                     <tr>
-                        <td> <b> Fecha de instalacion: </b> </td>
-                        <td> Fecha de instalacion de la fuente </td>
+                        <td> <b> GIS Y: </b> </td>
+                        <td th:text="${fuente.getGis_y()}"> GIS Y </td>
                     </tr>
                     <tr>
-                        <td> <b> Fecha de ultima revision: </b> </td>
-                        <td> Fecha de ultima revision de la fuente </td>
+                        <td> <b> Latitud: </b> </td>
+                        <td th:text="${fuente.getLatitud()}"> Latitud </td>
                     </tr>
                     <tr>
-                        <td> <b> Fecha de proxima revision: </b> </td>
-                        <td> Fecha de proxima revision de la fuente </td>
+                        <td> <b> Longitud: </b> </td>
+                        <td th:text="${fuente.getLongitud()}"> Longitud </td>
+                    </tr>
+
+                    <tr>
+                        <td> <b> Modelo: </b> </td>
+                        <td th:text="${fuente.getModelo()}"> Modelo </td>
                     </tr>
                     <tr>
-                        <td> <b> Fecha de ultima reparacion: </b> </td>
-                        <td> Fecha de ultima reparacion de la fuente </td>
-                    </tr>
-                    <tr>
-                        <td> <b> Fecha de proxima reparacion: </b> </td>
-                        <td> Fecha de proxima reparacion de la fuente </td>
-                    </tr>
-                    <tr>
-                        <td> <b> Observaciones: </b> </td>
-                        <td> Observaciones de la fuente </td>
+                        <td> <b> Código Interno: </b> </td>
+                        <td th:text="${fuente.getCodigo_interno()}"> Código Interno </td>
                     </tr>
                 </table>
 

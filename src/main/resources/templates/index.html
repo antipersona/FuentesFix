@@ -25,68 +25,21 @@
         <br>
         <table>
             <tr>
-                <th>Nombre</th>
-                <th>Ubicación</th>
-                <th>Valoración</th>
-                <th>Acción</th>
+                <th>Barrio</th>
+                <th>Estado</th>
+                <th>Direccion</th>
+                <th>Direccion Aux</th>
+                <th>Ir</th>
             </tr>
-            <tr>
-                <td>Fuente de la Tomasa</td>
-                <td>Dehesa de la Villa</td>
-                <td>4.7</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente de Moncloa</td>
-                <td>Moncloa</td>
-                <td>3.5</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente de la Plaza de los Chisperos</td>
-                <td>Plaza de los Chisperos</td>
-                <td>2.5</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente del Retiro</td>
-                <td>Parque del Retiro</td>
-                <td>4.3</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente de Cibeles</td>
-                <td>Paseo de Recoletos</td>
-                <td>4.8</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente de la Fuente de la Villa</td>
-                <td>Barrio de Salamanca</td>
-                <td>4.6</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente de la Puerta del Sol</td>
-                <td>Puerta del Sol</td>
-                <td>3.9</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente de Lavapiés</td>
-                <td>Lavapiés</td>
-                <td>3.2</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
-            </tr>
-            <tr>
-                <td>Fuente del Templo de Debod</td>
-                <td>Parque del Oeste</td>
-                <td>4.5</td>
-                <td><button class="btn-def" onclick="location.href='/fuente'">Valorar</button></td>
+            <tr th:each="fuente : ${fuentes}">   
+                <td th:text="${fuente.getBarrio()}"></td>
+                <td th:text="${fuente.getEstado()}"></td>              
+                <td th:text="${fuente.getDireccion()}"></td>
+                <td th:text="${fuente.getDireccion_aux()}"></td>               
+                <td><button class="btn-def" th:onclick="|location.href='/fuente/' + ${fuente.getId()}|">Ir</button></td>
             </tr>
         </table>
     </div>
     <th:block th:replace="fragments/footer.html :: footer" />
-
 </body>
 </html>
