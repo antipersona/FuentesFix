@@ -1,29 +1,146 @@
-<!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
-<head>
-  <th:block th:replace="fragments/head :: header" />
-  <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
-</head>
-<body>
-	<div>
-    	<h1>Detalles de la Fuente</h1>
-    	<!-- Ubicación de la fuente en el mapa -->
-    	<div id="mapa" class="mapa"></div>
-   	 
-    	<!-- Detalles de la fuente -->
-    	<div class="detallesFuente">
-        	<h2>Nombre de la Fuente</h2>
-        	<p><strong>Ubicación:</strong> Dirección exacta de la fuente</p>
-        	<p><strong>Estado:</strong> Estado actual de la fuente (calidad del agua, frescor, accesibilidad, etc.)</p>
-        	<p><strong>Resumen (administración):</strong> Resumen sobre la fuente</p>
-        	<p><strong>Valoraciones:</strong> Comentarios de otros usuarios sobre la fuente</p>
-       	 
-        	<!-- Botones -->
-        	<button>Valorar Fuente</button>
-        	<button onclick="location.href='/report'">Reportar Problema</button>
-    	</div>
-	</div>
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org">
 
-	<th:block th:replace="fragments/footer.html :: footer" />
+<title> Fuente#id </title>
+<head>
+        <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+        <th:block th:replace="fragments/head :: header" />
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="horizontal" align="top">
+            <div class="vertical" style="width: 30%" align="top">
+                <img src="img/fuente.jpeg" alt="Logo" class="img-fuente">
+                <div class="special-container-2" style="width: 100%;">
+                    <h6  self="left"> Valoraciones de los usuarios: </h6>
+                <table class="table-val"> 
+                    <tr>
+                        <td> <b> Media: </b> </td>
+                        <td> 4.3/5 </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Caudal: </b> </td>
+                        <td> 3.5/5 </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Sabor: </b> </td>
+                        <td> 4.5/5 </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Temperatura: </b> </td>
+                        <td> 4.5/5 </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Numero de valoraciones: </b> </td>
+                        <td> 23 </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Numero de comentarios: </b> </td>
+                        <td> 12 </td>
+                    </tr>
+                    
+                </table>
+                </div>
+
+            </div>
+            <div class="vertical" style="width: 70%">
+
+                <h2> Direccion aux de la fuente </h2>
+                <h5> Direccion de la fuente </h5>
+                <br>
+                <table class="table-data">
+                    <tr>
+                        <td> <b> Nombre: </b> </td>
+                        <td> Fuente#id </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Tipo: </b> </td>
+                        <td> Tipo de fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Estado: </b> </td>
+                        <td> Estado de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Capacidad: </b> </td>
+                        <td> Capacidad de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Fecha de instalacion: </b> </td>
+                        <td> Fecha de instalacion de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Fecha de ultima revision: </b> </td>
+                        <td> Fecha de ultima revision de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Fecha de proxima revision: </b> </td>
+                        <td> Fecha de proxima revision de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Fecha de ultima reparacion: </b> </td>
+                        <td> Fecha de ultima reparacion de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Fecha de proxima reparacion: </b> </td>
+                        <td> Fecha de proxima reparacion de la fuente </td>
+                    </tr>
+                    <tr>
+                        <td> <b> Observaciones: </b> </td>
+                        <td> Observaciones de la fuente </td>
+                    </tr>
+                </table>
+
+                <div class="horizontal"> 
+                    <button class="btn-cancel" style="height: 5em"> <h6> Reportar mal funcionamiento <h6> </button>
+                </div>
+
+                <div class="special-container" style="width: 100%;">
+                    <h5> Comentarios de los usuarios: </h5>
+
+                    <form>
+                        <label for="comment"> <p> Escribe aquí tu opinion detallada: </p> </label>
+                        <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+                        <div class="horizontal">
+                            <label for="caudal">Caudal:</label>
+                            <select id="caudal" name="caudal">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <br>
+                            <label for="sabor">Sabor:</label>
+                            <select id="sabor" name="sabor">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <br>
+                            <label for="temperatura">Temperatura:</label>
+                            <select id="temperatura" name="temperatura">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-success" style="height: 5em"> <h5> Valorar <h5> </button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
+<footer>
+    <th:block th:replace="fragments/footer.html :: footer" />
+</footer>
+
 </html>

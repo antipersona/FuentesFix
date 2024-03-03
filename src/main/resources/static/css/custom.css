@@ -116,7 +116,7 @@ footer {
 }
 
 .vertical > * {
-    margin: 1em;
+    margin: .2em;
 }
 
 .horizontal {
@@ -145,17 +145,25 @@ footer {
     align-items: flex-end;
 }
 
-/* align para un elemento concreto */
+/* align concreto */
 [self="center"] {
-    align-self: center;
+    float: center;
 }
 
 [self="top"] {
-    align-self: flex-start;
+    float: top;
 }
 
 [self="bottom"] {
-    align-self: flex-end;
+    float: bottom;
+}
+
+[self="left"] {
+    float: left;
+}
+
+[self="right"] {
+    float: right;
 }
 
 header {
@@ -173,12 +181,42 @@ footer {
 }
 
 table {
+    width: 70%;
+    border-collapse: collapse;
     margin: 0 auto;
-    /* tabla en el centro */
-    align-items: center;
-    text-align: center;
+}
+
+.table-fuente {
+    margin: 1em;
+    align-items: left;
+    text-align: left;
     width: 70%;
     border-color: var(--color-on-primary-container);
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid var(--color-on-primary-container);
+    text-align: left;
+}
+
+th {
+
+    font-weight: bold;
+}
+
+tr:hover {
+    
+}
+
+/* tabla de las valoraciones */
+.table-val {
+    float: left;
+    margin-top: 2em;
+    align-items: left;
+    text-align: left;
+    width: 100%;
 }
 
 /* Estilos de parrafo */
@@ -315,4 +353,11 @@ button {
     height: 600px;
     width: auto;
     border-radius: 1em;
+}
+
+.img-fuente {
+    border-radius: 1em;
+    width: 100%;
+    margin-bottom: 1em;
+    margin-top: 2em;
 }
