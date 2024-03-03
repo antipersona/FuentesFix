@@ -3,8 +3,28 @@
 <head>
     <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
     <title>Este es el titulo</title>
+    <th:block th:replace="fragments/head :: header" />
 </head>
 <body>
+    <header> Este es otro header</header>
+    <div class="main-container"> 3
+        Este es el main container
+        <h1>Este es un h1</h1>
+        <h2>Este es un h2</h2>
+        <h3>Este es un h3</h3>
+        <h4>Este es un h4</h4>
+        <h5>Este es un h5</h5>
+        <h6>Este es un h6</h6>
+        <div class="special-container">
+            <p> Este es el special container </p>
+            <h1>Este es un h1</h1>
+            <h2>Este es un h2</h2>
+        </div>
+    </div>
+
+   
+
+
     <h1>Este es un h1</h1>
     <h2>Este es un h2</h2>
     <h3>Este es un h3</h3>
@@ -18,6 +38,7 @@
     <a href="#">Este es un link</a>
     <a href="#">Este es otro link</a>
     <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo">
+    
     <table>
         <tr>
             <th>Este es un th</th>
@@ -30,7 +51,7 @@
             <td>Este es un td</td>
             <td>Este es otro td</td>
         </tr>
-
+    </table>
 
     <p class="p-claro">Este es un párrafo claro.</p>
     <p class="p-oscuro">Este es un párrafo oscuro.</p>

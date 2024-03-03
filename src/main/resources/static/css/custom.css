@@ -54,6 +54,7 @@
 
 * {
     font-family: var(--ff-font-family);
+    /* font-size: 1em; */
     box-sizing: border-box;
 }
 
@@ -71,6 +72,18 @@ body {
     width: 80%;
     border-radius: 1em;
 
+}
+
+.special-container {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+    margin: 1em auto;
+    width: fit-content;
+    border-radius: 2em;
 }
 
 header {
@@ -98,10 +111,7 @@ table {
 
 /* Estilos de parrafo */
 p {
-    font-size: var(--ff-font-size);
-    line-height: var(--ff-line-height);
-    font-weight: bold;
-    /* Added font-weight property */
+    font-size: 1.1em;
 }
 
 /* Estilos de hx */
@@ -130,6 +140,17 @@ h4 {
     font-size: 1.5em;
     line-height: 1em;
     color: var(--color-primary);
+}
+
+h5 {
+    font-size: 2em;
+    line-height: 1em;
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 1.5em;
+    line-height: 1em;
 }
 
 /* Estilos de botones */
@@ -192,6 +213,29 @@ button {
     color: var(--color-primary-container);
     border: 2px solid var(--color-primary-container);
     border-radius: 2em;
+}
+
+/* Estilos de input */
+.input-log {
+    margin: 1em;
+    padding: .5em;
+    background-color: var(--color-on-primary-container);
+    color: var(--color-primary-container);
+    border: 2px solid var(--color-on-primary);
+    border-radius: 2em;
+    font-size: 1.1em;
+}
+
+.input-log:hover {
+    background-color: var(--color-on-secondary-container);
+    color: var(--color-secondary-container);
+    border: 2px solid var(--color-on-secondary);
+}
+
+.input-log:focus {
+    background-color: var(--color-on-secondary-container);
+    color: var(--color-secondary-container);
+    border: 2px solid var(--color-on-secondary);
 }
 
 #map {
