@@ -10,6 +10,7 @@
 <body>
     <div class="horizontal" align="bottom">  
         <div class="special-container">
+            <form class="form-signin" method="post" th:action="@{/login}">
             <h1> Iniciar sesión </h1>
             <br>
             <p th:if="${#request.getQueryString() == 'error'}" class="error">
@@ -23,6 +24,7 @@
             <br>
 
             <button type="submit" class="btn-def"><h6> Iniciar sesión </h6></button>
+            </form>
         </div>
         <div class="special-container-2">
             <h6> ¿No tienes cuenta? </h6>
