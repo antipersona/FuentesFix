@@ -7,17 +7,17 @@
 </head>
 <body>
     <h1>elFuentes38</h1>
-    <img height="200px" width="200px" src="img/logo.png" alt="Foto de Perfil">
+    <img height="200px" width="200px" th:src="@{/img/profile.jpg}" alt="Imagen" class="img-medallaPlata">
       <p>Soy un aficionado a las fuentes públicas de Madrid
         <br>Me encanta descubrir nuevas fuentes y reportar problemas
         <br>¡Ayúdame a mejorar la calidad de las fuentes de Madrid!
       </p>
     <br>
     <h3>Medallas</h3>
-    <img height="141px" width="90px" src="img/goldMedal.png" alt="Foto Medalla">
+    <img height="141px" width="90px" th:src="@{/img/goldMedal.png}" alt="Imagen" class="img-medallaOro">
     <p>Fuente de Moncloa</p>
     <br>
-    <img height="166px" width="87px" src="img/silverMedal.png" alt="Foto Medalla">
+    <img height="166px" width="87px" th:src="@{/img/silverMedal.png}" alt="Imagen" class="img-medallaPlata">
     <p>Fuente de Lavapiés</p>
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
