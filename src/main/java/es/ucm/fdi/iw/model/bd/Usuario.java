@@ -37,6 +37,8 @@ public class Usuario {
 
     private int cod_postal;
 
+    private String pfp = "/img/user.jpg";
+
 
     // rel_amigos
     @ManyToMany

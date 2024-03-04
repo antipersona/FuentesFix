@@ -51,6 +51,8 @@ public class User implements Transferable<User.Transfer> {
     private boolean enabled;
     private String roles; // split by ',' to separate roles
 
+    private String pfp = "/img/user.jpg";
+
 	@OneToMany
 	@JoinColumn(name = "sender_id")
 	private List<Message> sent = new ArrayList<>();
