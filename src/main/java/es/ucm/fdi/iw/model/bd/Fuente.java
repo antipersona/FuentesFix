@@ -35,8 +35,7 @@ public class Fuente {
     private String modelo;
     private String codigo_interno;
 
-    // podria faltar una imagen de la fuente?
-    private String imagen = "@{/img/fuente.jpg}";
+    private String imagen = "/img/fuente.jpeg";
     
     private int mediaValoracion = 0;
     private int numValoraciones = 0;
