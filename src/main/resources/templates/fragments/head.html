@@ -7,7 +7,7 @@
         <link rel="stylesheet" th:href="@{/css/header.css}" href="css/header.css" type="text/css" />
         <div class="header-container">
             <div class="title-container" > 
-                <a href="/"> <img th:src="@{/img/logo2.png}" alt="Logo" class="logo"> </a>
+                <a href="/"> <img th:src="@{/img/logo.png}" alt="Logo" class="logo"> </a>
                     <h1>Fuentes Fix</h1>
             </div>
             
@@ -18,7 +18,7 @@
             <div class="login-container" th:if="${logged}">
                 <div class="horizontal">  
                     <p th:text="${user.getUsername()}"></p>
-                    <img th:src="${user.getPfp()}" alt="pfp" class="pfp">
+                    <img th:src="${user.getPfp()}" alt="pfp" class="pfp">                    
                     <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
                 </div>
             </div>

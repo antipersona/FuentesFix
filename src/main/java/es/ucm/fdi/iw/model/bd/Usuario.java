@@ -37,7 +37,7 @@ public class Usuario {
 
     private int cod_postal;
 
-    private String pfp = "/img/user.jpg";
+    private String pfp = "/img/users/default.jpg";
 
 
     // rel_amigos

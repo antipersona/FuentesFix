@@ -35,7 +35,7 @@ public class Fuente {
     private String modelo;
     private String codigo_interno;
 
-    private String imagen = "/img/fuente.jpeg";
+    private String imagen = "/img/fuentes/default.jpeg";
     
     private int mediaValoracion = 0;
     private int numValoraciones = 0;

@@ -51,7 +51,7 @@ public class User implements Transferable<User.Transfer> {
     private boolean enabled;
     private String roles; // split by ',' to separate roles
 
-    private String pfp = "/img/user.jpg";
+    private String pfp = "/img/users/default.jpg";
 
 	@OneToMany
 	@JoinColumn(name = "sender_id")
@@ -96,15 +96,5 @@ public class User implements Transferable<User.Transfer> {
     public void setPfp(String pfp) {
         this.pfp = pfp;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
 }
 
