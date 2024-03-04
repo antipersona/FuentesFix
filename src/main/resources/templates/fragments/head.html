@@ -11,9 +11,16 @@
                     <h1>Fuentes Fix</h1>
             </div>
             
-            <div class="login-container">
+            <div class="login-container" th:if="${!logged}">
                 <button class="btn-log" onclick="location.href='/login'">Iniciar Sesión</button>
                 <button class="btn-log" onclick="location.href='/register'">Registrarse</button>
+            </div>
+            <div class="login-container" th:if="${logged}">
+                <div class="horizontal">  
+                    <p th:text="${user.getUsername()}"></p>
+                    <img th:src="${user.getPfp()}" alt="pfp" class="pfp">
+                    <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
+                </div>
             </div>
         </div>
         

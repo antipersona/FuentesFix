@@ -2,35 +2,27 @@ package es.ucm.fdi.iw.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tomcat.jni.File;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-import com.fasterxml.jackson.core.type.TypeReference;
+import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.bd.Fuente;
 import es.ucm.fdi.iw.model.bd.Fuente.Estado;
-import lombok.var;
+
 
 import java.util.*;
 
-import javax.persistence.criteria.Path;
 import javax.servlet.http.HttpSession;
 
-import java.io.IOException;
-import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.core.io.ClassPathResource;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.FileReader;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +40,17 @@ public class RootController {
 
     Map<Long, Fuente> fuenteMap;
     List<Fuente> fuenteList;
+
+    @ModelAttribute
+    private void isLogged(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("u");
+        if (user != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("logged", true);
+        } else {
+            model.addAttribute("logged", false);
+        }
+    }
 
     private static final Logger log = LogManager.getLogger(RootController.class);
 
@@ -70,10 +73,9 @@ public class RootController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         System.out.println("index");
         model.addAttribute("fuentes", fuenteList);
-
         return "index";
     }
 
@@ -101,12 +103,7 @@ public class RootController {
         return "prueba_css";
     }
 
-    @ModelAttribute
-    private void isLogged(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean logged = authentication != null && authentication.isAuthenticated();
-        model.addAttribute("logged", logged); 
-    }
+
 
 
     private Map<Long, Fuente> cargarFuentes(){

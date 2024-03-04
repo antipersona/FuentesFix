@@ -54,6 +54,17 @@ import java.util.stream.Collectors;
 @RequestMapping("user")
 public class UserController {
 
+	@ModelAttribute
+	private void isLogged(Model model, HttpSession session) {
+		User u = (User) session.getAttribute("u");
+		if (u != null) {
+			// model.addAttribute("user", u);
+			model.addAttribute("logged", true);
+		} else {
+			model.addAttribute("logged", false);
+		}
+	}
+
 	private static final Logger log = LogManager.getLogger(UserController.class);
 
 	@Autowired

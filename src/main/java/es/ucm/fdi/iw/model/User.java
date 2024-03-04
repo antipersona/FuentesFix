@@ -96,5 +96,15 @@ public class User implements Transferable<User.Transfer> {
     public void setPfp(String pfp) {
         this.pfp = pfp;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
 }
 
