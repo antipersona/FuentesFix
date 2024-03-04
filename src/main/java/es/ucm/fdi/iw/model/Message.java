@@ -70,7 +70,7 @@ public class Message implements Transferable<Message.Transfer> {
 			this.id = m.getId();
 		}
 	}
-
+//mecagoenjabi 
 	@Override
 	public Transfer toTransfer() {
 		return new Transfer(sender.getUsername(), recipient.getUsername(), 
