@@ -2,6 +2,9 @@ package es.ucm.fdi.iw.model.bd;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import java.util.*;
 
 @Entity
 public class Fuente {
@@ -13,18 +16,18 @@ public class Fuente {
 
     @Id
     private long id;
-
+    
     private int cod_barrio;
     private String barrio;
     private String distrito;
 
     private Estado estado;
 
-    private long gis_x;
-    private long gis_y;
+    private double gis_x;
+    private double gis_y;
 
-    private long latitud;
-    private long longitud;
+    private double latitud;
+    private double longitud;
 
     private String direccion;
     private String direccion_aux;
@@ -33,10 +36,22 @@ public class Fuente {
     private String codigo_interno;
 
     // podria faltar una imagen de la fuente?
+    private String imagen = "@{/img/fuente.jpg}";
+    
+    private int mediaValoracion = 0;
+    private int numValoraciones = 0;
+    private int sumaValoraciones = 0;//encantamiento eficiencia 4 de calculo de medias
+    private int sabor = -1;
+    private int temperatura = -1;
+    private int olor = -1;
+    
+    @OneToMany
+    private List<Valoracion> valoraciones;
 
 
-    public Fuente(long id, int cod_barrio, String barrio, String distrito, Estado estado, long gis_x, long gis_y,
-            long latitud, long longitud, String direccion, String direccion_aux, String modelo, String codigo_interno) {
+    public Fuente(long id, int cod_barrio, String barrio, String distrito, Estado estado, double gis_x, double gis_y,
+            double latitud, 
+            double longitud, String direccion, String direccion_aux, String modelo, String codigo_interno) {
         this.id = id;
         this.cod_barrio = cod_barrio;
         this.barrio = barrio;
@@ -50,14 +65,24 @@ public class Fuente {
         this.direccion_aux = direccion_aux;
         this.modelo = modelo;
         this.codigo_interno = codigo_interno;
+        this.valoraciones = new ArrayList<>();
     }
 
+    public void añadirValoracion(Valoracion v){
+        this.valoraciones.add(v);
+        actualizarMediaValoraciones(v.getPuntuacion());
+    }
 
-    // lo mismo sobran, estan creados usando una extension asi que
-    // no es que sea una perdida de tiempo haberlos creado
+    private void actualizarMediaValoraciones(int val){ 
+        numValoraciones++;
+        sumaValoraciones += val;
+        mediaValoracion = sumaValoraciones/numValoraciones;
+    }
+
     public long getId() {
         return id;
     }
+
 
 
     public void setId(long id) {
@@ -65,9 +90,11 @@ public class Fuente {
     }
 
 
+
     public int getCod_barrio() {
         return cod_barrio;
     }
+
 
 
     public void setCod_barrio(int cod_barrio) {
@@ -75,9 +102,11 @@ public class Fuente {
     }
 
 
+
     public String getBarrio() {
         return barrio;
     }
+
 
 
     public void setBarrio(String barrio) {
@@ -85,9 +114,11 @@ public class Fuente {
     }
 
 
+
     public String getDistrito() {
         return distrito;
     }
+
 
 
     public void setDistrito(String distrito) {
@@ -95,9 +126,11 @@ public class Fuente {
     }
 
 
+
     public Estado getEstado() {
         return estado;
     }
+
 
 
     public void setEstado(Estado estado) {
@@ -105,44 +138,53 @@ public class Fuente {
     }
 
 
-    public long getGis_x() {
+
+    public double getGis_x() {
         return gis_x;
     }
 
 
-    public void setGis_x(long gis_x) {
+
+    public void setGis_x(double gis_x) {
         this.gis_x = gis_x;
     }
 
 
-    public long getGis_y() {
+
+    public double getGis_y() {
         return gis_y;
     }
 
 
-    public void setGis_y(long gis_y) {
+
+    public void setGis_y(double gis_y) {
         this.gis_y = gis_y;
     }
 
 
-    public long getLatitud() {
+
+    public double getLatitud() {
         return latitud;
     }
 
 
-    public void setLatitud(long latitud) {
+
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
 
-    public long getLongitud() {
+
+    public double getLongitud() {
         return longitud;
     }
 
 
-    public void setLongitud(long longitud) {
+
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+
 
 
     public String getDireccion() {
@@ -150,9 +192,11 @@ public class Fuente {
     }
 
 
+
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
 
 
     public String getDireccion_aux() {
@@ -160,9 +204,11 @@ public class Fuente {
     }
 
 
+
     public void setDireccion_aux(String direccion_aux) {
         this.direccion_aux = direccion_aux;
     }
+
 
 
     public String getModelo() {
@@ -170,9 +216,11 @@ public class Fuente {
     }
 
 
+
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
+
 
 
     public String getCodigo_interno() {
@@ -180,9 +228,80 @@ public class Fuente {
     }
 
 
+
     public void setCodigo_interno(String codigo_interno) {
         this.codigo_interno = codigo_interno;
     }
 
-    
+
+
+    public String getImagen() {
+        return imagen;
+    }
+
+
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+
+
+    public int getMediaValoracion() {
+        return mediaValoracion;
+    }
+
+
+
+    public void setMediaValoracion(int mediaValoracion) {
+        this.mediaValoracion = mediaValoracion;
+    }
+
+
+
+    public int getNumValoraciones() {
+        return numValoraciones;
+    }
+
+
+
+    public void setNumValoraciones(int numValoraciones) {
+        this.numValoraciones = numValoraciones;
+    }
+
+
+
+    public int getSabor() {
+        return sabor;
+    }
+
+
+
+    public void setSabor(int sabor) {
+        this.sabor = sabor;
+    }
+
+
+
+    public int getTemperatura() {
+        return temperatura;
+    }
+
+
+
+    public void setTemperatura(int temperatura) {
+        this.temperatura = temperatura;
+    }
+
+
+
+    public int getOlor() {
+        return olor;
+    }
+
+
+
+    public void setOlor(int olor) {
+        this.olor = olor;
+    }    
 }

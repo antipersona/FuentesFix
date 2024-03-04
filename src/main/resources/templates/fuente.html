@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html xmlns:th="http://www.thymeleaf.org">
 
-<title> Fuente#id </title>
+<title> Fuente </title>
 <head>
         <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
         <th:block th:replace="fragments/head :: header" />
@@ -11,10 +11,10 @@
     <div class="main-container">
         <div class="horizontal" align="top">
             <div class="vertical" style="width: 30%" align="top">
-                <img src="img/fuente.jpeg" alt="Logo" class="img-fuente">
+                <img th:src="@{/img/fuente.jpeg}" alt="Imagen" class="img-fuente">
                 <div class="special-container-2" style="width: 100%;">
                     <h6  self="left"> Valoraciones de los usuarios: </h6>
-                <table class="table-val"> 
+                <table class="table-val">
                     <tr>
                         <td> <b> Media: </b> </td>
                         <td> 4.3/5 </td>
@@ -44,10 +44,7 @@
                 </div>
 
             </div>
-            <div class="vertical" style="width: 70%">
-
-                
-
+            <div class="vertical" style="width: 70%">           
                 <h2> <td th:text="${fuente.getDireccion_aux()}"> Dirección Auxiliar </td> </h2>
                 <h5> <td th:text="${fuente.getDireccion()}"> Dirección Auxiliar </td> </h5>
                 <br>

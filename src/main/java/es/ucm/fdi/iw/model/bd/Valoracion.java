@@ -24,5 +24,10 @@ public class Valoracion {
         this.usuario = usuario;
         this.puntuacion = puntuacion;
         this.comentario = comentario;
+        fuente.añadirValoracion(this);
+    }
+
+    public int getPuntuacion(){
+        return this.puntuacion;
     }
 }
