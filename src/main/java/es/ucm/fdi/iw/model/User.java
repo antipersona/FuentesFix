@@ -88,5 +88,13 @@ public class User implements Transferable<User.Transfer> {
 	public String toString() {
 		return toTransfer().toString();
 	}
+
+    public String getPfp() {
+        return pfp;
+    }
+
+    public void setPfp(String pfp) {
+        this.pfp = pfp;
+    }
 }
 
