@@ -4,6 +4,7 @@
     <header th:fragment="header">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
         <link rel="stylesheet" th:href="@{/css/header.css}" href="css/header.css" type="text/css" />
         <div class="header-container">
             <div class="title-container" > 
@@ -18,7 +19,7 @@
             <div class="login-container" th:if="${logged}">
                 <div class="horizontal">  
                     <p th:text="${user.getUsername()}"></p>
-                    <img th:src="${user.getPfp()}" alt="pfp" class="pfp">                    
+                    <a th:href="@{'/user/' + ${user.getId()}}" style="margin:0"><img th:src="${user.getPfp()}" alt="pfp" class="pfp"></a>
                     <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
                 </div>
             </div>

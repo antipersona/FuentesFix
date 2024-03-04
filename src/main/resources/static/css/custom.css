@@ -310,21 +310,6 @@ button {
     border: 2px solid var(--color-on-error);
 }
 
-.btn-log {
-    margin: .3em;
-    background-color: var(--color-primary);
-    color: var(--color-primary-container);
-    border: 2px solid var(--color-primary-container);
-    border-radius: 2em;
-}
-
-.btn-log:hover {
-    background-color: var(--color-secondary);
-    color: var(--color-primary-container);
-    border: 2px solid var(--color-primary-container);
-    border-radius: 2em;
-}
-
 /* Estilos de input */
 .input-log {
     margin: 1em;
