@@ -6,6 +6,7 @@ import org.apache.tomcat.jni.File;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
@@ -17,11 +18,15 @@ import lombok.var;
 import java.util.*;
 
 import javax.persistence.criteria.Path;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -37,6 +42,9 @@ import org.json.JSONTokener;
  */
 @Controller
 public class RootController {
+
+    @Autowired 
+    private HttpSession session;
 
     Map<Long, Fuente> fuenteMap;
     List<Fuente> fuenteList;
@@ -64,16 +72,8 @@ public class RootController {
     @GetMapping("/")
     public String index(Model model) {
         System.out.println("index");
-        // fuentes = cargarFuentes();
-        try {
-            // //cargamos json
-            // ObjectMapper objectMapper = new ObjectMapper();
-            // pasar los datos al html
+        model.addAttribute("fuentes", fuenteList);
 
-            model.addAttribute("fuentes", fuenteList);
-        } catch (Exception e) {
-            // handle exception
-        }
         return "index";
     }
 
@@ -100,6 +100,14 @@ public class RootController {
         System.out.println("prueba_css");
         return "prueba_css";
     }
+
+    @ModelAttribute
+    private void isLogged(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean logged = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("logged", logged); 
+    }
+
 
     private Map<Long, Fuente> cargarFuentes(){
 
