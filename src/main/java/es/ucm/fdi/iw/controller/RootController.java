@@ -79,15 +79,14 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("/report")
-    public String report(Model model) {
-        System.out.println("report");
+    @GetMapping("/report/{id}")
+    public String report(Model model, @PathVariable long id) {
+        model.addAttribute("fuente", fuenteMap.get(id));
         return "report";
     }
 
     @GetMapping("/profile")
     public String profile(Model model) {
-        System.out.println("profile");
         return "profile";
     }
 

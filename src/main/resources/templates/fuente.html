@@ -97,7 +97,7 @@
                 </table>
 
                 <div class="horizontal"> 
-                    <button class="btn-cancel" style="height: 5em"> <h6> Reportar mal funcionamiento <h6> </button>
+                    <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
                 </div>
 
                 <div class="special-container" style="width: 100%;">
