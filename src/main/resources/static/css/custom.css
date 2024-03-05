@@ -58,10 +58,20 @@
     box-sizing: border-box;
 }
 
+header {
+    border-radius: 1em;
+    background-color: var(--color-surface-container);
+    color: var(--color-on-primary-container);
+    padding: 1em;
+    margin-bottom: 0;
+}
+
 body {
     background-color: var(--color-surface);
     color: var(--color-on-surface);
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 footer {
@@ -166,13 +176,6 @@ footer {
     float: right;
 }
 
-header {
-    border-radius: 1em;
-    background-color: var(--color-surface-container);
-    color: var(--color-on-primary-container);
-    padding: 1em;
-    margin-bottom: 1em;
-}
 
 footer {
     background-color: var(--color-surface-container-lowest);
