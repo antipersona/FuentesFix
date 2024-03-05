@@ -8,16 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.bd.Fuente;
 import es.ucm.fdi.iw.model.bd.Fuente.Estado;
 
-
 import java.util.*;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
-
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,11 +36,8 @@ import org.json.JSONTokener;
 @Controller
 public class RootController {
 
-    @Autowired 
-    private HttpSession session;
-
-    Map<Long, Fuente> fuenteMap;
-    List<Fuente> fuenteList;
+    @Autowired
+    private EntityManager entityManager;
 
     @ModelAttribute
     private void isLogged(Model model, HttpSession session) {
@@ -53,12 +51,6 @@ public class RootController {
     }
 
     private static final Logger log = LogManager.getLogger(RootController.class);
-
-    public RootController() {
-        fuenteMap = cargarFuentes();
-        fuenteList = new ArrayList<>(fuenteMap.values());
-    }
-
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -75,13 +67,15 @@ public class RootController {
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         System.out.println("index");
-        model.addAttribute("fuentes", fuenteList);
+        List<Fuente> lf = entityManager.createQuery("SELECT f FROM Fuente f").getResultList();
+        model.addAttribute("fuentes", lf);
+
         return "index";
     }
 
     @GetMapping("/report/{id}")
     public String report(Model model, @PathVariable long id) {
-        model.addAttribute("fuente", fuenteMap.get(id));
+        model.addAttribute("fuente", entityManager.find(Fuente.class, id));
         return "report";
     }
 
@@ -92,7 +86,7 @@ public class RootController {
 
     @GetMapping("/fuente/{id}")
     public String fuente(Model model, @PathVariable long id) {
-        model.addAttribute("fuente", fuenteMap.get(id));
+        model.addAttribute("fuente", entityManager.find(Fuente.class, id));
         return "fuente";
     }
 
@@ -102,13 +96,10 @@ public class RootController {
         return "prueba_css";
     }
 
-
-
-
-    private Map<Long, Fuente> cargarFuentes(){
-
-        Map<Long, Fuente> fuentes = new HashMap<>();
-
+    @GetMapping("/load")
+    @Transactional
+    @ResponseBody
+    public String load() {
         try {
             // Lee el archivo JSON
             FileReader fileReader = new FileReader("src/main/resources/static/jsons/response.json");
@@ -135,15 +126,9 @@ public class RootController {
                     String modelo = jsonObject.getString("MODELO");
                     String codigo_interno = jsonObject.getString("CODIGO_INTERNO");
 
-                    // Your code here
-
-                
-                
-                Fuente fuente = new Fuente(id, cod_barrio, barrio, distrito, Estado.valueOf(estado), gis_x, gis_y,latitud, longitud, direccion, direccion_aux, modelo, codigo_interno);
-                
-                System.out.println(fuente.getBarrio() + " " + fuente.getDistrito() + " " + fuente.getEstado() + " " + fuente.getDireccion() + " " + fuente.getDireccion_aux() + " " + fuente.getModelo() + " " + fuente.getCodigo_interno() + " " + fuente.getGis_x() + " " + fuente.getGis_y() + " " + fuente.getLatitud() + " " + fuente.getLongitud() + " " + fuente.getId());
-
-                fuentes.put(fuente.getId(), fuente);
+                    Fuente fuente = new Fuente(0, cod_barrio, barrio, distrito, Estado.valueOf(estado), gis_x, gis_y,
+                            latitud, longitud, direccion, direccion_aux, modelo, codigo_interno);
+                    entityManager.persist(fuente);
 
                 } catch (JSONException e) {
                     // Handle the exception
@@ -159,39 +144,6 @@ public class RootController {
             System.out.println("Error al cargar el archivo JSON");
             e.printStackTrace();
         }
-
-        return fuentes;
+        return "ok.";
     }
-    
-    private Map<Long, Fuente> crearFuentes() {
-    
-        Map<Long, Fuente> fuentes = new HashMap<>();
-        
-        Fuente fuente1 = new Fuente(3530621, 113, "SAN ISIDRO", "CARABANCHEL", Fuente.Estado.CERRADA_TEMPORALMENT,
-            438194030L, 4471508960L, 4039188807L, -372824197, "CALLE OROYA 3",
-            "C/V C/ ALGORTA, EN JARDIN PROXIMO A FAROLA 4", "MU-37A", "FUE_11_0128");
-        Fuente fuente2 = new Fuente(3531365, 87, "MIRASIERRA", "FUENCARRAL - EL PARDO",
-            Fuente.Estado.CERRADA_TEMPORALMENT, 438842224L, 4483134840L, 4049666643L, -372172440,
-            "CALLE MARIA DE MAEZTU 148", null, "EGEA", "FUE_08_0147");
-        Fuente fuente3 = new Fuente(3531367, 87, "MIRASIERRA", "FUENCARRAL - EL PARDO",
-            Fuente.Estado.CERRADA_TEMPORALMENT, 438722367L, 4482907290L, 4049460774L, -372311672,
-            "CALLE MARIA DE MAEZTU 120", "JUNTO A JUEGOS MAYORES", "EGEA", "FUE_08_0148");
-        Fuente fuente4 = new Fuente(3531372, 87, "MIRASIERRA", "FUENCARRAL - EL PARDO",
-            Fuente.Estado.CERRADA_TEMPORALMENT, 438584784L, 4482766800L, 40493332L, -372472655,
-            "CALLE SENDA DEL INFANTE 54", "C/V CALLE SENDA DEL INFANTE", "EGEA", "FUE_08_0149");
-        Fuente fuente5 = new Fuente(3531377, 84, "PILAR", "FUENCARRAL - EL PARDO", Fuente.Estado.CERRADA_TEMPORALMENT,
-            440043598, 448052480L, 4047324192L, -370730113, "AVENIDA EL FERROL 35", "CALLE RIBADAVIA 45", "MU-37A",
-            "FUE_08_0152");
-
-        fuentes.put(fuente1.getId(), fuente1);
-        fuentes.put(fuente2.getId(), fuente2);
-        fuentes.put(fuente3.getId(), fuente3);
-        fuentes.put(fuente4.getId(), fuente4);
-        fuentes.put(fuente5.getId(), fuente5);
-    
-        return fuentes;
-    }
-
-
-
 }

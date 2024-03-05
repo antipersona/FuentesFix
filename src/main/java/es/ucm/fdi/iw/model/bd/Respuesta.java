@@ -3,12 +3,14 @@ package es.ucm.fdi.iw.model.bd;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Respuesta")
 public class Respuesta {
     @Id
     private long id;
-    
+
     @ManyToOne
     private Valoracion valoracion;
 
