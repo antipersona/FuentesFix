@@ -17,27 +17,27 @@
                 <table class="table-val">
                     <tr>
                         <td> <b> Media: </b> </td>
-                        <td> 4.3/5 </td>
+                        <td th:text="${fuente.getMediaValoracionGeneral()}"/>                    
                     </tr>
                     <tr>
                         <td> <b> Caudal: </b> </td>
-                        <td> 3.5/5 </td>
+                        <td th:text="${fuente.getMediaValoracionCaudal()}"/>   
                     </tr>
                     <tr>
                         <td> <b> Sabor: </b> </td>
-                        <td> 4.5/5 </td>
+                        <td th:text="${fuente.getMediaValoracionSabor()}"/>   
                     </tr>
                     <tr>
                         <td> <b> Temperatura: </b> </td>
-                        <td> 4.5/5 </td>
+                        <td th:text="${fuente.getMediaValoracionTemperatura()}"/>   
                     </tr>
                     <tr>
                         <td> <b> Numero de valoraciones: </b> </td>
-                        <td> 23 </td>
+                        <td th:text="${fuente.getNumValoraciones()}"/>   
                     </tr>
                     <tr>
                         <td> <b> Numero de comentarios: </b> </td>
-                        <td> 12 </td>
+                        <td th:text="${fuente.getNumValoraciones()}"/>   
                     </tr>
                     
                 </table>

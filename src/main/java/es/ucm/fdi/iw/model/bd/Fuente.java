@@ -23,6 +23,10 @@ public class Fuente {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
     private long id;
+
+    @OneToMany
+    private List<Valoracion> valoraciones;
+
     private int cod_barrio;
     private String barrio;
     private String distrito;
@@ -43,15 +47,17 @@ public class Fuente {
 
     private String imagen = "/img/fuentes/default.jpeg";
 
-    private int mediaValoracion = 0;
-    private int numValoraciones = 0;
-    private int sumaValoraciones = 0;// encantamiento eficiencia 4 de calculo de medias
+    private float mediaValoracionGeneral = 0;
+    private float mediaValoracionCaudal = 0;
+    private float mediaValoracionSabor = 0;
+    private float mediaValoracionTemperatura = 0;
+    private double sumaValoracionesCaudal = 0; // encantamiento eficiencia 4 de calculo de medias
+    private double sumaValoracionesSabor = 0;
+    private double sumaValoracionesTemperatura = 0;
+    private double sumaValoracionesGeneral = 0;
     private int sabor = -1;
     private int temperatura = -1;
     private int olor = -1;
-
-    @OneToMany
-    private List<Valoracion> valoraciones;
 
     public Fuente(long id, int cod_barrio, String barrio, String distrito, Estado estado, double gis_x, double gis_y,
             double latitud,
@@ -77,13 +83,24 @@ public class Fuente {
 
     public void añadirValoracion(Valoracion v) {
         this.valoraciones.add(v);
-        actualizarMediaValoraciones(v.getPuntuacion());
+        actualizarMediaValoraciones(v);
     }
 
-    private void actualizarMediaValoraciones(int val) {
-        numValoraciones++;
-        sumaValoraciones += val;
-        mediaValoracion = sumaValoraciones / numValoraciones;
+    private void actualizarMediaValoraciones(Valoracion v) {
+        int numValoraciones = valoraciones.size();
+
+        // para que no se sumen ceros
+        sumaValoracionesCaudal += (v.getPuntuacionCaudal() == 0) ? mediaValoracionCaudal : v.getPuntuacionCaudal();
+        mediaValoracionCaudal = (float) sumaValoracionesCaudal / numValoraciones;
+
+        sumaValoracionesSabor += (v.getPuntuacionSabor() == 0) ? mediaValoracionSabor : v.getPuntuacionSabor();
+        mediaValoracionSabor = (float) sumaValoracionesSabor / numValoraciones;
+
+        sumaValoracionesTemperatura += (v.getPuntuacionTemperatura() == 0) ? mediaValoracionTemperatura : v.getPuntuacionTemperatura();
+        mediaValoracionTemperatura = (float) sumaValoracionesTemperatura / numValoraciones;
+
+        sumaValoracionesGeneral += (v.getPuntuacionGeneral() == 0) ? mediaValoracionGeneral : v.getPuntuacionGeneral();
+        mediaValoracionGeneral = (float) sumaValoracionesGeneral / numValoraciones;
     }
 
     public long getId() {
@@ -92,6 +109,14 @@ public class Fuente {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<Valoracion> getValoraciones() {
+        return valoraciones;
+    }
+
+    public void setValoraciones(List<Valoracion> valoraciones) {
+        this.valoraciones = valoraciones;
     }
 
     public int getCod_barrio() {
@@ -198,20 +223,24 @@ public class Fuente {
         this.imagen = imagen;
     }
 
-    public int getMediaValoracion() {
-        return mediaValoracion;
+    public float getMediaValoracionGeneral() {
+        return mediaValoracionGeneral;
     }
 
-    public void setMediaValoracion(int mediaValoracion) {
-        this.mediaValoracion = mediaValoracion;
+    public float getMediaValoracionCaudal() {
+        return mediaValoracionCaudal;
     }
 
+    public float getMediaValoracionSabor() {
+        return mediaValoracionSabor;
+    }
+
+    public float getMediaValoracionTemperatura() {
+        return mediaValoracionTemperatura;
+    }
+    
     public int getNumValoraciones() {
-        return numValoraciones;
-    }
-
-    public void setNumValoraciones(int numValoraciones) {
-        this.numValoraciones = numValoraciones;
+        return valoraciones.size();
     }
 
     public int getSabor() {
@@ -236,21 +265,5 @@ public class Fuente {
 
     public void setOlor(int olor) {
         this.olor = olor;
-    }
-
-    public int getSumaValoraciones() {
-        return sumaValoraciones;
-    }
-
-    public void setSumaValoraciones(int sumaValoraciones) {
-        this.sumaValoraciones = sumaValoraciones;
-    }
-
-    public List<Valoracion> getValoraciones() {
-        return valoraciones;
-    }
-
-    public void setValoraciones(List<Valoracion> valoraciones) {
-        this.valoraciones = valoraciones;
     }
 }
