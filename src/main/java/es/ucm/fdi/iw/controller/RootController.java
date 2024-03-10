@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.bd.Fuente;
+import es.ucm.fdi.iw.model.bd.Valoracion;
 import es.ucm.fdi.iw.model.bd.Fuente.Estado;
 
 import java.util.*;
@@ -65,7 +67,7 @@ public class RootController {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpSession session) {
+    public String index(Model model) {
         System.out.println("index");
         List<Fuente> lf = entityManager.createQuery("SELECT f FROM Fuente f").getResultList();
         model.addAttribute("fuentes", lf);
@@ -87,7 +89,29 @@ public class RootController {
     @GetMapping("/fuente/{id}")
     public String fuente(Model model, @PathVariable long id) {
         model.addAttribute("fuente", entityManager.find(Fuente.class, id));
+        model.addAttribute("valoracion", new Valoracion());
+
+        Fuente fuente = entityManager.find(Fuente.class, id);
+        List<Valoracion> valoraciones = fuente.getValoraciones();
+        model.addAttribute("valoraciones", valoraciones);
+
         return "fuente";
+    }
+
+    @Transactional
+    @PostMapping("/fuente/{id}")
+    public String fuentePost(Model model, @PathVariable long id, HttpSession session, Valoracion valoracion) {
+        Fuente fuente = entityManager.find(Fuente.class, id);
+        valoracion.setFuente(fuente);
+        User user = (User) session.getAttribute("u");
+        valoracion.setUsuario(user);
+        
+        Valoracion mergedValoracion = entityManager.merge(valoracion);
+        // user.añadirValoracion(mergedValoracion);
+        fuente.añadirValoracion(mergedValoracion);
+        
+        entityManager.persist(mergedValoracion);
+        return "redirect:/fuente/" + id;
     }
 
     @GetMapping("/prueba_css")
