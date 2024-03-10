@@ -237,4 +237,20 @@ public class Fuente {
     public void setOlor(int olor) {
         this.olor = olor;
     }
+
+    public int getSumaValoraciones() {
+        return sumaValoraciones;
+    }
+
+    public void setSumaValoraciones(int sumaValoraciones) {
+        this.sumaValoraciones = sumaValoraciones;
+    }
+
+    public List<Valoracion> getValoraciones() {
+        return valoraciones;
+    }
+
+    public void setValoraciones(List<Valoracion> valoraciones) {
+        this.valoraciones = valoraciones;
+    }
 }
