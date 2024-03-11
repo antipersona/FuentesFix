@@ -37,6 +37,17 @@ public class Valoracion {
         fecha = LocalDateTime.now();
     }
 
+    public Valoracion(Fuente fuente, User usuario, int puntuacionGeneral, int puntuacionCaudal, int puntuacionSabor, int puntuacionTemperatura, String comentario) {
+        this.fuente = fuente;
+        this.usuario = usuario;
+        this.puntuacionGeneral = puntuacionGeneral;
+        this.puntuacionCaudal = puntuacionCaudal;
+        this.puntuacionSabor = puntuacionSabor;
+        this.puntuacionTemperatura = puntuacionTemperatura;
+        this.comentario = comentario;
+        fecha = LocalDateTime.now();
+    }
+
     public int getPuntuacion(){
         return this.puntuacionGeneral;
     }
