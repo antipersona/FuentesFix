@@ -1,5 +1,7 @@
 package es.ucm.fdi.iw.model.bd;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,9 +30,11 @@ public class Valoracion {
     private int puntuacionTemperatura;
     private String comentario;
 
-    public Valoracion() {
-    }
+    LocalDateTime fecha;
 
+    public Valoracion() {
+        fecha = LocalDateTime.now();
+    }
 
     public int getPuntuacion(){
         return this.puntuacionGeneral;
@@ -47,8 +51,6 @@ public class Valoracion {
     public long getId() {
         return id;
     }
-
-
 
     public void setId(long id) {
         this.id = id;
@@ -124,5 +126,13 @@ public class Valoracion {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }   
 }

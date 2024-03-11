@@ -13,7 +13,7 @@
             <div class="vertical" style="width: 30%" align="top">
                 <img th:src="${fuente.getImagen()}" alt="Imagen" class="img-fuente">
                 <div class="special-container-2" style="width: 100%;">
-                    <h6  self="left"> Valoraciones de los usuarios: </h6>
+                    <h6  self="left"> Así la han valorado: </h6>
                 <table class="table-val">
                     <tr>
                         <td> <b> Media: </b> </td>
@@ -100,13 +100,47 @@
                     <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
                 </div>
 
-                <div class="special-container" style="width: 100%;">
-                    <h5> Comentarios de los usuarios: </h5>
+                <div class="special-container-3" style="width: 100%;">
+                    <h5> Otros usuarios opinan... </h5>
+
+                    <div th:each="valoracion : ${valoraciones}" class="main-coment-container">
+                        <div class="coment-header-container">
+                            <div class="coment-user-container">
+                                <b> <p th:text="${valoracion.getUsuario().getUsername()}"> Usuario </p> </b>
+                            </div>
+                        
+                        <div class="horizontal-sm" style="margin=.2em">
+                            <p> <b> General: </b>&nbsp; </p>
+                            <p th:text="${valoracion.getPuntuacionGeneral()}"> Puntuación General </p>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            <p> <b> Caudal: </b>&nbsp; </p>
+                            <p th:text="${valoracion.getPuntuacionCaudal()}"> Puntuación Caudal </p>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            <p> <b> Sabor:</b>&nbsp; </p>
+                            <p th:text="${valoracion.getPuntuacionSabor()}"> Puntuación Sabor </p>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp; </p>
+                            <p> <b> Temp: </b>&nbsp; </p>
+                            <p th:text="${valoracion.getPuntuacionTemperatura()}"> Puntuación Temperatura </p>
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp; </p>
+                        </div>
+                        </div>
+                        <br>
+                        <p th:text="${valoracion.getComentario()}"> Comentario </p>
+                        <br>
+                        <p> <td th:text="${valoracion.getFecha()}"> Fecha </td> </p>
+
+                    </div>
+
 
                     <form  action="#" th:action="@{/fuente/{id}(id=${fuente.id})}" th:object="${valoracion}" method="post">
                         <label for="comentario"> <p> Escribe aquí tu opinion detallada: </p> </label>
                         <textarea id="comentario" name="comentario" rows="4" cols="50" th:field="*{comentario}"></textarea>
                         <div class="horizontal">
+                            <label for="puntuacionGeneral">General:</label>
+                            <select id="puntuacionGeneral" name="puntuacionGeneral" th:field="*{puntuacionGeneral}" required >
+                                <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
+                                <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
+                            </select>
                             <label for="puntuacionCaudal">Caudal:</label>
                             <select id="puntuacionCaudal" name="puntuacionCaudal" th:field="*{puntuacionCaudal}">
                                 <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
@@ -122,11 +156,6 @@
                             <label for="puntuacionTemperatura">Temperatura:</label>
                             <select id="puntuacionTemperatura" name="puntuacionTemperatura" th:field="*{puntuacionTemperatura}">
                                  <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
-                                <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
-                            </select>
-                            <label for="puntuacionGeneral">General:</label>
-                            <select id="puntuacionGeneral" name="puntuacionGeneral" th:field="*{puntuacionGeneral}" required >
-                                <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
                                 <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
                             </select>
                         </div>
