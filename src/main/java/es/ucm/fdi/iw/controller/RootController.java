@@ -104,6 +104,11 @@ public class RootController {
         Fuente fuente = entityManager.find(Fuente.class, id);
         valoracion.setFuente(fuente);
         User user = (User) session.getAttribute("u");
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         valoracion.setUsuario(user);
         
         Valoracion mergedValoracion = entityManager.merge(valoracion);

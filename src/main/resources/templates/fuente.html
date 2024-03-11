@@ -34,12 +34,7 @@
                     <tr>
                         <td> <b> Numero de valoraciones: </b> </td>
                         <td th:text="${fuente.getNumValoraciones()}"/>   
-                    </tr>
-                    <tr>
-                        <td> <b> Numero de comentarios: </b> </td>
-                        <td th:text="${fuente.getNumValoraciones()}"/>   
-                    </tr>
-                    
+                    </tr>                    
                 </table>
                 </div>
 
@@ -68,14 +63,6 @@
                     <tr>
                         <td> <b> Estado: </b> </td>
                         <td th:text="${fuente.getEstado()}"> Estado </td>
-                    </tr>
-                    <tr>
-                        <td> <b> GIS X: </b> </td>
-                        <td th:text="${fuente.getGis_x()}"> GIS X </td>
-                    </tr>
-                    <tr>
-                        <td> <b> GIS Y: </b> </td>
-                        <td th:text="${fuente.getGis_y()}"> GIS Y </td>
                     </tr>
                     <tr>
                         <td> <b> Latitud: </b> </td>
@@ -127,7 +114,7 @@
                         <br>
                         <p th:text="${valoracion.getComentario()}"> Comentario </p>
                         <br>
-                        <p> <td th:text="${valoracion.getFecha()}"> Fecha </td> </p>
+                        <td th:text="${valoracion.getFecha()}"> Fecha </td>
 
                     </div>
 

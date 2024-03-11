@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.model.bd;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -128,8 +129,10 @@ public class Valoracion {
         this.comentario = comentario;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
+    public String getFecha() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+        String str_fecha = fecha.format(formatter);
+        return str_fecha;
     }
 
     public void setFecha(LocalDateTime fecha) {
