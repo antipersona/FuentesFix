@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.bd.Fuente;
@@ -41,6 +43,11 @@ public class RootController {
     @Autowired
     private EntityManager entityManager;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+    private static final Logger log = LogManager.getLogger(RootController.class);
+
     @ModelAttribute
     private void isLogged(Model model, HttpSession session) {
         User user = (User) session.getAttribute("u");
@@ -52,8 +59,6 @@ public class RootController {
         }
     }
 
-    private static final Logger log = LogManager.getLogger(RootController.class);
-
     @GetMapping("/login")
     public String login(Model model) {
         System.out.println("login");
@@ -64,6 +69,38 @@ public class RootController {
     public String register(Model model) {
         System.out.println("register");
         return "register";
+    }
+
+    @GetMapping("/logout") //works like this but not with PostMapping why?
+    public String logout(Model model, HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @PostMapping("/register")
+    @Transactional
+    public String register(Model model, String mail, String name, String surname, String username, String password) {
+        System.out.println("register");
+
+        if (!entityManager.createNamedQuery("User.byUsername", User.class)
+                .setParameter("username", username)
+                .getResultList().isEmpty()) {
+            model.addAttribute("errors", "Nombre de usuario ya existe");
+            return "register";
+        }
+        // crear e insertar un nuevo usuario con datos del formulario
+        User newUser = new User();
+        newUser.setUsername(username); // all fct to get or set a attribut defined in User class are creating 
+        newUser.setFirstName(surname);//by lombok (@Data has to be noted at the begining of the class)
+        newUser.setLastName(name);
+        newUser.setEmail(mail); 
+        newUser.setPassword(passwordEncoder.encode(password)); // assuming you're using passwordEncoder for password hashing
+        newUser.setEnabled(true); // assuming newly registered users are enabled by default
+        newUser.setRoles("USER"); // assuming newly registered users have the "USER" role by default
+
+        entityManager.persist(newUser); // to add the new user in the database
+        
+        return "redirect:/";
     }
 
     @GetMapping("/")

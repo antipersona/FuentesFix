@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 /**
  * Security configuration.
  * 
@@ -59,6 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login")
 				.permitAll().successHandler(loginSuccessHandler); // <-- called when login Ok; can redirect
+			// 	.and()
+			// .formLogin()
+			// 	.loginPage("/register")
+			// 	.permitAll().successHandler(registerSuccessHandler);
 	}
 	
 	/**
@@ -97,4 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 
 	 @Autowired
 	 private LoginSuccessHandler loginSuccessHandler;
+
+	//  @Autowired
+	//  private RegisterSuccessHandler registerSuccessHandler;
 }
