@@ -14,9 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.bd.Reporte;
 import es.ucm.fdi.iw.model.bd.Fuente;
 import es.ucm.fdi.iw.model.bd.Valoracion;
 import es.ucm.fdi.iw.model.bd.Fuente.Estado;
+import es.ucm.fdi.iw.model.bd.Reporte.EstadoReport;
 
 import java.util.*;
 
@@ -46,7 +48,7 @@ public class RootController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-    private static final Logger log = LogManager.getLogger(RootController.class);
+    
 
     @ModelAttribute
     private void isLogged(Model model, HttpSession session) {
@@ -58,6 +60,8 @@ public class RootController {
             model.addAttribute("logged", false);
         }
     }
+
+    private static final Logger log = LogManager.getLogger(RootController.class);
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -93,7 +97,7 @@ public class RootController {
         newUser.setUsername(username); // all fct to get or set a attribut defined in User class are creating 
         newUser.setFirstName(surname);//by lombok (@Data has to be noted at the begining of the class)
         newUser.setLastName(name);
-        newUser.setEmail(mail); 
+        //newUser.setEmail(mail); 
         newUser.setPassword(passwordEncoder.encode(password)); // assuming you're using passwordEncoder for password hashing
         newUser.setEnabled(true); // assuming newly registered users are enabled by default
         newUser.setRoles("USER"); // assuming newly registered users have the "USER" role by default
@@ -116,6 +120,26 @@ public class RootController {
     public String report(Model model, @PathVariable long id) {
         model.addAttribute("fuente", entityManager.find(Fuente.class, id));
         return "report";
+    }
+
+
+//do not work idk where or what is the error
+    @PostMapping("/report/{id}")
+    @Transactional
+    public String report(Model model, @PathVariable long id, HttpSession session, String comentario, String tipo) {
+        Reporte newReport = new Reporte();
+        User user = (User) session.getAttribute("u");
+        long userID = user.getId();
+
+        //maybe the type doesn't feat with the one declare in the sql database
+        newReport.setFuente_id(id); // idk just fuenteID or full fuente object 
+        newReport.setEstado(EstadoReport.PENDIENTE);
+        newReport.setUsuario_id(userID);//userID
+        newReport.setTipo(tipo);
+        newReport.setComentario(comentario); 
+         
+        entityManager.persist(newReport); // to add the new Report in the database
+        return "redirect:/fuente/{id}";
     }
 
     @GetMapping("/profile")

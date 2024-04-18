@@ -11,23 +11,25 @@
     <h3><a href="https://maps.app.goo.gl/nG3TpWnSfNCoKdM46"> C/Prof. José García Santesmanses 9</a></h3>
     
     <form action="/report" method="post">
-       </form>     <label for="problem">*Indique el problema que se ha encontrado:</label>
-            <select id="problem" name="problem" required>
-                <option value="" disabled selected>Seleccione una opción</option>
-                <option value="Problema 1">Fuente no funciona</option>
-                <option value="Problema 2">Fuente defectuosa</option>
-                <option value="Problema 3">Mala calidad de agua</option>
-                <option value="Otro">Otro</option>
+        <label for="tipo">*Indique el problema que se ha encontrado:</label>
+        <select id="tipo" name="tipo" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="Baja presion">Baja presion</option>
+            <option value="Olor">Olor</option>
+            <option value="Sabor">Sabor</option>
+            <option value="Suciedad">Suciedad</option>
+            <option value="Color">Color</option>
+            <option value="Fuga">Fuga</option>
+            <option value="Otro">Otro</option>
         </select>
+        <br>
+        <input type="text" id="comentario" name="comentario" placeholder="Explique aquí el problema">
+        <br>
+        <br>
+        <button type="submit">Enviar</button>
+        <label> *Campos obligatorios </label>
     </form>
-    <br>
-    <input type="text" id="textbox" name="textbox" placeholder="Explique aquí el problema">
-    <br>
-    <br>
-    <button onclick="location.href='/report'">Enviar</button>
-    <br>
-    <br>
-    <label> *Campos obligatorios </label>
+    
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 </html>

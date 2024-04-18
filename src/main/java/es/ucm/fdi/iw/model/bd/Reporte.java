@@ -1,55 +1,63 @@
 package es.ucm.fdi.iw.model.bd;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import es.ucm.fdi.iw.model.User;
+
+
 
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "Reporte")
 public class Reporte {
 
-    public enum Tipo {
-        BAJA_PRESIÓN,
-        FUGA,
-        OLOR,
-        COLOR,
-        SABOR,
-        SUCIEDAD,
-        OTRO,
+    // public enum Tipo {
+    //     BAJA_PRESIÓN,
+    //     FUGA,
+    //     OLOR,
+    //     COLOR,
+    //     SABOR,
+    //     SUCIEDAD,
+    //     OTRO,
 
-    }
+    // }
 
-    public enum Estado {
+    public enum EstadoReport {
         PENDIENTE,
         EN_PROCESO,
         SOLUCIONADO
     }
 
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
+    @SequenceGenerator(name = "gen", sequenceName = "gen")
+	private long id;
 
-    @ManyToOne // un reporte tiene una fuente, una fuente puede tener varios reportes
-    private Fuente fuente;
+    //@ManyToOne only if Fuente instead of long, un reporte tiene una fuente, una fuente puede tener varios reportes
+    private long fuente_id; 
 
-    @ManyToOne // un reporte tiene un usuario, un usuario puede tener varios reportes
-    private Usuario usuario;
+    //@ManyToOne o,ly if User instead of long, un reporte tiene un usuario, un usuario puede tener varios reportes
+    private long usuario_id; 
 
-    private Tipo tipo;
+    private String tipo;
     private String comentario;
     // a lo mejor un archivo adjunto
 
     // parte del funcionario
-    private Estado estado;
+    @Enumerated(EnumType.ORDINAL)
+    private EstadoReport estado;
+    
     private String comentario_reporte;
     private int prioridad;
-
-    public Reporte(long id, Fuente fuente, Usuario usuario, Tipo tipo, String comentario) {
-        this.id = id;
-        this.fuente = fuente;
-        this.usuario = usuario;
-        this.tipo = tipo;
-        this.comentario = comentario;
-    }
 
 }
