@@ -10,7 +10,7 @@
     
     <h3><a href="https://maps.app.goo.gl/nG3TpWnSfNCoKdM46"> C/Prof. José García Santesmanses 9</a></h3>
     
-    <form action="/report" method="post">
+    <form method="post" th:action="@{/report/{id}(id=${fuente.id})}">
         <label for="tipo">*Indique el problema que se ha encontrado:</label>
         <select id="tipo" name="tipo" required>
             <option value="" disabled selected>Seleccione una opción</option>

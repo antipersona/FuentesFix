@@ -137,6 +137,7 @@ public class RootController {
         newReport.setUsuario_id(userID);//userID
         newReport.setTipo(tipo);
         newReport.setComentario(comentario); 
+        
          
         entityManager.persist(newReport); // to add the new Report in the database
         return "redirect:/fuente/{id}";
