@@ -43,10 +43,12 @@ CREATE MEMORY TABLE "PUBLIC"."IWUSER"(
     --"EMAIL" CHARACTER VARYING(255) NOT NULL--
 );            
 ALTER TABLE "PUBLIC"."IWUSER" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_8" PRIMARY KEY("ID");       
--- 2 +/- SELECT COUNT(*) FROM PUBLIC.IWUSER;  
+-- 3 +/- SELECT COUNT(*) FROM PUBLIC.IWUSER;  
 INSERT INTO "PUBLIC"."IWUSER" VALUES
 (1, TRUE, NULL, NULL, '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', '/img/users/default.jpg', 'ADMIN,USER', 'a'), --'admina@ucm.es'--
 (2, TRUE, NULL, NULL, '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', '/img/users/default.jpg', 'USER', 'b');      --, 'userb@ucm.es'
+(3, TRUE, NULL, NULL, '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', '/img/users/default.jpg', 'FUNCIONARIO', 'c');      --, 'userb@ucm.es'
+
 
 CREATE MEMORY TABLE "PUBLIC"."MESSAGE"(
     "ID" BIGINT NOT NULL,

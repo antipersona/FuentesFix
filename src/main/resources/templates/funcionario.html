@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<title> Perfil </title>
+<head>
+  <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+  <th:block th:replace="fragments/head :: header" />
+</head>
+<body>
+    <h1> Bienvenido en la pagina de control de los funcionarios</h1>
+    <!--button to go to the map of fuentes (generate like the following code in other html file) 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <div id="map"></div>
+        <script src="js/mapa-fuentes.js">
+        </script>
+    -->
+    <!-- button to go to the general chat for Funcionarios: chat.html-->
+    <!-- button to see his personal repairs/works to do-->
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
