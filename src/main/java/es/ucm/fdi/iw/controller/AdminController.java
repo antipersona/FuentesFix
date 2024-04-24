@@ -1,14 +1,19 @@
 package es.ucm.fdi.iw.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import es.ucm.fdi.iw.model.User;
 
@@ -34,8 +39,13 @@ public class AdminController {
 
 	private static final Logger log = LogManager.getLogger(AdminController.class);
 
-	@GetMapping("/")
-    public String index(Model model) {
+    @Autowired
+	private EntityManager entityManager;
+
+	@GetMapping("{id}")
+    public String index(@PathVariable long id, Model model, HttpSession session) {
+        User target = entityManager.find(User.class, id);
+        model.addAttribute("user", target);
         return "admin";
     }
 }
