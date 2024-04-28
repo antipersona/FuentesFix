@@ -1,34 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""
-    />
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin="">
-    </script>
+<html xmlns:th="http://thymeleaf.org">
 
-    <title> FuentesFix </title>
+<head>
+
+    <title> Lista fuentes </title>
     <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
     <th:block th:replace="fragments/head :: header" />
 </head>
-
 <body>
-
     <script>
         var fuentes = /*[[${fuentes}]]*/ [];
+        var reportes = /*[[$reportes]]*/ [];
     </script>
-
+    
     <div class="main-container">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <div id="map"></div>
-        <script src="js/mapa-fuentes.js">
-        </script>
-        <br>
-        <br>
         <table>
             <tr>
                 <th>Barrio</th>
@@ -37,7 +22,21 @@
                 <th>Direccion Aux</th>
                 <th>Ir</th>
             </tr>
-            <tr th:each="fuente : ${fuentes}" th:limit="10">   
+            <th:block th:with="sortedList = ${[]}"></th:block>
+            <tr th:each="fontain : ${fuentes}" th:limit="10">
+                <th:block th:if="${reportes.?[FUENTE_ID == fontain.id].size() > 0}"></th:block>
+                    <!-- Add the element to the conditionalElements list -->
+                    <th:block th:text="${sortedList.add(fontain)}"></th:block>
+                </th:block>
+            </tr>
+            <tr th:each="fontain : ${fuentes}" th:limit="10">
+                <!-- Check if the fuente ID does not exist in the list of reporte -->
+                <th:block th:unless="${reportes.?[FUENTE_ID == fontain.id].size() > 0}">
+                    <!-- Display the fuente -->
+                    <th:block th:text="${sortedList.add(fontain)}"></th:block>
+                </th:block>
+            </tr>
+            <tr th:each="fuente : ${sortedList}" th:limit="10"></tr>
                 <td th:text="${fuente.getBarrio()}"></td>
                 <td th:text="${fuente.getEstado()}"></td>              
                 <td th:text="${fuente.getDireccion()}"></td>
@@ -57,6 +56,4 @@
             </tr>
         </table>
     </div>
-    <th:block th:replace="fragments/footer.html :: footer" />
 </body>
-</html>

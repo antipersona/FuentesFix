@@ -196,13 +196,24 @@ function postImage(img, endpoint, name, filename) {
  */
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
-        let subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates"]
+        //let subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates"]
+        let subs = ["/topic/funcionario/chat"];
         ws.initialize(config.socketUrl, subs);
 
-        let p = document.querySelector("#nav-unread");
-        if (p) {
-            go(`${config.rootUrl}/user/unread`, "GET").then(d => p.textContent = d.unread);
-        }
+        ws.setOnMessageHandler(function(message) {
+            // Parse JSON message
+            let msg = JSON.parse(message.text);
+            // Render the message
+            let renderedMsg = renderMsg(msg);
+            // Append rendered message to messageDiv
+            insertMessage(renderedMsg);
+            //messageDiv.insertAdjacentHTML("beforeend", renderedMsg);
+        });
+
+        // let p = document.querySelector("#chat-page");
+        // if (p) {
+        //     go(`${config.rootUrl}/chat`, "GET").then(d => p.textContent = d.unread);
+        // }
     } else {
         console.log("Not opening websocket: missing config", config)
     }
@@ -210,4 +221,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // add your after-page-loaded JS code here; or even better, call 
     // 	 document.addEventListener("DOMContentLoaded", () => { /* your-code-here */ });
     //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
+
+    let sendButton = document.getElementById("sendmsg");
+    sendButton.onclick = (e) => {
+        e.preventDefault();
+        let messageInput = document.getElementById("message");
+        let message = messageInput.value.trim();
+        sendMessage(message);
+        messageInput.value = "";
+    }
+
 });
+
+
+
+// cómo pintar 1 mensaje (devuelve html que se puede insertar en un div)
+function renderMsg(msg) {
+    console.log("rendering: ", msg);
+    return `<li>${msg.sender} @${msg.datesent}: ${msg.text}</li>`;
+}
+
+function insertMessage(message) {
+    const messageArea = document.getElementById("messageArea");
+    const renderedMessage = renderMsg(message);
+    messageArea.insertAdjacentHTML("beforeend", renderedMessage);
+}
+
+// Function to send message via WebSocket
+function sendMessage(message) {
+    ws.send("/app/chat", { text: message });
+}

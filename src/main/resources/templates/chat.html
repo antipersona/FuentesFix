@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <!-- should i put the page 35 of websocket lesson? -->
+    <title> chat funcionarios </title>
+    <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+    <!-- <script src="js/chat.js" defer></script> -->
+    <th:block th:replace="fragments/head :: header" />
+    
+</head>
+<body>
+
+    <div class="main-container">
+        <div id="chat-page">
+            <h1> Chat General</h1>
+        <ul id="messageArea">
+            <!-- will be fullfy by the javascript code -->
+        </ul>
+        <form method="post" th:action="@{/chat}">
+            <input type="text" id="message"  placeholder="..." required>
+            <button id="sendmsg" type="submit">\u2705</button>
+        </form>
+        </div>
+    </div>
+
+
+    <script src="js/stomp.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>

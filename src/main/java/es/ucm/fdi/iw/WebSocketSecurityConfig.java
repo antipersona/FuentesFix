@@ -18,8 +18,15 @@ public class WebSocketSecurityConfig
 	
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
-            .simpSubscribeDestMatchers("/topic/admin")	// only admins can subscribe
-            	.hasRole(User.Role.ADMIN.toString())
+            .simpSubscribeDestMatchers("/topic/funcionario")// only funcionarios can subscribe
+            	.hasRole( User.Role.FUNCIONARIO.toString())//User.Role.ADMIN.toString(),
             .anyMessage().authenticated(); 				// must log in to use websockets
     }
+
+    // protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
+    //     messages
+    //         .simpSubscribeDestMatchers("/topic/admin")// only admins  can subscribe
+    //         	.hasRole(User.Role.ADMIN.toString())
+    //         .anyMessage().authenticated(); 				// must log in to use websockets
+    // }
 }

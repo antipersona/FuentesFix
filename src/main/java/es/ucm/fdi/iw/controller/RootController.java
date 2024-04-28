@@ -116,6 +116,12 @@ public class RootController {
         return "index";
     }
 
+    @GetMapping("/myRepairs")
+    public String showMyRepairsPage() {
+        // Logic to show the my repairs page
+        return "myRepairs"; // Assuming "repairs" is the name of your Thymeleaf template
+    }
+
     @GetMapping("/report/{id}")
     public String report(Model model, @PathVariable long id) {
         model.addAttribute("fuente", entityManager.find(Fuente.class, id));
@@ -180,6 +186,15 @@ public class RootController {
         entityManager.persist(mergedValoracion);
         return "redirect:/fuente/" + id;
     }
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/prueba_css")
     public String prueba_css(Model model) {
