@@ -17,10 +17,12 @@
                 <button class="btn-log" onclick="location.href='/register'">Registrarse</button>
             </div>
             <div class="login-container" th:if="${logged}">
-                <div class="horizontal">  
-                    <p th:text="${user.getUsername()}"></p>
-                    <a th:href="@{'/user/' + ${user.getId()}}" style="margin:0"><img th:src="${user.getPfp()}" alt="pfp" class="pfp"></a>
-                    <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
+                <div class="horizontal" th:with="roles=${user.getRoles()}">  
+                    <th:block th:with="role=${#strings.toLowerCase(roles)}">
+                        <p th:text="${user.getUsername()}"></p>
+                        <a th:href="@{'/' + ${role} + '/' + ${user.getId()}}" style="margin:0"><img th:src="${user.getPfp()}" alt="pfp" class="pfp"></a>
+                        <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
+                    </th:block>
                 </div>
             </div>
         </div>
