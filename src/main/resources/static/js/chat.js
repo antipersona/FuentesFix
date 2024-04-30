@@ -77,8 +77,11 @@ const ws = {
 
 document.addEventListener("DOMContentLoaded", function() {
     const messageArea = document.getElementById("messageArea");
-    const messageForm = document.getElementById("messageForm");
+    const messageForm = document.getElementById("sendmsg");
     const messageInput = document.getElementById("message");
+
+    // Fetch messages when page loads
+    fetchMessages();
 
     // Function to fetch messages from server
     function fetchMessages() {
@@ -110,9 +113,6 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(fetchMessages)
         .catch(error => console.error("Error sending message:", error));
     }
-
-    // Fetch messages when page loads
-    fetchMessages();
 
     // Add submit event listener to messageForm
     messageForm.addEventListener("submit", function(event) {

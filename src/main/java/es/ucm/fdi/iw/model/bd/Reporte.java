@@ -57,7 +57,8 @@ public class Reporte {
     @Enumerated(EnumType.ORDINAL)
     private EstadoReport estado;
     
-    private String comentario_reporte;
-    private int prioridad;
+    private long func_id;
+    //private String comentario_reporte;
+    //private int prioridad;
 
 }

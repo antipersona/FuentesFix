@@ -9,8 +9,34 @@
     
 </head>
 <body>
+    <script>
+        var reportes = /*[[${reportes}]]*/ [];
+    </script>
     <div class="main-container">
         <h1> tus reparaciones : </h1>
+        <table>
+            <tr>
+                <th>Usuario</th>
+                <th>Comentario</th>
+                <th>Estado</th>
+                <th>Fuente</th>
+                <th>Arreglado</th>
+            </tr>
+            <tr th:each="report : ${reportes}" th:limit="10">
+                <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
+                <td>
+                    <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getUsuario_id()}|" th:text="${report.getUsuario_id()}"></button>
+                </td>
+                <td th:text="${report.getComentario()}"></td>              
+                <td th:text="${report.getEstado()}"></td>
+                <td>
+                    <button class="btn-def" th:onclick="|location.href='/fuente/' + ${report.getFuente_id()}|" th:text="${report.getFuente_id()}"></button>
+                </td> 
+                <td>
+                    <button class="btn-def" th:onclick="|location.href='/myRepairs/' + ${report.getId()}|" >\U2075</button>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

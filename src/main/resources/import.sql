@@ -11,6 +11,9 @@ VALUES (3, TRUE, 'FUNCIONARIO', 'c',
 INSERT INTO Message (id, date_sent, text, sender_id) 
 Values (10, '2024-04-25 09:45:25', 'hello world', 3);
 
+INSERT INTO REPORTE (id, comentario, estado, tipo, fuente_id, usuario_id, func_id)
+Values (1, 'blabla bla', 0, 'OLOR', 4477, 2, 3);
+
 INSERT INTO "PUBLIC"."FUENTE" VALUES
 (4047, 'CASA DE CAMPO', 91, 'FUE_09_0119', 'RIBERA DEL MANZANARES 123', 'FUENTE DE LA COLONIA MANZANARES  (FUENTE DE LA TEJA Y EL SOPAPO)', 'MONCLOA - ARAVACA', 0, 437855.772, 4475632.61, '/img/fuentes/default.jpeg', 40.4290105, -3.73263, 0.0, 4.0, 1.0, 0.0, 'PATRIMONIO_HISTORICO', -1, -1, 0.0, 8.0, 2.0, 0.0, -1),
 (4048, 'VALDEFUENTES', 166, 'FUE_16_0152', 'JULIO CANO LASSO 47', 'CONECTOR JORDI SOLE TURA', 'HORTALEZA', 0, 448695.16, 4482723.21, '/img/fuentes/default.jpeg', 40.49362587, -3.60542308, 0.0, 0.0, 0.0, 0.0, 'MU-37A', -1, -1, 0.0, 0.0, 0.0, 0.0, -1),

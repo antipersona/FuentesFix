@@ -8,11 +8,8 @@
     <th:block th:replace="fragments/head :: header" />
 </head>
 <body>
-    <script>
-        var fuentes = /*[[${fuentes}]]*/ [];
-        var reportes = /*[[$reportes]]*/ [];
-    </script>
-    
+    <!-- not working but can be set easily with the controller -->
+
     <div class="main-container">
         <table>
             <tr>
@@ -22,21 +19,29 @@
                 <th>Direccion Aux</th>
                 <th>Ir</th>
             </tr>
-            <th:block th:with="sortedList = ${[]}"></th:block>
             <tr th:each="fontain : ${fuentes}" th:limit="10">
-                <th:block th:if="${reportes.?[FUENTE_ID == fontain.id].size() > 0}"></th:block>
-                    <!-- Add the element to the conditionalElements list -->
-                    <th:block th:text="${sortedList.add(fontain)}"></th:block>
+                <th:block th:remove="tag">
+                    <tr th:each="reporte : ${reportes}" th:limit="10">
+                        <!--Do not enter in the if, neither in the unless. Condition probably not properly coded-->
+                        <th:block th:if="${fontain.id == reporte.FUENTE_ID}">
+                            <!-- Add the element to the conditionalElements list, but print true -->
+                            <th:block th:remove="tag" th:text="${sortedList.add(fontain)}"></th:block>
+                        </th:block>
+                    </tr>
                 </th:block>
             </tr>
             <tr th:each="fontain : ${fuentes}" th:limit="10">
-                <!-- Check if the fuente ID does not exist in the list of reporte -->
-                <th:block th:unless="${reportes.?[FUENTE_ID == fontain.id].size() > 0}">
-                    <!-- Display the fuente -->
-                    <th:block th:text="${sortedList.add(fontain)}"></th:block>
+                <th:block th:remove="tag">
+                    <tr th:each="reporte : ${reportes}" th:limit="10">
+                        <!-- Check if the fuente ID does not exist in the list of reporte -->
+                        <th:block th:unless="${fontain.id == reporte.FUENTE_ID}"><!--"${fontain.id == reporte.FUENTE_ID}"-->
+                            <!-- Display the fuente -->
+                            <th:block th:remove="tag" th:text="${sortedList.add(fontain)}"></th:block>
+                        </th:block>
+                    </tr>
                 </th:block>
             </tr>
-            <tr th:each="fuente : ${sortedList}" th:limit="10"></tr>
+            <tr th:each="fuente : ${sortedList}" th:limit="10">
                 <td th:text="${fuente.getBarrio()}"></td>
                 <td th:text="${fuente.getEstado()}"></td>              
                 <td th:text="${fuente.getDireccion()}"></td>
@@ -56,4 +61,9 @@
             </tr>
         </table>
     </div>
+    <script>
+        var sortedList = /*[[${sortedList}]]*/ [];
+        var reportes = /*[[${reportes}]]*/ [];
+        var fuentes = /*[[${fuentes}]]*/ [];    
+    </script>
 </body>

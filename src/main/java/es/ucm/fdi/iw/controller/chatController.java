@@ -30,8 +30,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
+import java.util.stream.*;
 
-@Controller
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+
+
+@Controller 
 public class chatController{
 
     @Autowired
@@ -50,45 +58,32 @@ public class chatController{
             model.addAttribute("logged", false);
         }
     }
-    
-    /**
-     * Returns JSON with all received messages
-     */
-    // @GetMapping(path = "received", produces = "application/json")//change the path to chat, maybe change the get to @messsageMapping
-	// @Transactional // para no recibir resultados inconsistentes
-	// @ResponseBody  // para indicar que no devuelve vista, sino un objeto (jsonizado)
-	// public List<Message.Transfer> retrieveMessages(HttpSession session) {
-	// 	long userId = ((User)session.getAttribute("u")).getId();		
-	// 	User u = entityManager.find(User.class, userId);
-	// 	log.info("Generating message list for user {} ({} messages)", 
-	// 			u.getUsername(), u.getReceived().size());
-	// 	return  u.getReceived().stream().map(Transferable::toTransfer).collect(Collectors.toList());
-	// }	
-    
 
-    // /**
-    //  * Returns JSON with count of unread messages 
-    //  */
-	// @GetMapping(path = "unread", produces = "application/json")
-	// @ResponseBody
-	// public String checkUnread(HttpSession session) {
-	// 	long userId = ((User)session.getAttribute("u")).getId();		
-	// 	long unread = entityManager.createNamedQuery("Message.countUnread", Long.class)
-	// 		.setParameter("userId", userId)
-	// 		.getSingleResult();
-	// 	session.setAttribute("unread", unread);
-	// 	return "{\"unread\": " + unread + "}";
-    // }
-
-
-    @GetMapping(path = "/chat", produces = "application/json")
-	@ResponseBody
-	public List<Message.Transfer> printAllMessages(HttpSession session) {
+    @GetMapping(path = "/chat")
+	public String printAllMessages( Model model, HttpSession session) {
 		System.out.println("chat page");
         List<Message> allMessages = entityManager.createQuery(
             "SELECT m FROM Message m ORDER BY m.dateSent DESC", Message.class)
             .getResultList();
+		
+		List<Message.Transfer> transferMessages = allMessages.stream()
+             .map(Transferable::toTransfer)
+             .collect(Collectors.toList());
+		model.addAttribute("messages", transferMessages);
 
+		return  "chat";//allMessages.stream().map(Transferable::toTransfer).collect(Collectors.toList());
+    }
+    
+
+//@ModelAttribute
+//@Transactional
+    @GetMapping(path = "/getmsg")//, produces = "application/json")
+	@ResponseBody
+	public List<Message.Transfer> printAllMessages( HttpSession session) {//ResponseEntity<String>
+		System.out.println("chat page");
+        List<Message> allMessages = entityManager.createQuery(
+            "SELECT m FROM Message m ORDER BY m.dateSent DESC", Message.class)
+            .getResultList();
 		return  allMessages.stream().map(Transferable::toTransfer).collect(Collectors.toList());
     }
     
@@ -98,37 +93,35 @@ public class chatController{
      * @param o JSON-ized message, similar to {"message": "text goes here"}
      * @throws JsonProcessingException
      */
-    // @PostMapping("/chat")//before : /{id}/msg
-	// @ResponseBody
-	// @Transactional   //before : @PathVariable long id,
-	// public String postMsg( @RequestBody JsonNode o, Model model, HttpSession session) 
-	// 	throws JsonProcessingException {
-		
-	// 	String text = o.get("message").asText();
-    //     long userId = ((User) session.getAttribute("u")).getId();
-    //     User sender = entityManager.find(User.class, userId);
-		
-		
-	// 	model.addAttribute("user", sender);
-		
-	// 	// construye mensaje, lo guarda en BD
-	// 	Message m = new Message();
-	// 	//m.setRecipient(u);
-	// 	m.setSender(sender);
-	// 	m.setDateSent(LocalDateTime.now());
-	// 	m.setText(text);
-	// 	entityManager.persist(m);
-	// 	entityManager.flush(); // to get Id before commit
-		
-	// 	ObjectMapper mapper = new ObjectMapper();
-		
-	// 	// persiste objeto a json usando Jackson
-	// 	String json = mapper.writeValueAsString(m.toTransfer());
 
-	// 	//log.info("Sending a message to {} with contents '{}'", userId, json);
+	//does not work, wrong type of data received (at least :(
+    @PostMapping(path = "/chat", produces = "application/json")//before : /{id}/msg
+	@ResponseBody
+	@Transactional   //before : @PathVariable long id,
+	public Message.Transfer postMsg( @RequestBody JsonNode o, Model model, HttpSession session) 
+		throws JsonProcessingException {
+		
+		String text = o.get("message").asText();
+        User sender = (User) session.getAttribute("u");
+		
+		// construye mensaje, lo guarda en BD
+		Message m = new Message();
+		//m.setRecipient(u);
+		m.setSender(sender);
+		m.setDateSent(LocalDateTime.now());
+		m.setText(text);
+		entityManager.persist(m);
+		entityManager.flush(); // to get Id before commit
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		// persiste objeto a json usando Jackson
+		String json = mapper.writeValueAsString(m.toTransfer());
 
-    //     messagingTemplate.convertAndSend("/topic/chat", json);
-	// 	//messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
-	// 	return "{\"result\": \"message sent.\"}";
-	// }
+		//log.info("Sending a message to {} with contents '{}'", userId, json);
+
+        messagingTemplate.convertAndSend("/topic/chat", json);
+		//messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
+		return m.toTransfer();//"{\"result\": \"message sent.\"}";
+	}
 }

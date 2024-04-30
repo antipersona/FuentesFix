@@ -117,9 +117,54 @@ public class RootController {
     }
 
     @GetMapping("/myRepairs")
-    public String showMyRepairsPage() {
-        // Logic to show the my repairs page
+    public String showMyRepairsPage(Model model, HttpSession session) {
+        User u = (User) session.getAttribute("u");
+        long userID = u.getId();
+        List<Reporte> report = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
+        List<Reporte> myreports = new ArrayList<>();
+        for(Reporte r : report){
+            if(r.getFunc_id() == userID){
+                myreports.add(r);
+            }
+        }
+        model.addAttribute("reportes", myreports);
+
         return "myRepairs"; // Assuming "repairs" is the name of your Thymeleaf template
+    }
+    @GetMapping("/myRepairs/{id}")
+    @Transactional
+    public String showMyRepairsPage(@PathVariable long id, Model model, HttpSession session){
+
+        User u = (User) session.getAttribute("u");
+        long userID = u.getId();
+
+        entityManager.createQuery("DELETE FROM Reporte r WHERE r.id = :id")
+                 .setParameter("id", id)
+                 .executeUpdate();
+
+        List<Reporte> report = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
+        List<Reporte> myreports = new ArrayList<>();
+        for(Reporte r : report){
+            if(r.getFunc_id() == userID){
+                myreports.add(r);
+            }
+        }
+        model.addAttribute("reportes", myreports);
+        return "myRepairs";
+    }
+    
+
+    @GetMapping("/listFuente")
+    public String showFuentes(Model model) {
+        System.out.println("listFuente");
+        List<Fuente> lf = entityManager.createQuery("SELECT f FROM Fuente f").getResultList();
+        List<Reporte> rp = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
+        List<Fuente> sortedList = new ArrayList<>();
+        model.addAttribute("sortedList", sortedList);
+        model.addAttribute("reportes", rp);
+        model.addAttribute("fuentes", lf);
+
+        return "listFuente";
     }
 
     @GetMapping("/report/{id}")
@@ -128,8 +173,31 @@ public class RootController {
         return "report";
     }
 
+    @PostMapping("/user/{id}")
+    @Transactional
+    public String setName(/*HttpServletResponse response,*/
+            String newname, @PathVariable long id, 
+			Model model, HttpSession session){
+
+                User user = (User) session.getAttribute("u");
+                user.setUsername(newname);
+                
+                entityManager.createQuery("UPDATE FROM IWUSER u SET u.username = :newname WHERE u.id = :id")
+                        .setParameter("newname", newname)
+                        .setParameter("id", id)
+                        .executeUpdate();;
+                
+                
+                model.addAttribute("user", user);
+                session.setAttribute("u", user);
+
+                return "redirect:/user/" + id;
+
+            }
+
 
 //do not work idk where or what is the error
+//i probably correct it, i don't remember what was the previous comment for 
     @PostMapping("/report/{id}")
     @Transactional
     public String report(Model model, @PathVariable long id, HttpSession session, String comentario, String tipo) {

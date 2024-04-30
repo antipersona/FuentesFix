@@ -6,12 +6,28 @@
   <th:block th:replace="fragments/head :: header" />
 </head>
 <body>
-    <h1>elFuentes38</h1>
-    <img height="200px" width="200px" th:src="@{/img/users/default.jpg}" alt="Imagen" class="img-medallaPlata">
-      <p>Soy un aficionado a las fuentes públicas de Madrid
-        <br>Me encanta descubrir nuevas fuentes y reportar problemas
-        <br>¡Ayúdame a mejorar la calidad de las fuentes de Madrid!
-      </p>
+    <h1 th:text="${user.getUsername()}"></h1>
+    <form id="avatarForm" th:action="@{'/user/' + ${user.getId()} + '/pic'}" enctype="multipart/form-data" method="post">
+      <input type="file" id="f_avatar" accept="image/jpeg,image/png" style="display: none;">
+      <label for="f_avatar">
+        <img class="preview" id="avatar" alt="careto a subir" th:src="${user.getPfp()}" style="cursor: pointer;"/>
+      </label>
+    </form>
+    <p>click en tu foto de perfil para cambiar la</p>
+    
+    <!-- i think it doesn't keep the change in the database-->
+    <br>
+    <p>Soy un aficionado a las fuentes públicas de Madrid
+      <br>Me encanta descubrir nuevas fuentes y reportar problemas
+      <br>¡Ayúdame a mejorar la calidad de las fuentes de Madrid!
+    </p>
+    <br>
+    <!-- change the username doesn't work, i have to do again the controller -->
+    <form id="changeNameForm" method="post" th:action="@{'/user/'+ ${user.getId()}}">
+      <label for="newName">*escribe tu nuevo nombre de usuario</label>
+      <input type="text" id="newName" name="newName" required>
+      <button type="submit">Enviar</button>
+    </form>
     <br>
     <h3>Medallas</h3>
     <img height="141px" width="90px" th:src="@{/img/medals/goldMedal.png}" alt="Imagen" class="img-medallaOro">
@@ -20,4 +36,5 @@
     <img height="166px" width="87px" th:src="@{/img/medals/silverMedal.png}" alt="Imagen" class="img-medallaPlata">
     <p>Fuente de Lavapiés</p>
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/perfil.js}"></script>
 </body>

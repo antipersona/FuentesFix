@@ -53,6 +53,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<!-- <version>1.18.32</version> to submit on the virtual machine -->
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -74,6 +75,12 @@
 			<artifactId>json</artifactId>
 			<version>20240205</version>
 		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-json</artifactId>
+		</dependency> -->
+
+
 
 		<!-- pruebas con Karate https://github.com/karatelabs/karate -->
 		<dependency>

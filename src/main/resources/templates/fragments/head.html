@@ -6,6 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
         <link rel="stylesheet" th:href="@{/css/header.css}" href="css/header.css" type="text/css" />
+        <script type="text/javascript">
+            const config = {
+                socketUrl: "[[${session.ws}?:'']]", // empty is false, will result in no WS being opened
+                rootUrl: "[[${session.url}?:'']]",
+                csrf: {
+                    name: "[[${_csrf.parameterName}]]",
+                    value: "[[${_csrf.token}]]"
+                },
+                admin: "[[${session.u != null && session.u.hasRole('ADMIN')} ? true : false]]",
+                userId: +"[[${session.u != null} ? ${session.u.id} : -1]]"
+            };
+            config.admin = config.admin == "true"; // ensure boolean
+        </script>
         <div class="header-container">
             <div class="title-container" > 
                 <a href="/"> <img th:src="@{/img/logo.png}" alt="Logo" class="logo"> </a>

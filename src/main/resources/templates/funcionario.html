@@ -4,11 +4,29 @@
 <head>
 
     <title> Perfil </title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="">
+  </script>
     <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
     <th:block th:replace="fragments/head :: header" />
 </head>
 
 <body>
+
+  <!-- mapa-func.js:20 
+        Uncaught TypeError: Cannot read properties of null (reading 'forEach')
+        at mapa-func.js:20:9
+        (anonymes)	@	mapa-func.js:20 
+        I have this error in the web console. idk why and it still work. same error in the index page
+    -->
+  <script>
+    var fuentes = /*[[${fuentes}]]*/ [];
+  </script>
 
 
     <h1> Bienvenido en la pagina de control de los funcionarios</h1>
@@ -20,12 +38,22 @@
     
     <div class="main-container">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-      <div id="map-func"></div>
-      <script src="js/mapa-func.js">
+      <div id="mapfunc"></div>
+      <script th:src="@{/js/mapa-func.js}">
       </script>
-      <!-- map does not appear. why ??? -->
       <br>
       <br>
+      <tr th:each="fuente : ${fuentes}" th:limit="10">
+        <script th:inline="javascript">
+          $(document).ready(function () {
+              var latitud = /*[[${fuente.getLatitud()}]]*/;
+              var longitud = /*[[${fuente.getLongitud()}]]*/;
+              var id = /*[[${fuente.getId()}]]*/;
+              var dir_aux = /*[[${fuente.getDireccion_aux()}]]*/;
+              L.marker([latitud, longitud]).addTo(mapfunc).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
+          });
+        </script>
+      </tr>
     </div>
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>

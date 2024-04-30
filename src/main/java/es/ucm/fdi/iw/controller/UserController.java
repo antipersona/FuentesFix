@@ -128,55 +128,55 @@ public class UserController {
     /**
      * Alter or create a user
      */
-	@PostMapping("/{id}")
-	@Transactional
-	public String postUser(
-			HttpServletResponse response,
-			@PathVariable long id, 
-			@ModelAttribute User edited, 
-			@RequestParam(required=false) String pass2,
-			Model model, HttpSession session) throws IOException {
+	// @PostMapping("/{id}")
+	// @Transactional
+	// public String postUser(
+	// 		HttpServletResponse response,
+	// 		@PathVariable long id, 
+	// 		@ModelAttribute User edited, 
+	// 		@RequestParam(required=false) String pass2,
+	// 		Model model, HttpSession session) throws IOException {
 
-        User requester = (User)session.getAttribute("u");
-        User target = null;
-        if (id == -1 && requester.hasRole(Role.ADMIN)) {
-            // create new user with random password
-            target = new User();
-            target.setPassword(encodePassword(generateRandomBase64Token(12)));
-            target.setEnabled(true);
-            entityManager.persist(target);
-            entityManager.flush(); // forces DB to add user & assign valid id
-            id = target.getId();   // retrieve assigned id from DB
-        }
+    //     User requester = (User)session.getAttribute("u");
+    //     User target = null;
+    //     if (id == -1 && requester.hasRole(Role.ADMIN)) {
+    //         // create new user with random password
+    //         target = new User();
+    //         target.setPassword(encodePassword(generateRandomBase64Token(12)));
+    //         target.setEnabled(true);
+    //         entityManager.persist(target);
+    //         entityManager.flush(); // forces DB to add user & assign valid id
+    //         id = target.getId();   // retrieve assigned id from DB
+    //     }
         
-        // retrieve requested user
-        target = entityManager.find(User.class, id);
-        model.addAttribute("user", target);
+    //     // retrieve requested user
+    //     target = entityManager.find(User.class, id);
+    //     model.addAttribute("user", target);
 		
-		if (requester.getId() != target.getId() &&
-				! requester.hasRole(Role.ADMIN)) {
-			throw new NoEsTuPerfilException();
-		}
+	// 	if (requester.getId() != target.getId() &&
+	// 			! requester.hasRole(Role.ADMIN)) {
+	// 		throw new NoEsTuPerfilException();
+	// 	}
 		
-		if (edited.getPassword() != null) {
-            if ( ! edited.getPassword().equals(pass2)) {
-                // FIXME: complain
-            } else {
-                // save encoded version of password
-                target.setPassword(encodePassword(edited.getPassword()));
-            }
-		}		
-		target.setUsername(edited.getUsername());
-		target.setFirstName(edited.getFirstName());
-		target.setLastName(edited.getLastName());
+	// 	if (edited.getPassword() != null) {
+    //         if ( ! edited.getPassword().equals(pass2)) {
+    //             // FIXME: complain
+    //         } else {
+    //             // save encoded version of password
+    //             target.setPassword(encodePassword(edited.getPassword()));
+    //         }
+	// 	}		
+	// 	target.setUsername(edited.getUsername());
+	// 	target.setFirstName(edited.getFirstName());
+	// 	target.setLastName(edited.getLastName());
 
-		// update user session so that changes are persisted in the session, too
-        if (requester.getId() == target.getId()) {
-            session.setAttribute("u", target);
-        }
+	// 	// update user session so that changes are persisted in the session, too
+    //     if (requester.getId() == target.getId()) {
+    //         session.setAttribute("u", target);
+    //     }
 
-		return "user";
-	}	
+	// 	return "user";
+	// }	
 
     /**
      * Returns the default profile pic

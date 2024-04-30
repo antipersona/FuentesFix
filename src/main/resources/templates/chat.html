@@ -11,21 +11,32 @@
 </head>
 <body>
 
+    <script>
+        var messages = /*[[${messages}]]*/ [];
+    </script>
+
     <div class="main-container">
         <div id="chat-page">
             <h1> Chat General</h1>
-        <ul id="messageArea">
-            <!-- will be fullfy by the javascript code -->
-        </ul>
+            <div id="messageArea">
+                <tr th:each="msg : ${messages}">
+                    <!-- will be fullfy by the javascript code -->
+                    <td th:text="${msg.getFrom() + ': '}">
+                    <td th:text="${msg.getText()}"></td>
+                    <br>
+                </tr>
+            </div>
+
+        <!-- send message not ready, i didn't understand well how does it work between controlller and js actions -->
         <form method="post" th:action="@{/chat}">
-            <input type="text" id="message"  placeholder="..." required>
+            <input type="text" id="message" required>
             <button id="sendmsg" type="submit">\u2705</button>
         </form>
         </div>
     </div>
 
 
-    <script src="js/stomp.js"></script>
-    <script src="js/chat.js"></script>
+    <script sth:rc="@{js/stomp.js}"></script>
+    <script th:src="@{/js/chat.js}"></script>
 </body>
 </html>

@@ -54,17 +54,5 @@ public class FuncionarioController {
         model.addAttribute("user", target);
         return "funcionario";
     }
-
-        @GetMapping("/listFuente")
-        public String showFuentes(Model model) {
-        System.out.println("listFuente");
-        List<Fuente> lf = entityManager.createQuery("SELECT f FROM Fuente f").getResultList();
-        List<Reporte> rp = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
-        model.addAttribute("reportes", rp);
-        model.addAttribute("fuentes", lf);
-
-        return "listFuente";
-    }
-
     
 }
