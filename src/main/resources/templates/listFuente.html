@@ -8,7 +8,6 @@
     <th:block th:replace="fragments/head :: header" />
 </head>
 <body>
-    <!-- not working but can be set easily with the controller -->
 
     <div class="main-container">
         <table>
@@ -19,28 +18,6 @@
                 <th>Direccion Aux</th>
                 <th>Ir</th>
             </tr>
-            <tr th:each="fontain : ${fuentes}" th:limit="10">
-                <th:block th:remove="tag">
-                    <tr th:each="reporte : ${reportes}" th:limit="10">
-                        <!--Do not enter in the if, neither in the unless. Condition probably not properly coded-->
-                        <th:block th:if="${fontain.id == reporte.FUENTE_ID}">
-                            <!-- Add the element to the conditionalElements list, but print true -->
-                            <th:block th:remove="tag" th:text="${sortedList.add(fontain)}"></th:block>
-                        </th:block>
-                    </tr>
-                </th:block>
-            </tr>
-            <tr th:each="fontain : ${fuentes}" th:limit="10">
-                <th:block th:remove="tag">
-                    <tr th:each="reporte : ${reportes}" th:limit="10">
-                        <!-- Check if the fuente ID does not exist in the list of reporte -->
-                        <th:block th:unless="${fontain.id == reporte.FUENTE_ID}"><!--"${fontain.id == reporte.FUENTE_ID}"-->
-                            <!-- Display the fuente -->
-                            <th:block th:remove="tag" th:text="${sortedList.add(fontain)}"></th:block>
-                        </th:block>
-                    </tr>
-                </th:block>
-            </tr>
             <tr th:each="fuente : ${sortedList}" th:limit="10">
                 <td th:text="${fuente.getBarrio()}"></td>
                 <td th:text="${fuente.getEstado()}"></td>              
@@ -48,22 +25,12 @@
                 <td th:text="${fuente.getDireccion_aux()}"></td>               
                 <td>
                     <button class="btn-def" th:onclick="|location.href='/fuente/' + ${fuente.getId()}|">Ir</button>
-                    <script th:inline="javascript">
-                        $(document).ready(function () {
-                            var latitud = /*[[${fuente.getLatitud()}]]*/;
-                            var longitud = /*[[${fuente.getLongitud()}]]*/;
-                            var id = /*[[${fuente.getId()}]]*/;
-                            var dir_aux = /*[[${fuente.getDireccion_aux()}]]*/;
-                            L.marker([latitud, longitud]).addTo(map).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
-                        });
-                    </script>
                 </td>
             </tr>
         </table>
     </div>
     <script>
         var sortedList = /*[[${sortedList}]]*/ [];
-        var reportes = /*[[${reportes}]]*/ [];
-        var fuentes = /*[[${fuentes}]]*/ [];    
+        
     </script>
 </body>

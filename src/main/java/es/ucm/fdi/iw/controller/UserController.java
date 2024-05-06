@@ -126,61 +126,7 @@ public class UserController {
     }
 
     /**
-     * Alter or create a user
-     */
-	// @PostMapping("/{id}")
-	// @Transactional
-	// public String postUser(
-	// 		HttpServletResponse response,
-	// 		@PathVariable long id, 
-	// 		@ModelAttribute User edited, 
-	// 		@RequestParam(required=false) String pass2,
-	// 		Model model, HttpSession session) throws IOException {
-
-    //     User requester = (User)session.getAttribute("u");
-    //     User target = null;
-    //     if (id == -1 && requester.hasRole(Role.ADMIN)) {
-    //         // create new user with random password
-    //         target = new User();
-    //         target.setPassword(encodePassword(generateRandomBase64Token(12)));
-    //         target.setEnabled(true);
-    //         entityManager.persist(target);
-    //         entityManager.flush(); // forces DB to add user & assign valid id
-    //         id = target.getId();   // retrieve assigned id from DB
-    //     }
-        
-    //     // retrieve requested user
-    //     target = entityManager.find(User.class, id);
-    //     model.addAttribute("user", target);
-		
-	// 	if (requester.getId() != target.getId() &&
-	// 			! requester.hasRole(Role.ADMIN)) {
-	// 		throw new NoEsTuPerfilException();
-	// 	}
-		
-	// 	if (edited.getPassword() != null) {
-    //         if ( ! edited.getPassword().equals(pass2)) {
-    //             // FIXME: complain
-    //         } else {
-    //             // save encoded version of password
-    //             target.setPassword(encodePassword(edited.getPassword()));
-    //         }
-	// 	}		
-	// 	target.setUsername(edited.getUsername());
-	// 	target.setFirstName(edited.getFirstName());
-	// 	target.setLastName(edited.getLastName());
-
-	// 	// update user session so that changes are persisted in the session, too
-    //     if (requester.getId() == target.getId()) {
-    //         session.setAttribute("u", target);
-    //     }
-
-	// 	return "user";
-	// }	
-
-    /**
      * Returns the default profile pic
-     * 
      * @return
      */
     private static InputStream defaultPic() {
@@ -191,7 +137,6 @@ public class UserController {
 
     /**
      * Downloads a profile pic for a user id
-     * 
      * @param id
      * @return
      * @throws IOException
@@ -206,7 +151,6 @@ public class UserController {
 
     /**
      * Uploads a profile pic for a user id
-     * 
      * @param id
      * @return
      * @throws IOException
@@ -243,79 +187,4 @@ public class UserController {
 		}
 		return "{\"status\":\"photo uploaded correctly\"}";
     }
-    
-    /**
-     * Returns JSON with all received messages
-     */
-    // @GetMapping(path = "received", produces = "application/json")
-	// @Transactional // para no recibir resultados inconsistentes
-	// @ResponseBody  // para indicar que no devuelve vista, sino un objeto (jsonizado)
-	// public List<Message.Transfer> retrieveMessages(HttpSession session) {
-	// 	long userId = ((User)session.getAttribute("u")).getId();		
-	// 	User u = entityManager.find(User.class, userId);
-	// 	log.info("Generating message list for user {} ({} messages)", 
-	// 			u.getUsername(), u.getReceived().size());
-	// 	return  u.getReceived().stream().map(Transferable::toTransfer).collect(Collectors.toList());
-	// }	
-    
-    /**
-     * Returns JSON with count of unread messages 
-     */
-	// @GetMapping(path = "unread", produces = "application/json")
-	// @ResponseBody
-	// public String checkUnread(HttpSession session) {
-	// 	long userId = ((User)session.getAttribute("u")).getId();		
-	// 	long unread = entityManager.createNamedQuery("Message.countUnread", Long.class)
-	// 		.setParameter("userId", userId)
-	// 		.getSingleResult();
-	// 	session.setAttribute("unread", unread);
-	// 	return "{\"unread\": " + unread + "}";
-    // }
-    
-    /**
-     * Posts a message to a user.
-     * @param id of target user (source user is from ID)
-     * @param o JSON-ized message, similar to {"message": "text goes here"}
-     * @throws JsonProcessingException
-     */
-    // @PostMapping("/{id}/msg")
-	// @ResponseBody
-	// @Transactional
-	// public String postMsg(@PathVariable long id, 
-	// 		@RequestBody JsonNode o, Model model, HttpSession session) 
-	// 	throws JsonProcessingException {
-		
-	// 	String text = o.get("message").asText();
-	// 	User u = entityManager.find(User.class, id);
-	// 	User sender = entityManager.find(
-	// 			User.class, ((User)session.getAttribute("u")).getId());
-	// 	model.addAttribute("user", u);
-		
-	// 	// construye mensaje, lo guarda en BD
-	// 	Message m = new Message();
-	// 	m.setRecipient(u);
-	// 	m.setSender(sender);
-	// 	m.setDateSent(LocalDateTime.now());
-	// 	m.setText(text);
-	// 	entityManager.persist(m);
-	// 	entityManager.flush(); // to get Id before commit
-		
-	// 	ObjectMapper mapper = new ObjectMapper();
-	// 	/*
-	// 	// construye json: método manual
-	// 	ObjectNode rootNode = mapper.createObjectNode();
-	// 	rootNode.put("from", sender.getUsername());
-	// 	rootNode.put("to", u.getUsername());
-	// 	rootNode.put("text", text);
-	// 	rootNode.put("id", m.getId());
-	// 	String json = mapper.writeValueAsString(rootNode);
-	// 	*/
-	// 	// persiste objeto a json usando Jackson
-	// 	String json = mapper.writeValueAsString(m.toTransfer());
-
-	// 	log.info("Sending a message to {} with contents '{}'", id, json);
-
-	// 	messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
-	// 	return "{\"result\": \"message sent.\"}";
-	// }	
 }
