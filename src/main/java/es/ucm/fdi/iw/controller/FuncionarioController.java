@@ -54,5 +54,8 @@ public class FuncionarioController {
         model.addAttribute("user", target);
         return "funcionario";
     }
+
+    
+
     
 }

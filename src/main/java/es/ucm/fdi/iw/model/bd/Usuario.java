@@ -1,14 +1,14 @@
 package es.ucm.fdi.iw.model.bd;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+//import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.ManyToAny;
+//import org.hibernate.annotations.ManyToAny;
 
 @Entity
 public class Usuario {
@@ -38,15 +38,6 @@ public class Usuario {
     private int cod_postal;
 
     private String pfp = "/img/users/default.jpg";
-
-
-    // rel_amigos
-    @ManyToMany
-    private List<Usuario> friends = new ArrayList<>();
-
-    // rel_siguiendo
-    @ManyToMany
-    private List<Fuente> fuentes = new ArrayList<>();
 
     // constructor con lo eseencial
     public Usuario(long id, String username, String mail, String password) {
@@ -120,19 +111,4 @@ public class Usuario {
         this.pfp = pfp;
     }
 
-    public List<Usuario> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<Usuario> friends) {
-        this.friends = friends;
-    }
-
-    public List<Fuente> getFuentes() {
-        return fuentes;
-    }
-
-    public void setFuentes(List<Fuente> fuentes) {
-        this.fuentes = fuentes;
-    }
 }

@@ -15,7 +15,7 @@ const ws = {
      */
     receive: (text) => {
         console.log(text);
-        let p = document.querySelector("#nav-unread");
+        let p = document.querySelector("#messageArea");//#nav-unread
         if (p) {
             p.textContent = +p.textContent + 1;
         }
@@ -197,7 +197,10 @@ function postImage(img, endpoint, name, filename) {
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
         let subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates"]
-        //let subs = ["/topic/funcionario/chat"];
+
+        if (config.funcionario ){
+            subs.push("/topic/chat");
+        }
         ws.initialize(config.socketUrl, subs);
 
         let p = document.querySelector("#nav-unread");

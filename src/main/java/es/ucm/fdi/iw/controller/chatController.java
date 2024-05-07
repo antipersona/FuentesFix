@@ -71,20 +71,7 @@ public class chatController{
              .collect(Collectors.toList());
 		model.addAttribute("messages", transferMessages);
 
-		return  "chat";//allMessages.stream().map(Transferable::toTransfer).collect(Collectors.toList());
-    }
-    
-
-//@ModelAttribute
-//@Transactional
-    @GetMapping(path = "/getmsg")//, produces = "application/json")
-	@ResponseBody
-	public List<Message.Transfer> printAllMessages( HttpSession session) {//ResponseEntity<String>
-		System.out.println("chat page");
-        List<Message> allMessages = entityManager.createQuery(
-            "SELECT m FROM Message m ORDER BY m.dateSent DESC", Message.class)
-            .getResultList();
-		return  allMessages.stream().map(Transferable::toTransfer).collect(Collectors.toList());
+		return  "chat";
     }
     
     /**
@@ -94,22 +81,20 @@ public class chatController{
      * @throws JsonProcessingException
      */
 
-	//does not work, wrong type of data received (at least :(
-    @PostMapping(path = "/chat", produces = "application/json")//before : /{id}/msg
+	
+    @PostMapping(path = "/chat", produces = "application/json")
 	@ResponseBody
-	@Transactional   //before : @PathVariable long id,
-	public Message.Transfer postMsg( @RequestBody JsonNode o, Model model, HttpSession session) 
+	@Transactional   
+	public ResponseEntity<String> postMsg( @RequestBody String messageContent, Model model, HttpSession session) 
 		throws JsonProcessingException {
 		
-		String text = o.get("message").asText();
         User sender = (User) session.getAttribute("u");
 		
 		// construye mensaje, lo guarda en BD
 		Message m = new Message();
-		//m.setRecipient(u);
 		m.setSender(sender);
 		m.setDateSent(LocalDateTime.now());
-		m.setText(text);
+		m.setText(messageContent);
 		entityManager.persist(m);
 		entityManager.flush(); // to get Id before commit
 		
@@ -118,10 +103,11 @@ public class chatController{
 		// persiste objeto a json usando Jackson
 		String json = mapper.writeValueAsString(m.toTransfer());
 
-		//log.info("Sending a message to {} with contents '{}'", userId, json);
-
         messagingTemplate.convertAndSend("/topic/chat", json);
-		//messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
-		return m.toTransfer();//"{\"result\": \"message sent.\"}";
+		
+        Message.Transfer transfer = m.toTransfer();
+        String content = transfer.getText();
+
+		return ResponseEntity.ok().body(content);
 	}
 }

@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model.bd;
 
+import es.ucm.fdi.iw.model.User;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -15,11 +16,11 @@ public class Respuesta {
     private Valoracion valoracion;
 
     @ManyToOne
-    private Usuario usuario;
+    private User usuario;
 
     private String comentario;
 
-    public Respuesta(long id, Valoracion valoracion, Usuario usuario, String comentario) {
+    public Respuesta(long id, Valoracion valoracion, User usuario, String comentario) {
         this.id = id;
         this.valoracion = valoracion;
         this.usuario = usuario;
@@ -42,11 +43,11 @@ public class Respuesta {
         this.valoracion = valoracion;
     }
 
-    public Usuario getUsuario() {
+    public User getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(User usuario) {
         this.usuario = usuario;
     }
 
