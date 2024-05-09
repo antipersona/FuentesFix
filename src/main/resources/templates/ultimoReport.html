@@ -27,7 +27,7 @@
                     <th>Comentario</th>
                     <th>Estado</th>
                     <th>Fuente</th>
-                    <th>Arreglado</th>
+                    <th>Modificar</th>
                 </tr>
                 <tr th:each="report : ${reportes}" th:limit="10">
                     <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
@@ -46,7 +46,34 @@
             </table>
         </div>
         <div id="tablaVal" style="display: none;">
-
+            <table>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Comentario</th>
+                    <th>Puntuacion General</th>
+                    <th>Fuente</th>
+                    <th>Modificar</th>
+                </tr>
+                <tr th:each="valoracion : ${valoraciones}" th:limit="10">
+                    <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
+                    <th:block th:with="user=${valoracion.getUsuario()}">
+                        <td>
+                            <button class="btn-def" th:onclick="|location.href='/user/' + ${user.getId()}|" th:text="${user.getId()}"></button>
+                        </td>
+                    </th:block>
+                    <td th:text="${valoracion.getComentario()}"></td>              
+                    <td th:text="${valoracion.getPuntuacionGeneral()}"></td>
+                    <th:block th:with="fuente=${valoracion.getFuente()}">
+                        <td>
+                            <button class="btn-def" th:onclick="|location.href='/fuente/' + ${fuente.getId()}|" th:text="${fuente.getId()}"></button>
+                        </td>
+                    </th:block>
+                     
+                    <td>
+                        <button class="btn-def" th:onclick="|location.href='/myRepairs/' + ${valoracion.getId()}|" >\U2075</button>
+                    </td>
+                </tr>
+            </table>
         </div>
         
     </div>

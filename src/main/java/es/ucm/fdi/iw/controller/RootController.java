@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -154,23 +157,34 @@ public class RootController {
     }
     
 
+    
+    @GetMapping("/report/{id}")
+    public String report(Model model, @PathVariable long id) {
+        model.addAttribute("fuente", entityManager.find(Fuente.class, id));
+        return "report";
+    }
+
     @GetMapping("/listFuente")
     public String showFuentes(Model model) {
         System.out.println("listFuente");
         List<Fuente> lf = entityManager.createQuery("SELECT f FROM Fuente f").getResultList();
         List<Reporte> rp = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
         List<Fuente> sortedList = new ArrayList<>();
+        int count;
+        for(Fuente f : lf){
+            count = 0;
+            for(Reporte r : rp){
+                if (f.getId() == r.getFuente_id()){
+                    sortedList.add(0, f);
+                    count = 1;
+                }
+            }
+            if (count == 0){
+                sortedList.add(f);
+            }
+        }
         model.addAttribute("sortedList", sortedList);
-        model.addAttribute("reportes", rp);
-        model.addAttribute("fuentes", lf);
-
         return "listFuente";
-    }
-
-    @GetMapping("/report/{id}")
-    public String report(Model model, @PathVariable long id) {
-        model.addAttribute("fuente", entityManager.find(Fuente.class, id));
-        return "report";
     }
 
     @PostMapping("/user/{id}")
@@ -222,16 +236,55 @@ public class RootController {
         return "profile";
     }
 
+    @Transactional
+    @PostMapping("/updateReporte")
+    public String updateReporte(@RequestParam("reporteId") long reporteId, @RequestParam("funcionarioId") long funcionarioId) {
+        
+        int updatedRows = entityManager.createQuery(
+            "UPDATE Reporte r SET r.func_id = :funcionarioId, r.estado = 'EN_PROCESO' WHERE r.id = :reporteId")
+            .setParameter("funcionarioId", funcionarioId)
+            .setParameter("reporteId", reporteId)
+            .executeUpdate();
+        
+        return "Reporte updated successfully";
+    }
+
     @GetMapping("/fuente/{id}")
-    public String fuente(Model model, @PathVariable long id) {
+    public String fuente(Model model, @PathVariable long id, HttpSession session) {
         model.addAttribute("fuente", entityManager.find(Fuente.class, id));
         model.addAttribute("valoracion", new Valoracion());
+        User user = (User) session.getAttribute("u");
+        if (user != null){
+            long userID = user.getId();
+            model.addAttribute("user_id", userID);
+        }
+        
 
         Fuente fuente = entityManager.find(Fuente.class, id);
+        List<Reporte> reportes = entityManager.createQuery("SELECT r FROM Reporte r WHERE r.fuente_id = :id").setParameter("id", id).getResultList();
         List<Valoracion> valoraciones = fuente.getValoraciones();
+        
         model.addAttribute("valoraciones", valoraciones);
+        model.addAttribute("reportes", reportes);
+        
 
         return "fuente";
+    }
+
+    @Transactional
+    @PutMapping("/fuente/{id}")
+    public ResponseEntity<String> handlePostRequest(@PathVariable("id") long id,  @RequestBody Map<String, Long> requestBody) {
+        // Handle the PUT request
+        Long reporteId = requestBody.get("reporteId");
+        Long funcionarioId = requestBody.get("funcionarioId");
+
+        String sql = "UPDATE REPORTE SET ESTADO = 'EN_PROCESO', FUNC_ID = ? WHERE ID = ?";
+        int rowsAffected = entityManager.createNativeQuery(sql)
+                                    .setParameter(1, funcionarioId)
+                                    .setParameter(2, reporteId)
+                                    .executeUpdate();
+
+        return ResponseEntity.ok("Success");
     }
 
     @Transactional

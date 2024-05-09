@@ -3,8 +3,8 @@
 
 <title> Fuente </title>
 <head>
-        <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
-        <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+    <th:block th:replace="fragments/head :: header" />
 </head>
 
 <body>
@@ -82,10 +82,46 @@
                         <td th:text="${fuente.getCodigo_interno()}"> Código Interno </td>
                     </tr>
                 </table>
-
-                <div class="horizontal"> 
-                    <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
+                
+                <div class="horizontal" th:if="${logged}">
+                    <script>
+                        var user_id = /*[[${user.getId()}]]*/ null;
+                    </script>
+                    <th:block th:with="role=${user.getRoles()}">
+                        <th:block th:if="${role == 'FUNCIONARIO'}">
+                            <h6> Reportes sobre esta fuente:</h6>
+                            <table>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Comentario</th>
+                                    <th>Estado</th>
+                                    <th>coger en carga</th>
+                                </tr>
+                                <tr th:each="report : ${reportes}" th:limit="10">
+                                    <td>
+                                        <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getUsuario_id()}|" th:text="${report.getUsuario_id()}"></button>
+                                    </td>
+                                    <td th:text="${report.getComentario()}"></td>              
+                                    <td th:text="${report.getEstado()}"></td>
+                                    <script th:inline="javascript">
+                                        var repId = /*[[${report.getId()}]]*/ null;
+                                    </script>
+                                    <td id="coger_en_carga">
+                                        <button class="btn-cancel" style="height: 5em"> \U2075  </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </th:block>
+                        <th:block th:if="${!(role == 'FUNCIONARIO')}">
+                            <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
+                        </th:block>
+                    </th:block>
                 </div>
+                <th:block th:if="${!logged}">
+                    <div class="horizontal"> 
+                        <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
+                    </div>
+                </th:block>
 
                 <div class="special-container-3" style="width: 100%;">
                     <h5> Otros usuarios opinan... </h5>
@@ -153,6 +189,14 @@
             </div>
         </div>
     </div>
+    <script th:inline="javascript">
+        var reportes = /*[[${reportes}]]*/ [];
+        var idf = /*[[${fuente.getId()}]]*/ null;
+        var user_id = /*[[${user_id}]]*/ null;
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script th:src="@{../js/stomp.js}"></script>
+    <script th:src="@{../js/report.js}"></script>
 </body>
 
 <footer>

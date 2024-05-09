@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<title> Perfil </title>
+
 <head>
+  <title> Admin </title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="">
+  </script>
   <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
   <th:block th:replace="fragments/head :: header" />
 </head>
 <body>
-    <h1>Nombre del Admin</h1>
-    <img height="200px" width="200px" th:src="@{/img/users/default.jpg}" alt="Imagen" class="img-medallaPlata">
-      <p>Soy un aficionado a las fuentes públicas de Madrid
-        <br>Me encanta descubrir nuevas fuentes y reportar problemas
-        <br>¡Ayúdame a mejorar la calidad de las fuentes de Madrid!
-      </p>
+  <script>
+    var fuentes = /*[[${fuentes}]]*/ [];
+  </script>
+
+
+  <h1> Bienvenido en la pagina de control de los funcionarios</h1>
+  <div class = "button-container">
+    <button class="button-func" onclick="location.href='/admin/gestionarApp'">ver Fuentes o usuario</button>
+    <button class="button-func" onclick="location.href='/admin/ultimoReport'">Ultimos reportes y valoraciones</button>
+    <button class="button-func" onclick="location.href='/admin/addEntity'">Anadir Funcionario o fuente</button>
+  </div>
+  
+  <div class="main-container">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <div id="mapfunc"></div>
+    <script th:src="@{/js/mapa-func.js}">
+    </script>
     <br>
-    <h3>Medallas</h3>
-    <img height="141px" width="90px" th:src="@{/img/medals/goldMedal.png}" alt="Imagen" class="img-medallaOro">
-    <p>Fuente de Moncloa</p>
     <br>
-    <img height="166px" width="87px" th:src="@{/img/medals/silverMedal.png}" alt="Imagen" class="img-medallaPlata">
-    <p>Fuente de Lavapiés</p>
-    <th:block th:replace="fragments/footer.html :: footer" />
+    <tr th:each="fuente : ${fuentes}" th:limit="10">
+      <script th:inline="javascript">
+        $(document).ready(function () {
+            var latitud = /*[[${fuente.getLatitud()}]]*/ null;
+            var longitud = /*[[${fuente.getLongitud()}]]*/ null;
+            var id = /*[[${fuente.getId()}]]*/ null;
+            var dir_aux = /*[[${fuente.getDireccion_aux()}]]*/ null;
+            L.marker([latitud, longitud]).addTo(mapfunc).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
+        });
+      </script>
+    </tr>
+  </div>
+  <th:block th:replace="fragments/footer.html :: footer" />
 </body>
+</html>
