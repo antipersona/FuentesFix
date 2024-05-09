@@ -35,7 +35,7 @@
                 <div class="horizontal" th:with="roles=${user.getRoles()}">  
                     <th:block th:with="role=${#strings.toLowerCase(roles)}">
                         <p th:text="${user.getUsername()}"></p>
-                        <a th:href="@{'/' + ${role} + '/' + ${user.getId()}}" style="margin:0"><img th:src="${user.getPfp()}" alt="pfp" class="pfp"></a>
+                        <a th:href="@{'/user/' + ${user.id}}" style="margin:0"><img th:src="@{'/user/' + ${user.id} + '/pic'}" alt="pfp" class="pfp"></a>
                         <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
                     </th:block>
                 </div>

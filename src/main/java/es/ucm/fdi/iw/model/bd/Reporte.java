@@ -43,11 +43,11 @@ public class Reporte {
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
-    //@ManyToOne only if Fuente instead of long, un reporte tiene una fuente, una fuente puede tener varios reportes
-    private long fuente_id; 
+    @ManyToOne 
+    private Fuente fuente; 
 
-    //@ManyToOne o,ly if User instead of long, un reporte tiene un usuario, un usuario puede tener varios reportes
-    private long usuario_id; 
+    @ManyToOne
+    private User author; 
 
     private String tipo;
     private String comentario;
@@ -57,8 +57,12 @@ public class Reporte {
     @Enumerated(EnumType.ORDINAL)
     private EstadoReport estado;
     
-    private long func_id;
-    //private String comentario_reporte;
-    //private int prioridad;
+    @ManyToOne
+    private User responsible;
+
+    @Override
+    public String toString() {
+        return id + " " + author + " " + comentario;
+    }
 
 }

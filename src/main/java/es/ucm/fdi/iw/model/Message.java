@@ -38,11 +38,10 @@ public class Message implements Transferable<Message.Transfer> {
 
 	@ManyToOne
 	private User sender;
-	
+
 	private String text;
 	
 	private LocalDateTime dateSent;
-	//private LocalDateTime dateRead;
 	
 	/**
 	 * Objeto para persistir a/de JSON
@@ -52,9 +51,7 @@ public class Message implements Transferable<Message.Transfer> {
     @AllArgsConstructor
 	public static class Transfer {
 		private String from;
-		//private String to;
 		private String sent;
-		//private String received;
 		private String text;
 		long id;
 		public Transfer(Message m) {

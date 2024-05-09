@@ -11,7 +11,7 @@
     <div class="main-container">
         <div class="horizontal" align="top">
             <div class="vertical" style="width: 30%" align="top">
-                <img th:src="${fuente.getImagen()}" alt="Imagen" class="img-fuente">
+                <img th:src="${fuente.imagen}" alt="Imagen" class="img-fuente">
                 <div class="special-container-2" style="width: 100%;">
                     <h6  self="left"> Así la han valorado: </h6>
                 <table class="table-val">
@@ -21,32 +21,32 @@
                     </tr>
                     <tr>
                         <td> <b> Caudal: </b> </td>
-                        <td th:text="${fuente.getMediaValoracionCaudal()}"/>   
+                        <td th:text="${fuente.mediaValoracionCaudal}"/>   
                     </tr>
                     <tr>
                         <td> <b> Sabor: </b> </td>
-                        <td th:text="${fuente.getMediaValoracionSabor()}"/>   
+                        <td th:text="${fuente.mediaValoracionSabor}"/>   
                     </tr>
                     <tr>
                         <td> <b> Temperatura: </b> </td>
-                        <td th:text="${fuente.getMediaValoracionTemperatura()}"/>   
+                        <td th:text="${fuente.mediaValoracionTemperatura}"/>   
                     </tr>
                     <tr>
                         <td> <b> Numero de valoraciones: </b> </td>
-                        <td th:text="${fuente.getNumValoraciones()}"/>   
+                        <td th:text="${valoraciones.size()}"/>   
                     </tr>                    
                 </table>
                 </div>
 
             </div>
             <div class="vertical" style="width: 70%">           
-                <h2> <td th:text="${fuente.getDireccion_aux()}"> Dirección Auxiliar </td> </h2>
-                <h5> <td th:text="${fuente.getDireccion()}"> Dirección Auxiliar </td> </h5>
+                <h2> <td th:text="${fuente.direccion_aux}"> Dirección Auxiliar </td> </h2>
+                <h5> <td th:text="${fuente.direccion}"> Dirección Auxiliar </td> </h5>
                 <br>
                 <table class="table-data">
                     <tr>
                         <td> <b> ID: </b> </td>
-                        <td th:text="${fuente.getId()}"> Id </td>
+                        <td th:text="${fuente.id}"> Id </td>
                     </tr>
                     <tr>
                         <td> <b> Código de Barrio: </b> </td>
@@ -87,34 +87,32 @@
                     <script>
                         var user_id = /*[[${user.getId()}]]*/ null;
                     </script>
-                    <th:block th:with="role=${user.getRoles()}">
-                        <th:block th:if="${role == 'FUNCIONARIO'}">
-                            <h6> Reportes sobre esta fuente:</h6>
-                            <table>
-                                <tr>
-                                    <th>Usuario</th>
-                                    <th>Comentario</th>
-                                    <th>Estado</th>
-                                    <th>coger en carga</th>
-                                </tr>
-                                <tr th:each="report : ${reportes}" th:limit="10">
-                                    <td>
-                                        <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getUsuario_id()}|" th:text="${report.getUsuario_id()}"></button>
-                                    </td>
-                                    <td th:text="${report.getComentario()}"></td>              
-                                    <td th:text="${report.getEstado()}"></td>
-                                    <script th:inline="javascript">
-                                        var repId = /*[[${report.getId()}]]*/ null;
-                                    </script>
-                                    <td id="coger_en_carga">
-                                        <button class="btn-cancel" style="height: 5em"> \U2075  </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </th:block>
-                        <th:block th:if="${!(role == 'FUNCIONARIO')}">
-                            <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
-                        </th:block>
+                    <th:block th:if="${user.hasRole('FUNCIONARIO')}">
+                        <h6> Reportes sobre esta fuente:</h6>
+                        <table>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Comentario</th>
+                                <th>Estado</th>
+                                <th>coger en carga</th>
+                            </tr>
+                            <tr th:each="report : ${reportes}" th:limit="10">
+                                <td>
+                                    <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getUsuario_id()}|" th:text="${report.getUsuario_id()}"></button>
+                                </td>
+                                <td th:text="${report.getComentario()}"></td>              
+                                <td th:text="${report.getEstado()}"></td>
+                                <script th:inline="javascript">
+                                    var repId = /*[[${report.getId()}]]*/ null;
+                                </script>
+                                <td id="coger_en_carga">
+                                    <button class="btn-cancel" style="height: 5em"> \U2075  </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </th:block>
+                    <th:block th:unless="${user.hasRole('FUNCIONARIO')}">
+                        <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
                     </th:block>
                 </div>
                 <th:block th:if="${!logged}">

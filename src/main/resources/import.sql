@@ -1,18 +1,15 @@
 -- insert admin (username a, password aa)
-INSERT INTO IWUser (id, enabled, roles, username, password, pfp)
-VALUES (1, TRUE, 'ADMIN', 'a',
-    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', '/img/users/default.jpg');
-INSERT INTO IWUser (id, enabled, roles, username, password, pfp)
+INSERT INTO IWUser (id, enabled, roles, username, password)
+VALUES (1, TRUE, 'ADMIN,USER', 'a',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+INSERT INTO IWUser (id, enabled, roles, username, password)
 VALUES (2, TRUE, 'USER', 'b',
-    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', '/img/users/default.jpg');
-INSERT INTO IWUser (id, enabled, roles, username, password, pfp)
-VALUES (3, TRUE, 'FUNCIONARIO', 'c',
-    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', '/img/users/default.jpg');
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+INSERT INTO IWUser (id, enabled, roles, username, password)
+VALUES (3, TRUE, 'FUNCIONARIO,USER', 'c',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO Message (id, date_sent, text, sender_id) 
 Values (10, '2024-04-25 09:45:25', 'hello world', 3);
-
-INSERT INTO REPORTE (id, comentario, estado, tipo, fuente_id, usuario_id, func_id)
-Values (1, 'blabla bla', 0, 'OLOR', 4477, 2, 3);
 
 INSERT INTO "PUBLIC"."FUENTE" VALUES
 (4047, 'CASA DE CAMPO', 91, 'FUE_09_0119', 'RIBERA DEL MANZANARES 123', 'FUENTE DE LA COLONIA MANZANARES  (FUENTE DE LA TEJA Y EL SOPAPO)', 'MONCLOA - ARAVACA', 0, 437855.772, 4475632.61, '/img/fuentes/default.jpeg', 40.4290105, -3.73263, 0.0, 4.0, 1.0, 0.0, 'PATRIMONIO_HISTORICO', -1, -1, 0.0, 8.0, 2.0, 0.0, -1),
@@ -2057,4 +2054,8 @@ INSERT INTO "PUBLIC"."FUENTE" VALUES
 (5963, 'MIRASIERRA', 87, 'FUE_08_0196', 'MONASTERIO DE EL PAULAR 136', 'junto zona infantil', 'FUENCARRAL - EL PARDO', 0, 440574.539, 4483483.437, '/img/fuentes/default.jpeg', 40.49993256, -3.70131548, 0.0, 0.0, 0.0, 0.0, 'MU-37A', -1, -1, 0.0, 0.0, 0.0, 0.0, -1),
 (5964, 'VALDEACEDERAS', 65, 'FUE_06_0106', 'ESPERANZA SANCHEZ CARRASCOSA 44', 'APR SANTIAGO CORDERO junto zona infantil', 'TETUAN', 1, 440472.417, 4480001.489, '/img/fuentes/default.jpeg', 40.46855857, -3.70219364, 0.0, 0.0, 0.0, 0.0, 'METROPOLIS', -1, -1, 0.0, 0.0, 0.0, 0.0, -1);
 -- start id numbering from a value that is larger than any assigned above
-ALTER SEQUENCE "PUBLIC"."GEN" RESTART WITH 4096;
+
+INSERT INTO REPORTE (id, comentario, estado, tipo, fuente_id, author_id, responsible_id)
+Values (6000, 'blabla bla', 0, 'OLOR', 4477, 2, 3);
+
+ALTER SEQUENCE "PUBLIC"."GEN" RESTART WITH 10000;

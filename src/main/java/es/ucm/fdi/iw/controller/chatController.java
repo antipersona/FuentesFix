@@ -10,37 +10,30 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.messaging.handler.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.*;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
-import java.util.stream.*;
 
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 
 @Controller 
-public class chatController{
+public class ChatController{
+
+    private static final Logger log = LogManager.getLogger(RootController.class);
 
     @Autowired
     private EntityManager entityManager;
@@ -63,7 +56,7 @@ public class chatController{
 	public String printAllMessages( Model model, HttpSession session) {
 		System.out.println("chat page");
         List<Message> allMessages = entityManager.createQuery(
-            "SELECT m FROM Message m ORDER BY m.dateSent DESC", Message.class)
+            "SELECT m FROM Message m ORDER BY m.dateSent", Message.class)
             .getResultList();
 		
 		List<Message.Transfer> transferMessages = allMessages.stream()
