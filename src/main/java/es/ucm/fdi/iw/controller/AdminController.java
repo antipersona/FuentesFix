@@ -23,6 +23,7 @@ import java.util.*;
 import es.ucm.fdi.iw.model.bd.Reporte;
 import es.ucm.fdi.iw.model.bd.Valoracion;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.User.Role;
 
 /**
  *  Site administration.
@@ -84,7 +85,7 @@ public class AdminController {
         //newUser.setEmail(Email); 
         newUser.setPassword(passwordEncoder.encode(password)); // assuming you're using passwordEncoder for password hashing
         newUser.setEnabled(true); // assuming newly registered users are enabled by default
-        newUser.setRoles("FUNCIONARIO"); 
+        newUser.setRoles(Role.FUNCIONARIO + "," + Role.USER); 
 
         entityManager.persist(newUser); // to add the new user in the database
 

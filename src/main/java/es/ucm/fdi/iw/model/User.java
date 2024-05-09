@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import es.ucm.fdi.iw.model.bd.Reporte;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -54,14 +56,17 @@ public class User implements Transferable<User.Transfer> {
     private boolean enabled;
     private String roles; // split by ',' to separate roles
 
-    private String pfp = "/img/users/default.jpg";
-
-	// @OneToMany
-	// @JoinColumn(name = "sender_id")
-	// private List<Message> sent = new ArrayList<>();
 	@OneToMany
-	@JoinColumn(name = "recipient_id")	
-	private List<Message> received = new ArrayList<>();		
+	@JoinColumn(name = "sender_id")
+	private List<Message> sent = new ArrayList<>();
+
+    @OneToMany
+	@JoinColumn(name = "author_id")	
+	private List<Reporte> authoredReports = new ArrayList<>();		
+
+    @OneToMany
+	@JoinColumn(name = "responsible_id")	
+	private List<Reporte> handlingReports = new ArrayList<>();		
 
     /**
      * Checks whether this user has a given role.
@@ -84,20 +89,12 @@ public class User implements Transferable<User.Transfer> {
 
 	@Override
     public Transfer toTransfer() {
-		return new Transfer(id,	username, received.size()/*, sent.size()*/);
+		return new Transfer(id,	username, sent.size());
 	}
 	
 	@Override
 	public String toString() {
 		return toTransfer().toString();
 	}
-
-    public String getPfp() {
-        return pfp;
-    }
-
-    public void setPfp(String pfp) {
-        this.pfp = pfp;
-    }
 }
 

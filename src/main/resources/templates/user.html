@@ -10,7 +10,7 @@
     <form id="avatarForm" th:action="@{'/user/' + ${user.getId()} + '/pic'}" enctype="multipart/form-data" method="post">
       <input type="file" id="f_avatar" accept="image/jpeg,image/png" style="display: none;">
       <label for="f_avatar">
-        <img class="preview" id="avatar" alt="careto a subir" th:src="${user.getPfp()}" style="cursor: pointer;"/>
+        <img class="preview" id="avatar" alt="careto a subir" th:src="@{'/user/' + ${user.getId()} + '/pic'}" style="cursor: pointer;"/>
       </label>
     </form>
     <p>click en tu foto de perfil para cambiar la</p>
@@ -28,6 +28,10 @@
       <input type="text" id="newName" name="newName" required>
       <button type="submit">Enviar</button>
     </form>
+
+    <h1 th:if="${session.u.hasRole('FUNCIONARIO')}">Soy funcionario</h1>
+    <h1 th:unless="${session.u.hasRole('FUNCIONARIO')}">NO soy funcionario</h1>
+
     <br>
     <h3>Medallas</h3>
     <img height="141px" width="90px" th:src="@{/img/medals/goldMedal.png}" alt="Imagen" class="img-medallaOro">

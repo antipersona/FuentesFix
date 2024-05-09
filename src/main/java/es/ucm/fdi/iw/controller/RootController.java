@@ -121,16 +121,8 @@ public class RootController {
 
     @GetMapping("/myRepairs")
     public String showMyRepairsPage(Model model, HttpSession session) {
-        User u = (User) session.getAttribute("u");
-        long userID = u.getId();
-        List<Reporte> report = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
-        List<Reporte> myreports = new ArrayList<>();
-        for(Reporte r : report){
-            if(r.getFunc_id() == userID){
-                myreports.add(r);
-            }
-        }
-        model.addAttribute("reportes", myreports);
+        User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
+        model.addAttribute("reportes", u.getHandlingReports());
 
         return "myRepairs"; // Assuming "repairs" is the name of your Thymeleaf template
     }
@@ -138,21 +130,14 @@ public class RootController {
     @Transactional
     public String showMyRepairsPage(@PathVariable long id, Model model, HttpSession session){
 
-        User u = (User) session.getAttribute("u");
-        long userID = u.getId();
-
+        /*
         entityManager.createQuery("DELETE FROM Reporte r WHERE r.id = :id")
                  .setParameter("id", id)
                  .executeUpdate();
+        */
 
-        List<Reporte> report = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
-        List<Reporte> myreports = new ArrayList<>();
-        for(Reporte r : report){
-            if(r.getFunc_id() == userID){
-                myreports.add(r);
-            }
-        }
-        model.addAttribute("reportes", myreports);
+        User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
+        model.addAttribute("reportes", u.getHandlingReports());
         return "myRepairs";
     }
     
@@ -167,23 +152,14 @@ public class RootController {
     @GetMapping("/listFuente")
     public String showFuentes(Model model) {
         System.out.println("listFuente");
-        List<Fuente> lf = entityManager.createQuery("SELECT f FROM Fuente f").getResultList();
-        List<Reporte> rp = entityManager.createQuery("SELECT r FROM Reporte r").getResultList();
-        List<Fuente> sortedList = new ArrayList<>();
-        int count;
-        for(Fuente f : lf){
-            count = 0;
-            for(Reporte r : rp){
-                if (f.getId() == r.getFuente_id()){
-                    sortedList.add(0, f);
-                    count = 1;
-                }
-            }
-            if (count == 0){
-                sortedList.add(f);
-            }
-        }
-        model.addAttribute("sortedList", sortedList);
+        
+        List<Fuente> lf = entityManager.createQuery(
+            "SELECT f FROM Fuente f", 
+            Fuente.class)
+                .getResultList();
+
+        lf.sort((a, b) -> b.getReportes().size() - a.getReportes().size());
+        model.addAttribute("sortedList", lf);
         return "listFuente";
     }
 
@@ -215,19 +191,19 @@ public class RootController {
     @PostMapping("/report/{id}")
     @Transactional
     public String report(Model model, @PathVariable long id, HttpSession session, String comentario, String tipo) {
-        Reporte newReport = new Reporte();
-        User user = (User) session.getAttribute("u");
-        long userID = user.getId();
+        User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
 
-        //maybe the type doesn't feat with the one declare in the sql database
-        newReport.setFuente_id(id); // idk just fuenteID or full fuente object 
+        //maybe the type doesn't fit with the one declare in the sql database
+        Reporte newReport = new Reporte();
+        newReport.setFuente(entityManager.find(Fuente.class, id));
         newReport.setEstado(EstadoReport.PENDIENTE);
-        newReport.setUsuario_id(userID);//userID
+        newReport.setAuthor(u);//userID
         newReport.setTipo(tipo);
         newReport.setComentario(comentario); 
-        
-         
-        entityManager.persist(newReport); // to add the new Report in the database
+        entityManager.persist(newReport);
+
+        u.getAuthoredReports().add(newReport);
+
         return "redirect:/fuente/{id}";
     }
 
@@ -261,11 +237,8 @@ public class RootController {
         
 
         Fuente fuente = entityManager.find(Fuente.class, id);
-        List<Reporte> reportes = entityManager.createQuery("SELECT r FROM Reporte r WHERE r.fuente_id = :id").setParameter("id", id).getResultList();
-        List<Valoracion> valoraciones = fuente.getValoraciones();
-        
-        model.addAttribute("valoraciones", valoraciones);
-        model.addAttribute("reportes", reportes);
+        model.addAttribute("valoraciones", fuente.getValoraciones());
+        model.addAttribute("reportes", fuente.getReportes());
         
 
         return "fuente";
