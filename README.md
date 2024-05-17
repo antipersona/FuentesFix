@@ -9,8 +9,6 @@ Pueden opinar sobre estas fuentes e interactuar con otras valoraciones de otros 
 
 (interacción = dejar mensajes en la fuente vía valoraciones; o reportar fuente)
 
-Se motivará la participación ciudadana mediante rankings de aportaciones y logros.
-
 (falta)
 
 Al reportar un fallo, los trabajadores del ayuntamiento podrán valorar el reparo necesario, indicando el coste, cuánto tiempo tardará o la prioridad de la reparación. Además podrán actualizar el estado de la reparación. Los desperfectos también podrán clasificarse según sean técnicos o sanitarios en relación a la calidad del agua o el estado de la fuente.
@@ -30,9 +28,7 @@ Roles:
 
     - admin debería poder borrar usuarios y fuentes.
 
-* Moderador: Modera los comentarios y opiniones de los ciudadanos para que el contenido se ajuste a las normas.
-
-    - funcionarios (o admin) deben poder moderar reportes para eliminarlos
+    - admin deben poder moderar reportes para eliminarlos
 
 
 * Ciudadano. Valora las fuentes y reporta los errores que se puede encontrar.
