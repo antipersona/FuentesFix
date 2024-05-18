@@ -6,5 +6,8 @@ document.getElementById('f_avatar').addEventListener('change', function() {
             document.getElementById('avatar').src = e.target.result;
         };
         reader.readAsDataURL(file);
+
+        var form = document.getElementById('avatarForm');
+        form.submit();
     }
 });

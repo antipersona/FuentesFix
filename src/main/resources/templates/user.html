@@ -8,7 +8,7 @@
 <body>
     <h1 th:text="${user.getUsername()}"></h1>
     <form id="avatarForm" th:action="@{'/user/' + ${user.getId()} + '/pic'}" enctype="multipart/form-data" method="post">
-      <input type="file" id="f_avatar" accept="image/jpeg,image/png" style="display: none;">
+      <input type="file" id="f_avatar" name="photo" accept="image/jpeg,image/png" style="display: none;">
       <label for="f_avatar">
         <img class="preview" id="avatar" alt="careto a subir" th:src="@{'/user/' + ${user.getId()} + '/pic'}" style="cursor: pointer;"/>
       </label>

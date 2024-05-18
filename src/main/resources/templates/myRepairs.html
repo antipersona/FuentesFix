@@ -25,12 +25,12 @@
             <tr th:each="report : ${reportes}" th:limit="10">
                 <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
                 <td>
-                    <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getUsuario_id()}|" th:text="${report.getUsuario_id()}"></button>
+                    <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getAuthor().getId()}|" th:text="${report.getAuthor().getId()}"></button>
                 </td>
                 <td th:text="${report.getComentario()}"></td>              
                 <td th:text="${report.getEstado()}"></td>
                 <td>
-                    <button class="btn-def" th:onclick="|location.href='/fuente/' + ${report.getFuente_id()}|" th:text="${report.getFuente_id()}"></button>
+                    <button class="btn-def" th:onclick="|location.href='/fuente/' + ${report.getFuente().getId()}|" th:text="${report.getFuente().getId()}"></button>
                 </td> 
                 <td>
                     <button class="btn-def" th:onclick="|location.href='/myRepairs/' + ${report.getId()}|" >\U2075</button>

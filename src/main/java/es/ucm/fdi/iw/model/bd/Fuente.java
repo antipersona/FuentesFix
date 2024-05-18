@@ -100,6 +100,11 @@ public class Fuente {
         actualizarMediaValoraciones(v);
     }
 
+    public void anadirReporte(Reporte r) {
+        this.reportes.add(r);
+        
+    }
+
     private void actualizarMediaValoraciones(Valoracion v) {
         int numValoraciones = valoraciones.size();
 

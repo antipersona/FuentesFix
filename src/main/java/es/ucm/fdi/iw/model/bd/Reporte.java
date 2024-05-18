@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,17 +23,6 @@ import es.ucm.fdi.iw.model.User;
 @Table(name = "Reporte")
 public class Reporte {
 
-    // public enum Tipo {
-    //     BAJA_PRESIÓN,
-    //     FUGA,
-    //     OLOR,
-    //     COLOR,
-    //     SABOR,
-    //     SUCIEDAD,
-    //     OTRO,
-
-    // }
-
     public enum EstadoReport {
         PENDIENTE,
         EN_PROCESO,
@@ -44,9 +35,11 @@ public class Reporte {
 	private long id;
 
     @ManyToOne 
+    @JsonIgnore
     private Fuente fuente; 
 
     @ManyToOne
+    @JsonIgnore
     private User author; 
 
     private String tipo;
@@ -58,7 +51,8 @@ public class Reporte {
     private EstadoReport estado;
     
     @ManyToOne
-    private User responsible;
+    @JsonIgnore
+    private User func;
 
     @Override
     public String toString() {

@@ -115,25 +115,11 @@
                                 </td>
                             </tr>
                         </table>
-                        <form method="post" th:action="@{/myRepairs/{id}(id=${fuente.id})}">
-                            <label for="estado">Cambiar el estado de la fuente:</label>
-                            <select id="estado" name="estado" required>
-                                <option value="" disabled selected>Seleccione una opción</option>
-                                <option value="CERRADA_TEMPORALMENT">Cerrada Temporalmente</option>
-                                <option value="OPERATIVO">Operativo</option>
-                                <option value="NO_OPERATIVO">No operativo</option>
-                            </select>
-                            <br>
-                            <button type="submit">Enviar</button>
-                        </form>
                     </th:block>
                     <th:block th:unless="${user.hasRole('FUNCIONARIO')}">
                         <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
                     </th:block>
                 </div>
-
-
-
                 <th:block th:if="${!logged}">
                     <div class="horizontal"> 
                         <button class="btn-cancel" style="height: 5em" th:onclick="'window.location.href=\'/report/' + ${fuente.getId()} + '\''"> <h6> Reportar mal funcionamiento <h6> </button>
@@ -169,8 +155,9 @@
                         <br>
                         <td th:text="${valoracion.getFecha()}"> Fecha </td>
 
-                    </div>   
-                    
+                    </div>
+
+
                     <form  action="#" th:action="@{/fuente/{id}(id=${fuente.id})}" th:object="${valoracion}" method="post">
                         <label for="comentario"> <p> Escribe aquí tu opinion detallada: </p> </label>
                         <textarea id="comentario" name="comentario" rows="4" cols="50" th:field="*{comentario}"></textarea>
@@ -188,19 +175,19 @@
                             <br>
                             <label for="puntuacionSabor">Sabor:</label>
                             <select id="puntuacionSabor" name="puntuacionSabor" th:field="*{puntuacionSabor}">
-                                <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
+                                 <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
                                 <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
                             </select>
                             <br>
                             <label for="puntuacionTemperatura">Temperatura:</label>
                             <select id="puntuacionTemperatura" name="puntuacionTemperatura" th:field="*{puntuacionTemperatura}">
-                                <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
+                                 <option th:each="i : ${#numbers.sequence(0,0)}" th:value="${i}"></option>
                                 <option th:each="i : ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
                             </select>
                         </div>
                         <button type="submit" class="btn-success" style="height: 5em"> <h5> Valorar <h5> </button>
                     </form>
-                                   
+                    
                 </div>
             </div>
         </div>

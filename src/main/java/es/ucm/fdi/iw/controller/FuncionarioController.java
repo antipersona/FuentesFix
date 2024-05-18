@@ -53,9 +53,5 @@ public class FuncionarioController {
         model.addAttribute("fuentes", lf);
         model.addAttribute("user", target);
         return "funcionario";
-    }
-
-    
-
-    
+    }    
 }

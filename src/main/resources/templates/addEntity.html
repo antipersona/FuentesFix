@@ -9,15 +9,9 @@
     
 </head>
 <body>
-    <div class="main-container">
-        <!-- Dropdown menu for selecting entity type -->
-        <select id="entityType">
-            <option value="fuente">Fuente</option>
-            <option value="funcionario">Funcionario</option>
-        </select>
-        
+    <div class="main-container">        
         <!-- Form for adding a Funcionario -->
-        <form id="funcionarioForm" style="display: none;" th:method="POST" th:action="@{/admin/addEntity}">
+        <form id="funcionarioForm" th:method="POST" th:action="@{/admin/addEntity}">
             <!-- Funcionario form fields -->
             <label for="funcionarioUsername">Username:</label>
             <input type="text" id="username" name="username">
@@ -36,29 +30,6 @@
             <br>
             <button type="submit">Add Funcionario</button>
         </form>
-  
-
-        <!-- Form for adding a Fuente -->
-        <form id="fuenteForm" style="display: none;">
-            <!-- Fuente form fields go here -->
-            <label for="fuenteName">Fuente Name:</label>
-            <input type="text" id="fuenteName" name="fuenteName">
-            <!-- Other fuente form fields -->
-            <button type="submit">Add Fuente</button>
-        </form>
-        
-        <script>
-            document.getElementById('entityType').addEventListener('change', function() {
-            var entityType = this.value;
-            if (entityType === 'fuente') {
-                document.getElementById('fuenteForm').style.display = 'block';
-                document.getElementById('funcionarioForm').style.display = 'none';
-            } else if (entityType === 'funcionario') {
-                document.getElementById('fuenteForm').style.display = 'none';
-                document.getElementById('funcionarioForm').style.display = 'block';
-            }
-            });
-        </script>
   
     </div>
 </body>

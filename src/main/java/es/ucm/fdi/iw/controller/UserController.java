@@ -125,6 +125,22 @@ public class UserController {
         return "user";
     }
 
+    @PostMapping("{id}")
+    @Transactional
+    public String setName(@RequestParam("newName") String newname, @PathVariable long id, Model model, HttpSession session){
+
+        User user = (User) session.getAttribute("u");
+        user.setUsername(newname);
+        
+        entityManager.merge(user);        
+        
+        model.addAttribute("user", user);
+        session.setAttribute("u", user);
+
+        return "redirect:/user/" + id;
+
+    }
+
     /**
      * Returns the default profile pic
      * @return
@@ -155,8 +171,9 @@ public class UserController {
      * @return
      * @throws IOException
      */
+    
+	//@ResponseBody
     @PostMapping("{id}/pic")
-	@ResponseBody
     public String setPic(@RequestParam("photo") MultipartFile photo, @PathVariable long id, 
         HttpServletResponse response, HttpSession session, Model model) throws IOException {
 
@@ -185,6 +202,6 @@ public class UserController {
 				log.warn("Error uploading " + id + " ", e);
 			}
 		}
-		return "{\"status\":\"photo uploaded correctly\"}";
+		return "user";//"{\"status\":\"photo uploaded correctly\"}";
     }
 }

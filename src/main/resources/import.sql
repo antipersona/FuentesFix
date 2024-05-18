@@ -2055,7 +2055,7 @@ INSERT INTO "PUBLIC"."FUENTE" VALUES
 (5964, 'VALDEACEDERAS', 65, 'FUE_06_0106', 'ESPERANZA SANCHEZ CARRASCOSA 44', 'APR SANTIAGO CORDERO junto zona infantil', 'TETUAN', 1, 440472.417, 4480001.489, '/img/fuentes/default.jpeg', 40.46855857, -3.70219364, 0.0, 0.0, 0.0, 0.0, 'METROPOLIS', -1, -1, 0.0, 0.0, 0.0, 0.0, -1);
 -- start id numbering from a value that is larger than any assigned above
 
-INSERT INTO REPORTE (id, comentario, estado, tipo, fuente_id, author_id, responsible_id)
+INSERT INTO REPORTE (id, comentario, estado, tipo, fuente_id, author_id, func_id)
 Values (6000, 'blabla bla', 0, 'OLOR', 4477, 2, 3);
 
 ALTER SEQUENCE "PUBLIC"."GEN" RESTART WITH 10000;

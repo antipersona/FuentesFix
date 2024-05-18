@@ -65,7 +65,7 @@ public class User implements Transferable<User.Transfer> {
 	private List<Reporte> authoredReports = new ArrayList<>();		
 
     @OneToMany
-	@JoinColumn(name = "responsible_id")	
+	@JoinColumn(name = "func_id")	
 	private List<Reporte> handlingReports = new ArrayList<>();		
 
     /**

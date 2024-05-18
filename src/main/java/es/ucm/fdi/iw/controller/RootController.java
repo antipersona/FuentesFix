@@ -5,12 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,6 +120,27 @@ public class RootController {
 
         return "myRepairs"; // Assuming "repairs" is the name of your Thymeleaf template
     }
+
+    @PostMapping("/myRepairs/{id}")
+    @Transactional
+    public String actualizarEstadoFuente(Model model, HttpSession session, Estado estado, @PathVariable long id){
+
+        entityManager.createQuery("UPDATE Fuente f SET f.estado = :newestado WHERE f.id = :id")
+                        .setParameter("newestado", estado)
+                        .setParameter("id", id)
+                        .executeUpdate();
+    
+        Fuente fuente = entityManager.find(Fuente.class, id);
+        fuente.setEstado(estado);
+        if(estado == Fuente.Estado.OPERATIVO){
+            entityManager.createQuery("Delete * from Reporte r where r.fuente_id = :id").setParameter("id", id).executeUpdate();
+            fuente.setReportes(null);
+        }
+        User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
+        model.addAttribute("reportes", u.getHandlingReports());
+        return "/myRepairs";
+    }
+
     @GetMapping("/myRepairs/{id}")
     @Transactional
     public String showMyRepairsPage(@PathVariable long id, Model model, HttpSession session){
@@ -163,66 +178,38 @@ public class RootController {
         return "listFuente";
     }
 
-    @PostMapping("/user/{id}")
-    @Transactional
-    public String setName(/*HttpServletResponse response,*/
-            String newname, @PathVariable long id, 
-			Model model, HttpSession session){
-
-                User user = (User) session.getAttribute("u");
-                user.setUsername(newname);
-                
-                entityManager.createQuery("UPDATE FROM IWUSER u SET u.username = :newname WHERE u.id = :id")
-                        .setParameter("newname", newname)
-                        .setParameter("id", id)
-                        .executeUpdate();;
-                
-                
-                model.addAttribute("user", user);
-                session.setAttribute("u", user);
-
-                return "redirect:/user/" + id;
-
-            }
 
 
-//do not work idk where or what is the error
-//i probably correct it, i don't remember what was the previous comment for 
+
     @PostMapping("/report/{id}")
     @Transactional
     public String report(Model model, @PathVariable long id, HttpSession session, String comentario, String tipo) {
         User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
 
-        //maybe the type doesn't fit with the one declare in the sql database
         Reporte newReport = new Reporte();
+        Fuente fuente = entityManager.find(Fuente.class, id);
+        
         newReport.setFuente(entityManager.find(Fuente.class, id));
         newReport.setEstado(EstadoReport.PENDIENTE);
-        newReport.setAuthor(u);//userID
+        newReport.setAuthor(u);
         newReport.setTipo(tipo);
         newReport.setComentario(comentario); 
         entityManager.persist(newReport);
-
+        
+        fuente.anadirReporte(newReport);
         u.getAuthoredReports().add(newReport);
 
-        return "redirect:/fuente/{id}";
+        model.addAttribute("fuente", fuente);
+        model.addAttribute("valoracion", new Valoracion());
+        model.addAttribute("valoraciones", fuente.getValoraciones());
+        model.addAttribute("reportes", fuente.getReportes());
+
+        return "fuente";//redirect:/fuente/{id}
     }
 
     @GetMapping("/profile")
     public String profile(Model model) {
         return "profile";
-    }
-
-    @Transactional
-    @PostMapping("/updateReporte")
-    public String updateReporte(@RequestParam("reporteId") long reporteId, @RequestParam("funcionarioId") long funcionarioId) {
-        
-        int updatedRows = entityManager.createQuery(
-            "UPDATE Reporte r SET r.func_id = :funcionarioId, r.estado = 'EN_PROCESO' WHERE r.id = :reporteId")
-            .setParameter("funcionarioId", funcionarioId)
-            .setParameter("reporteId", reporteId)
-            .executeUpdate();
-        
-        return "Reporte updated successfully";
     }
 
     @GetMapping("/fuente/{id}")
@@ -246,18 +233,27 @@ public class RootController {
 
     @Transactional
     @PutMapping("/fuente/{id}")
-    public ResponseEntity<String> handlePostRequest(@PathVariable("id") long id,  @RequestBody Map<String, Long> requestBody) {
+    public ResponseEntity<Map<String, String>> handlePutRequest(@PathVariable("id") long id,  @RequestBody Map<String, Long> requestBody, HttpSession session) {
+        User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
+        
         // Handle the PUT request
         Long reporteId = requestBody.get("reporteId");
         Long funcionarioId = requestBody.get("funcionarioId");
 
-        String sql = "UPDATE REPORTE SET ESTADO = 'EN_PROCESO', FUNC_ID = ? WHERE ID = ?";
-        int rowsAffected = entityManager.createNativeQuery(sql)
-                                    .setParameter(1, funcionarioId)
-                                    .setParameter(2, reporteId)
-                                    .executeUpdate();
+        String sql = "UPDATE REPORTE SET ESTADO = 2, FUNC_ID = ? WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, funcionarioId)
+                    .setParameter(2, reporteId)
+                    .executeUpdate();
 
-        return ResponseEntity.ok("Success");
+        Reporte report = entityManager.find(Reporte.class, reporteId);
+        report.setFunc(u);
+        u.getHandlingReports().add(report);
+
+        Map<String, String> jsonResponse = new HashMap<>();
+        jsonResponse.put("message", "Success");
+
+        return ResponseEntity.ok(jsonResponse);
     }
 
     @Transactional
