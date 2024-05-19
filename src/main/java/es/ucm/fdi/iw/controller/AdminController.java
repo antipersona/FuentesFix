@@ -8,12 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -106,5 +103,27 @@ public class AdminController {
         model.addAttribute("valoraciones", vf);
 
         return "ultimoReport";
+    }
+
+    @PutMapping("ultimoReport")
+    @Transactional
+    public ResponseEntity<Map<String, String>> moderateComment(@RequestBody Map<String, Object> requestBody){
+
+        Long reporteId = ((Number) requestBody.get("reporteId")).longValue();
+        String content = (String) requestBody.get("newComment");
+
+        String sql = "UPDATE REPORTE SET COMENTARIO = ? WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, content)
+                    .setParameter(2, reporteId)
+                    .executeUpdate();
+
+        Reporte report = entityManager.find(Reporte.class, reporteId);
+        report.setComentario(content);
+
+        Map<String, String> jsonResponse = new HashMap<>();
+        jsonResponse.put("message", "Success");
+        
+        return ResponseEntity.ok(jsonResponse);
     }
 }

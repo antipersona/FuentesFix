@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import es.ucm.fdi.iw.model.bd.Reporte;
+import es.ucm.fdi.iw.model.bd.Valoracion;
 
 import javax.persistence.*;
 
@@ -66,7 +67,11 @@ public class User implements Transferable<User.Transfer> {
 
     @OneToMany
 	@JoinColumn(name = "func_id")	
-	private List<Reporte> handlingReports = new ArrayList<>();		
+	private List<Reporte> handlingReports = new ArrayList<>();	
+    
+    @OneToMany
+    @JoinColumn(name = "usuario_id")
+    private List<Valoracion> valoraciones = new ArrayList<>();
 
     /**
      * Checks whether this user has a given role.

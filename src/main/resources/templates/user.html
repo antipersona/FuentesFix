@@ -6,39 +6,103 @@
   <th:block th:replace="fragments/head :: header" />
 </head>
 <body>
-    <h1 th:text="${user.getUsername()}"></h1>
-    <form id="avatarForm" th:action="@{'/user/' + ${user.getId()} + '/pic'}" enctype="multipart/form-data" method="post">
-      <input type="file" id="f_avatar" name="photo" accept="image/jpeg,image/png" style="display: none;">
-      <label for="f_avatar">
-        <img class="preview" id="avatar" alt="careto a subir" th:src="@{'/user/' + ${user.getId()} + '/pic'}" style="cursor: pointer;"/>
-      </label>
-    </form>
-    <p>click en tu foto de perfil para cambiar la</p>
-    
-    <!-- i think it doesn't keep the change in the database-->
-    <br>
-    <p>Soy un aficionado a las fuentes públicas de Madrid
-      <br>Me encanta descubrir nuevas fuentes y reportar problemas
-      <br>¡Ayúdame a mejorar la calidad de las fuentes de Madrid!
-    </p>
-    <br>
-    <!-- change the username doesn't work, i have to do again the controller -->
-    <form id="changeNameForm" method="post" th:action="@{'/user/'+ ${user.getId()}}">
-      <label for="newName">*escribe tu nuevo nombre de usuario</label>
-      <input type="text" id="newName" name="newName" required>
-      <button type="submit">Enviar</button>
-    </form>
+  <div class="main-container">
+    <th:block th:if="${session.u.hasRole('FUNCIONARIO')|| session.u.hasRole('ADMIN')}">
+      <h1 th:text="${user.getUsername()}"></h1>
+      <br>
+      <div class="image-container">
+        <img class="preview" id="f_avatar" alt="careto a subir" th:src="@{'/user/' + ${user.getId()} + '/pic'}"/>
+      </div>
+      <div class="tables-container">
+        <div id="tablaRep1">
+          <table>
+              <tr>
+                  <th>Comentario</th>
+                  <th>Estado</th>
+                  <th>Fuente</th>
+                  <th>Modificar texto</th>
+                  <th>Borrar Reporte</th>
+              </tr>
+              <th:block th:with="reportes=${user.authoredReports}">
+                <tr th:each="report : ${reportes}">
+                  
+                  <td th:id="${report.id}" th:text="${report.getComentario()}"></td>              
+                  <td th:text="${report.getEstado()}"></td>
+                  <td>
+                      <button class="btn-def" th:onclick="|location.href='/fuente/' + ${report.getFuente().getId()}|" th:text="${report.getFuente().getId()}"></button>
+                  </td> 
+                  <td>
+                    <button class="btn-def" th:onclick="openModal('[[${report.getComentario()}]]', [[${report.id}]])">\u2075</button>
+                  </td>
+                  <td>
+                      <button class="btn-def" th:onclick="|location.href='/user/' + ${user.id} + '/' + ${report.id}|">borrar</button>
+                  </td>
+                </tr>
+              </th:block>
+          </table>
+          <!-- popup to change the comment -->
+          <div id="myModal" class="modal" style="display: none;">
+              <div class="modal-content">
+                  <span class="close" onclick="closeModal()">&times;</span>
+                  <h2>Edit Comment</h2>
+                  <textarea id="commentInput" rows="4" cols="50"></textarea>
+                  <input type="hidden" id="currentReportId">
+                  <button onclick="saveComment()">Save</button>
+              </div>
+          </div>
+        </div>
+        <div id="tablaVal1" >
+          <table>
+              <tr>
+                  <th>Comentario</th>
+                  <th>Puntuacion General</th>
+                  <th>Fuente</th>
+                  <th>Modificar</th>
+              </tr>
+              <th:block th:with="valoraciones=${user.valoraciones}">
+                <tr th:each="valoracion : ${valoraciones}" th:limit="10">
+                    <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
+                    <td th:text="${valoracion.getComentario()}"></td>              
+                    <td th:text="${valoracion.getPuntuacionGeneral()}"></td>
+                    <td>
+                      <button class="btn-def" th:onclick="|location.href='/fuente/' + ${report.getFuente().getId()}|" th:text="${report.getFuente().getId()}"></button>
+                    </td> 
+                    <td>
+                        <button class="btn-def" th:onclick="|location.href='/myRepairs/' + ${valoracion.getId()}|" >\U2075</button>
+                    </td>
+                </tr>
+              </th:block> 
+          </table>
+        </div>
+      </div>
+    </th:block>
 
-    <h1 th:if="${session.u.hasRole('FUNCIONARIO')}">Soy funcionario</h1>
-    <h1 th:unless="${session.u.hasRole('FUNCIONARIO')}">NO soy funcionario</h1>
+    <th:block th:unless="${session.u.hasRole('FUNCIONARIO')|| session.u.hasRole('ADMIN')}">
 
-    <br>
-    <h3>Medallas</h3>
-    <img height="141px" width="90px" th:src="@{/img/medals/goldMedal.png}" alt="Imagen" class="img-medallaOro">
-    <p>Fuente de Moncloa</p>
-    <br>
-    <img height="166px" width="87px" th:src="@{/img/medals/silverMedal.png}" alt="Imagen" class="img-medallaPlata">
-    <p>Fuente de Lavapiés</p>
-    <th:block th:replace="fragments/footer.html :: footer" />
-    <script th:src="@{/js/perfil.js}"></script>
+      <h1 th:text="${user.getUsername()}"></h1>
+      <form id="avatarForm" th:action="@{'/user/' + ${user.getId()} + '/pic'}" enctype="multipart/form-data" method="post">
+        <input type="file" id="f_avatar" name="photo" accept="image/jpeg,image/png" style="display: none;">
+        <label for="f_avatar">
+          <img class="preview" id="avatar" alt="careto a subir" th:src="@{'/user/' + ${user.getId()} + '/pic'}" style="cursor: pointer;"/>
+        </label>
+      </form>
+      <p>click en tu foto de perfil para cambiar la</p>
+      
+      <!-- i think it doesn't keep the change in the database-->
+      <br>
+      <p>Eres un aficionado a las fuentes públicas de Madrid
+        <br>Bienvenido en Fuentes Fix
+        <br>¡Ayúda a mejorar la calidad de las fuentes de Madrid!
+      </p>
+      <br>
+      <!-- change the username doesn't work, i have to do again the controller -->
+      <form id="changeNameForm" method="post" th:action="@{'/user/'+ ${user.getId()}}">
+        <label for="newName">*escribe tu nuevo nombre de usuario</label>
+        <input type="text" id="newName" name="newName" required>
+        <button type="submit">Enviar</button>
+      </form>
+    </th:block>
+  </div>  
+  <th:block th:replace="fragments/footer.html :: footer" />
+  <script th:src="@{/js/perfil.js}"></script>
 </body>

@@ -5,11 +5,13 @@ import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
+import es.ucm.fdi.iw.model.bd.Reporte;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +44,9 @@ import java.io.*;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -139,6 +144,49 @@ public class UserController {
 
         return "redirect:/user/" + id;
 
+    }
+
+    @PutMapping("{id}")
+    @Transactional
+    public ResponseEntity<Map<String, String>> moderateComment(@RequestBody Map<String, Object> requestBody){
+
+        Long reporteId = ((Number) requestBody.get("reporteId")).longValue();
+        String content = (String) requestBody.get("newComment");
+
+        String sql = "UPDATE REPORTE SET COMENTARIO = ? WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, content)
+                    .setParameter(2, reporteId)
+                    .executeUpdate();
+
+        Reporte report = entityManager.find(Reporte.class, reporteId);
+        report.setComentario(content);
+
+        Map<String, String> jsonResponse = new HashMap<>();
+        jsonResponse.put("message", "Success");
+        
+        return ResponseEntity.ok(jsonResponse);
+    }
+
+    //delete a comment from a user profile
+    @GetMapping("{id}/{idrep}")//apparently not safe to use with access to database. Why?
+    @Transactional
+    public String borrarComment(@PathVariable long idrep, @PathVariable long id, Model model ){
+
+        Long reporteId = idrep;
+        Reporte report = entityManager.find(Reporte.class, reporteId);
+
+        String sql = "DELETE REPORTE WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, reporteId)
+                    .executeUpdate();
+
+        User user = entityManager.find(User.class, id);
+        user.getAuthoredReports().remove(report);
+        model.addAttribute("user", user);
+        entityManager.persist(user);
+        
+        return "user";
     }
 
     /**

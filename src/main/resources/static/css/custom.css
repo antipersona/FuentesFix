@@ -428,3 +428,27 @@ button {
     margin-bottom: 1em;
     margin-top: 2em;
 }
+
+img.preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* This ensures the image maintains its aspect ratio while fitting within the given dimensions */
+    cursor: pointer;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;  /* Adjust as needed */
+    height: 25vh; /* Adjust as needed or set a specific height */
+}
+
+.tables-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#tablaRep1, #tablaVal1 {
+    flex: 1;
+    margin: 10px;
+}

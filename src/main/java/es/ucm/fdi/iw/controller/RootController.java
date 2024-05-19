@@ -157,13 +157,6 @@ public class RootController {
     }
     
 
-    
-    @GetMapping("/report/{id}")
-    public String report(Model model, @PathVariable long id) {
-        model.addAttribute("fuente", entityManager.find(Fuente.class, id));
-        return "report";
-    }
-
     @GetMapping("/listFuente")
     public String showFuentes(Model model) {
         System.out.println("listFuente");
@@ -178,9 +171,15 @@ public class RootController {
         return "listFuente";
     }
 
+    //to print for report creation
+    @GetMapping("/report/{id}")
+    public String report(Model model, @PathVariable long id) {
+        model.addAttribute("fuente", entityManager.find(Fuente.class, id));
+        return "report";
+    }
 
 
-
+    //report is created
     @PostMapping("/report/{id}")
     @Transactional
     public String report(Model model, @PathVariable long id, HttpSession session, String comentario, String tipo) {
@@ -207,11 +206,6 @@ public class RootController {
         return "fuente";//redirect:/fuente/{id}
     }
 
-    @GetMapping("/profile")
-    public String profile(Model model) {
-        return "profile";
-    }
-
     @GetMapping("/fuente/{id}")
     public String fuente(Model model, @PathVariable long id, HttpSession session) {
         model.addAttribute("fuente", entityManager.find(Fuente.class, id));
@@ -231,6 +225,7 @@ public class RootController {
         return "fuente";
     }
 
+    //report is taken by a funcionnario
     @Transactional
     @PutMapping("/fuente/{id}")
     public ResponseEntity<Map<String, String>> handlePutRequest(@PathVariable("id") long id,  @RequestBody Map<String, Long> requestBody, HttpSession session) {
@@ -256,6 +251,7 @@ public class RootController {
         return ResponseEntity.ok(jsonResponse);
     }
 
+    //when valoracion is created
     @Transactional
     @PostMapping("/fuente/{id}")
     public String fuentePost(Model model, @PathVariable long id, HttpSession session, Valoracion valoracion) {
