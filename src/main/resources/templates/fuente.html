@@ -105,12 +105,12 @@
                                 <script th:inline="javascript">
                                     var repId = /*[[${report.getId()}]]*/ null;
                                 </script>
-                                <td id="coger_en_carga">
+                                <td th:id="${report.id}">
                                     <th:block th:if="${report.func != null}">
                                         <p> Un funcionario ya esta occupendo se</p>
                                     </th:block>
                                     <th:block th:unless="${report.func != null}">
-                                        <button class="btn-cancel" style="height: 5em"> 🫵 </button>
+                                        <button class="btn-cancel" style="height: 5em" th:onclick="takerep([[${report.id}]])"> 🫵 </button>
                                     </th:block>
                                 </td>
                             </tr>
