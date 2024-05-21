@@ -37,11 +37,32 @@
     <tr th:each="fuente : ${fuentes}" th:limit="10">
       <script th:inline="javascript">
         $(document).ready(function () {
-            var latitud = /*[[${fuente.getLatitud()}]]*/ null;
-            var longitud = /*[[${fuente.getLongitud()}]]*/ null;
-            var id = /*[[${fuente.getId()}]]*/ null;
-            var dir_aux = /*[[${fuente.getDireccion_aux()}]]*/ null;
-            L.marker([latitud, longitud]).addTo(mapfunc).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
+              var latitud = /*[[${fuente.getLatitud()}]]*/null;
+              var longitud = /*[[${fuente.getLongitud()}]]*/null;
+              var id = /*[[${fuente.getId()}]]*/null;
+              var dir_aux = /*[[${fuente.getDireccion_aux()}]]*/null;
+              var reportes = /*[[${fuente.getReportes()}]]*/[];
+              var estado = /*[[${fuente.getEstado()}]]*/ null;
+              var orangeIcon = L.icon({
+                iconUrl: '/img/orangePopup.png', // Specify the path to your orange marker icon
+                iconSize: [30, 41], // size of the icon
+                iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+                popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
+              });
+              var redIcon = L.icon({
+                iconUrl: '/img/redPopup.png', // Specify the path to your orange marker icon
+                iconSize: [25, 41], // size of the icon
+                iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+                popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
+              });
+              if(estado == 'CERRADA_TEMPORALMENT' || estado == 'NO_OPERATIVO'){
+                L.marker([latitud, longitud],  {icon: redIcon}).addTo(mapfunc).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
+              }
+              else if (reportes.length === 0){
+                L.marker([latitud, longitud]).addTo(mapfunc).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
+              }else{
+                L.marker([latitud, longitud],  {icon: orangeIcon}).addTo(mapfunc).bindPopup('<a href="/fuente/' + id + '">' + dir_aux +'</a><br>');
+              }
         });
       </script>
     </tr>

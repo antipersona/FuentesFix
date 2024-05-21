@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
+import es.ucm.fdi.iw.model.bd.Fuente;
 import es.ucm.fdi.iw.model.bd.Reporte;
 import es.ucm.fdi.iw.model.bd.Valoracion;
 import es.ucm.fdi.iw.model.User;
@@ -125,5 +126,105 @@ public class AdminController {
         jsonResponse.put("message", "Success");
         
         return ResponseEntity.ok(jsonResponse);
+    }
+
+    @GetMapping("gestionarApp")
+    public String gestionApp(Model model, HttpSession session) {
+        
+        List<Fuente> vf = entityManager.createQuery("SELECT v FROM Fuente v ").getResultList();
+        List<User> rp = entityManager.createQuery("SELECT r FROM User r ").getResultList();  
+        
+        vf.sort((a, b) -> b.getReportes().size() - a.getReportes().size());
+        vf.sort((x, y) -> y.getReportes().size() - x.getReportes().size());
+        User target = (User) session.getAttribute("u");
+        model.addAttribute("user", target);
+        model.addAttribute("usuarios", rp);
+        model.addAttribute("fuentes", vf);
+
+        return "gestionarApp";
+    }
+
+    @PostMapping("gestionarApp")
+    @Transactional
+    public String handleDelete(Model model, HttpSession session, @RequestParam String action, @RequestParam long id) {
+        if ("deleteFuente".equalsIgnoreCase(action)) {
+            return borrarFuente(model, session, id);
+        } else if ("deleteUsuario".equalsIgnoreCase(action)) {
+            return borrarUsuario(model, session, id);
+        }
+        
+        // Default redirect if action is not recognized
+        return "redirect:/admin/gestionarApp";
+    }
+
+    
+    @Transactional
+    public String borrarFuente(Model model, HttpSession session, @RequestParam long id){
+
+        
+        //tried to do it in the database with sql ON DELETE CASCADE but change are not push in the DB
+        String deleteValoracionesSql = "DELETE FROM VALORACION WHERE FUENTE_ID = ?";
+        entityManager.createNativeQuery(deleteValoracionesSql)
+                    .setParameter(1, id)
+                    .executeUpdate();
+
+        String deleteReportesSql = "DELETE FROM REPORTE WHERE FUENTE_ID = ?";
+        entityManager.createNativeQuery(deleteReportesSql)
+                        .setParameter(1, id)
+                        .executeUpdate();
+
+        String sql = "Delete Fuente WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, id)
+                    .executeUpdate();
+
+        List<Fuente> vf = entityManager.createQuery("SELECT v FROM Fuente v ").getResultList();
+        List<User> rp = entityManager.createQuery("SELECT r FROM User r ").getResultList();  
+        
+        vf.sort((a, b) -> b.getReportes().size() - a.getReportes().size());
+        vf.sort((x, y) -> y.getReportes().size() - x.getReportes().size());
+
+        User target = (User) session.getAttribute("u");
+        model.addAttribute("user", target);
+        model.addAttribute("usuarios", rp);
+        model.addAttribute("fuentes", vf);
+
+        return "gestionarApp";
+    }
+
+    
+    @Transactional
+    public String borrarUsuario(Model model, HttpSession session, @RequestParam long id){
+
+
+        System.out.println("ID should be 2, it is in reality: " + id);
+        //tried to do it in the database with sql ON DELETE CASCADE but change are not push in the DB
+        String deleteValoracionesSql = "DELETE FROM VALORACION WHERE USUARIO_ID = ?";
+        entityManager.createNativeQuery(deleteValoracionesSql)
+                    .setParameter(1, id)
+                    .executeUpdate();
+
+        String deleteReportesSql = "DELETE FROM REPORTE WHERE AUTHOR_ID = ?";
+        entityManager.createNativeQuery(deleteReportesSql)
+                        .setParameter(1, id)
+                        .executeUpdate();
+
+        String sql = "Delete IWUSER WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, id)
+                    .executeUpdate();
+
+        List<Fuente> vf = entityManager.createQuery("SELECT v FROM Fuente v ").getResultList();
+        List<User> rp = entityManager.createQuery("SELECT r FROM User r ").getResultList();  
+        
+        vf.sort((a, b) -> b.getReportes().size() - a.getReportes().size());
+        vf.sort((x, y) -> y.getReportes().size() - x.getReportes().size());
+
+        User target = (User) session.getAttribute("u");
+        model.addAttribute("user", target);
+        model.addAttribute("usuarios", rp);
+        model.addAttribute("fuentes", vf);
+
+        return "gestionarApp";
     }
 }

@@ -32,20 +32,20 @@
                 <button class="btn-log" onclick="location.href='/register'">Registrarse</button>
             </div>
             <div class="login-container" th:if="${logged}">
-                <div class="horizontal" th:if="${user.hasRole('FUNCIONARIO')}">  
-                    <p th:text="${user.getUsername()}"></p>
-                    <a th:href="@{'/funcionario/' + ${user.getId()}}" style="margin:0"><img th:src="@{'/user/' + ${user.id} + '/pic'}" alt="pfp" class="pfp"></a>
+                <div class="horizontal" th:if="${session.u.hasRole('FUNCIONARIO')}">  
+                    <p th:text="${session.u.getUsername()}"></p>
+                    <a th:href="@{'/funcionario/' + ${session.u.getId()}}" style="margin:0"><img th:src="@{'/user/' + ${session.u.id} + '/pic'}" alt="pfp" class="pfp"></a>
                     <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>  
                 </div>
-                <div class="horizontal" th:if="${user.hasRole('ADMIN')}">
-                    <p th:text="${user.getUsername()}"></p>
-                    <a th:href="@{'/admin/' + ${user.getId()}}" style="margin:0"><img th:src="@{'/user/' + ${user.id} + '/pic'}" alt="pfp" class="pfp"></a>
+                <div class="horizontal" th:if="${session.u.hasRole('ADMIN')}">
+                    <p th:text="${session.u.getUsername()}"></p>
+                    <a th:href="@{'/admin/' + ${session.u.getId()}}" style="margin:0"><img th:src="@{'/user/' + ${session.u.id} + '/pic'}" alt="pfp" class="pfp"></a>
                     <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
                 </div>
-                <div class="horizontal" th:unless="${user.hasRole('FUNCIONARIO')}">
-                    <div class="horizontal" th:unless="${user.hasRole('ADMIN')}">
-                        <p th:text="${user.getUsername()}"></p>
-                        <a th:href="@{'/user/' + ${user.id}}" style="margin:0"><img th:src="@{'/user/' + ${user.id} + '/pic'}" alt="pfp" class="pfp"></a>
+                <div class="horizontal" th:unless="${session.u.hasRole('FUNCIONARIO')}">
+                    <div class="horizontal" th:unless="${session.u.hasRole('ADMIN')}">
+                        <p th:text="${session.u.getUsername()}"></p>
+                        <a th:href="@{'/user/' + ${session.u.id}}" style="margin:0"><img th:src="@{'/user/' + ${session.u.id} + '/pic'}" alt="pfp" class="pfp"></a>
                         <button class="btn-log" onclick="location.href='/logout'">Cerrar Sesión</button>
                     </div>   
                 </div>

@@ -44,16 +44,46 @@ function saveComment() {
             .catch(e => console.log("sad", e));
 }
 
-
-
 function closeModal() {
     document.getElementById("myModal").style.display = "none";
 }
 
-//to close the pop up if there is a click out of it
-window.onclick = function(event) {
-    const modal = document.getElementById("myModal");
-    if (event.target == modal) {
-        closeModal();
-    }
+
+
+
+//same for valoraciones:
+function openModalval(comment, valId) {
+    document.getElementById("commentvalInput").value = comment;
+    document.getElementById("myModalval").style.display = "block";
+    console.log(valId);
+    document.getElementById("currentvalId").value = valId;
+}
+
+function saveCommentval() {
+    const newComment = document.getElementById("commentvalInput").value;
+    const valId = parseInt(document.getElementById("currentvalId").value, 10);
+    var currentURL = window.location.pathname;
+    var data = {
+        valId: valId,
+        newComment: newComment
+    };
+
+    go(currentURL, 'PUT', data)
+            .then(d =>  {
+                console.log("happy", d);
+                // Mettre à jour le commentaire dans le tableau
+                const commentCell = document.getElementById(valId);
+                if (commentCell) {
+                    commentCell.textContent = newComment;
+                }else{
+                    console.log("cell not found");
+                }
+                closeModal();
+            })
+            .catch(e => console.log("sad", e));
+}
+
+
+function closeModalval() {
+    document.getElementById("myModalval").style.display = "none";
 }

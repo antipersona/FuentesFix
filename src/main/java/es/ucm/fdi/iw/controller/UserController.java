@@ -6,6 +6,7 @@ import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
 import es.ucm.fdi.iw.model.bd.Reporte;
+import es.ucm.fdi.iw.model.bd.Valoracion;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -148,23 +149,36 @@ public class UserController {
 
     @PutMapping("{id}")
     @Transactional
-    public ResponseEntity<Map<String, String>> moderateComment(@RequestBody Map<String, Object> requestBody){
+    public ResponseEntity<Map<String, String>> moderateComentVal(@RequestBody Map<String, Object> requestBody){
 
-        Long reporteId = ((Number) requestBody.get("reporteId")).longValue();
-        String content = (String) requestBody.get("newComment");
+        if(requestBody.containsKey("reporteId")){
+            Long reporteId = ((Number) requestBody.get("reporteId")).longValue();
+            String content = (String) requestBody.get("newComment");
+            String sql = "UPDATE REPORTE SET COMENTARIO = ? WHERE ID = ?";
+            entityManager.createNativeQuery(sql)
+                        .setParameter(1, content)
+                        .setParameter(2, reporteId)
+                        .executeUpdate();
 
-        String sql = "UPDATE REPORTE SET COMENTARIO = ? WHERE ID = ?";
-        entityManager.createNativeQuery(sql)
-                    .setParameter(1, content)
-                    .setParameter(2, reporteId)
-                    .executeUpdate();
+            Reporte report = entityManager.find(Reporte.class, reporteId);
+            report.setComentario(content);
 
-        Reporte report = entityManager.find(Reporte.class, reporteId);
-        report.setComentario(content);
+        }else if(requestBody.containsKey("valId")){
+
+            Long valId = ((Number) requestBody.get("valId")).longValue();
+            String content = (String) requestBody.get("newComment");
+            String sql = "UPDATE VALORACION SET COMENTARIO = ? WHERE ID = ?";
+            entityManager.createNativeQuery(sql)
+                        .setParameter(1, content)
+                        .setParameter(2, valId)
+                        .executeUpdate();
+
+            Valoracion valoracion = entityManager.find(Valoracion.class, valId);
+            valoracion.setComentario(content);
+        }
 
         Map<String, String> jsonResponse = new HashMap<>();
         jsonResponse.put("message", "Success");
-        
         return ResponseEntity.ok(jsonResponse);
     }
 
@@ -189,6 +203,25 @@ public class UserController {
         return "user";
     }
 
+    @PostMapping("{id}/{idval}")
+    @Transactional
+    public String borrarComVal(@PathVariable long idval, @PathVariable long id, Model model ){
+
+        Long valId = idval;
+        Valoracion valoracion = entityManager.find(Valoracion.class, valId);
+
+        String sql = "DELETE VALORACION WHERE ID = ?";
+        entityManager.createNativeQuery(sql)
+                    .setParameter(1, valId)
+                    .executeUpdate();
+
+        User user = entityManager.find(User.class, id);
+        user.getValoraciones().remove(valoracion);
+        model.addAttribute("user", user);
+        entityManager.persist(user);
+        
+        return "user";
+    }
     /**
      * Returns the default profile pic
      * @return

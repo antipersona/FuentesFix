@@ -145,11 +145,11 @@ public class RootController {
     @Transactional
     public String showMyRepairsPage(@PathVariable long id, Model model, HttpSession session){
 
-        /*
+        
         entityManager.createQuery("DELETE FROM Reporte r WHERE r.id = :id")
                  .setParameter("id", id)
                  .executeUpdate();
-        */
+        
 
         User u = entityManager.find(User.class, ((User) session.getAttribute("u")).getId());
         model.addAttribute("reportes", u.getHandlingReports());

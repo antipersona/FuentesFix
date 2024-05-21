@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<title> Perfil </title>
+<head>
+  <link rel="stylesheet" th:href="@{/css/custom.css}" href="css/custom.css" type="text/css" />
+  <th:block th:replace="fragments/head :: header" />
+</head>
+<body>
+    <div class="main-container">
+        <select id="entityType">
+            <option value="">Select</option>
+            <option value="tabFuentes">Fuentes</option>
+            <option value="tabUsuarios">usuarios</option>
+        </select>
+        <div id="tabFuentes" style="display: none;">
+            <table>
+                <tr>
+                    <th>Barrio</th>
+                    <th>Estado</th>
+                    <th>Direccion</th>
+                    <th>Direccion Aux</th>
+                    <th>Ir</th>
+                    <th>Borrar</th>
+                </tr>
+                <tr th:each="fuente : ${fuentes}" th:limit="10">   
+                    <td th:text="${fuente.barrio}"></td>
+                    <td th:text="${fuente.estado}"></td>              
+                    <td th:text="${fuente.direccion}"></td>
+                    <td th:text="${fuente.direccion_aux}"></td>               
+                    <td>
+                        <button class="btn-def" th:onclick="|location.href='/fuente/' + ${fuente.id}|">Ir</button>
+                    </td>
+                    <td>
+                        <form method="post" th:action="@{/admin/gestionarApp}">
+                            <input type="hidden" name="action" value="deleteFuente" />
+                            <input type="hidden" name="id" th:value="${fuente.id}" />
+                            <button type="submit" class="btn-def">Borrar definitivamente</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="tabUsuarios" style="display: none;">
+            <table>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre Comentarios</th>
+                    <th>Role</th>
+                    <th>Borrar</th>
+                </tr>
+                <tr th:each="usuario : ${usuarios}" th:limit="10">
+                    <th:block th:unless="${usuario.hasRole('ADMIN')}">
+                        <td>
+                            <button class="btn-def" th:onclick="|location.href='/user/' + ${usuario.id}|" th:text="${usuario.username}"></button>
+                        </td>
+                        <td th:text="${usuario.authoredReports.size()}"></td>
+                        <td th:text="${usuario.roles}"></td>
+                        <td>
+                            <form method="post" th:action="@{/admin/gestionarApp}">
+                                <input type="hidden" name="action" value="deleteUsuario" />
+                                <input type="hidden" name="id" th:value="${usuario.id}" />
+                                <button type="submit" class="btn-def">Borrar definitivamente</button>
+                            </form>
+                        </td>
+                    </th:block>                    
+                </tr>
+            </table>
+        </div>
+    </div>
+    <th:block th:replace="fragments/footer.html :: footer" />
+    <script>
+        document.getElementById('entityType').addEventListener('change', function() {
+        var entityType = this.value;
+        if (entityType === 'tabFuentes') {
+            document.getElementById('tabFuentes').style.display = 'block';
+            document.getElementById('tabUsuarios').style.display = 'none';
+        } else if (entityType === 'tabUsuarios') {
+            document.getElementById('tabFuentes').style.display = 'none';
+            document.getElementById('tabUsuarios').style.display = 'block';
+        }
+        });
+    </script>
+</body>

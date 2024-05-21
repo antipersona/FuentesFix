@@ -30,7 +30,6 @@
                     <th>Modificar comentario</th>
                 </tr>
                 <tr th:each="report : ${reportes}" th:limit="10">
-                    <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
                     <td>
                         <button class="btn-def" th:onclick="|location.href='/user/' + ${report.getAuthor().getId()}|" th:text="${report.getAuthor().getId()}"></button>
                     </td>
@@ -65,7 +64,6 @@
                     <th>Modificar</th>
                 </tr>
                 <tr th:each="valoracion : ${valoraciones}" th:limit="10">
-                    <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
                     <th:block th:with="user=${valoracion.getUsuario()}">
                         <td>
                             <button class="btn-def" th:onclick="|location.href='/user/' + ${user.getId()}|" th:text="${user.getId()}"></button>

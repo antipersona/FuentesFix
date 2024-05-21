@@ -35,7 +35,7 @@
                     <button class="btn-def" th:onclick="openModal('[[${report.getComentario()}]]', [[${report.id}]])">\u2075</button>
                   </td>
                   <td>
-                      <button class="btn-def" th:onclick="|location.href='/user/' + ${user.id} + '/' + ${report.id}|">borrar</button>
+                    <button class="btn-def" th:onclick="|location.href='/user/' + ${user.id} + '/' + ${report.id}|">borrar</button>         
                   </td>
                 </tr>
               </th:block>
@@ -58,21 +58,35 @@
                   <th>Puntuacion General</th>
                   <th>Fuente</th>
                   <th>Modificar</th>
+                  <th>Borrar</th>
               </tr>
               <th:block th:with="valoraciones=${user.valoraciones}">
                 <tr th:each="valoracion : ${valoraciones}" th:limit="10">
-                    <!-- print the report as i did for the fuente, and link to the fuente (and to the user profil if time) -->
-                    <td th:text="${valoracion.getComentario()}"></td>              
+                    <td th:id="${valoracion.id}" th:text="${valoracion.getComentario()}"></td>              
                     <td th:text="${valoracion.getPuntuacionGeneral()}"></td>
                     <td>
-                      <button class="btn-def" th:onclick="|location.href='/fuente/' + ${report.getFuente().getId()}|" th:text="${report.getFuente().getId()}"></button>
+                      <button class="btn-def" th:onclick="|location.href='/fuente/' + ${valoracion.getFuente().getId()}|" th:text="${valoracion.getFuente().getId()}"></button>
                     </td> 
                     <td>
-                        <button class="btn-def" th:onclick="|location.href='/myRepairs/' + ${valoracion.getId()}|" >\U2075</button>
+                      <button class="btn-def" th:onclick="openModalval('[[${valoracion.getComentario()}]]', [[${valoracion.id}]])">\u2075</button>
+                    </td>
+                    <td>
+                      <form method="post" th:action="@{/user/${user.id}/${valoracion.id}}">
+                        <button type="submit" class="btn-def" th:onclick="|location.href='/user/' + ${user.id} + '/' + ${valoracion.id}|">borrar</button>
+                      </form>
                     </td>
                 </tr>
               </th:block> 
           </table>
+          <div id="myModalval" class="modal" style="display: none;">
+              <div class="modal-content">
+                  <span class="close" onclick="closeModalval()">&times;</span>
+                  <h2>Edit Comment</h2>
+                  <textarea id="commentvalInput" rows="4" cols="50"></textarea>
+                  <input type="hidden" id="currentvalId">
+                  <button onclick="saveCommentval()">Save</button>
+              </div>
+          </div>
         </div>
       </div>
     </th:block>
@@ -88,14 +102,12 @@
       </form>
       <p>click en tu foto de perfil para cambiar la</p>
       
-      <!-- i think it doesn't keep the change in the database-->
       <br>
       <p>Eres un aficionado a las fuentes públicas de Madrid
         <br>Bienvenido en Fuentes Fix
         <br>¡Ayúda a mejorar la calidad de las fuentes de Madrid!
       </p>
       <br>
-      <!-- change the username doesn't work, i have to do again the controller -->
       <form id="changeNameForm" method="post" th:action="@{'/user/'+ ${user.getId()}}">
         <label for="newName">*escribe tu nuevo nombre de usuario</label>
         <input type="text" id="newName" name="newName" required>
